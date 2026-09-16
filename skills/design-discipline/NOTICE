@@ -1,0 +1,119 @@
+NOTICE
+skills/design-discipline
+
+This skill runs alongside frontend-design and deliberately leaves out
+everything that skill covers. It is a companion rather than a replacement.
+This repository does not redistribute it: install it from the address
+below, or ship it beside this skill under its own license, notice included.
+All wording here is original.
+
+  frontend-design
+  Apache License 2.0
+  https://github.com/anthropics/skills
+
+This project is not affiliated with, endorsed by, or sponsored by Anthropic.
+
+--------------------------------------------------------------------------
+What this skill does not cover
+
+The scope is UI and UX design: decisions about what a reader receives. Several
+things that sit next to those decisions were deliberately left out, because
+they are decisions about implementation structure rather than about the
+interface, and a skill that carries both stops being able to say which it is
+enforcing.
+
+Left out: where application state lives and how it is split; render
+performance and virtualisation; how assets are produced, sized, and exported;
+profiling and measurement procedure; build configuration.
+
+None of that is unimportant. It belongs to a different skill.
+
+--------------------------------------------------------------------------
+How the rules were written
+
+The rules stand on the platform vendors' own documents — Apple's Human
+Interface Guidelines, Material Design, the platforms' developer documentation
+— and on WCAG 2.2. Where a document states a number, the number is taken as
+stated and listed below. Where a convention depended on one platform's
+controls or one framework's interfaces, what was kept is the decision
+underneath it; conventions that were only about a specific runtime were left
+out rather than translated. Every rule was written so that a reviewer can
+count or confirm it rather than judge it.
+
+Rules that frontend-design already covers were left out entirely rather than
+paraphrased, which is why rules/anti-slop.md carries a count but no catalogue
+of looks, rules/copy.md carries an inventory but no guidance on writing a
+sentence, and rules/tokens.md carries a declaration but not the argument for
+what belongs in it.
+
+rules/layout.md and rules/a11y.md assume no platform. Layout conventions can
+only be inherited where a platform is assumed, so the layout file states its
+own. frontend-design names the accessibility floor in a single line — visible
+keyboard focus, reduced motion respected, visually accessible — and carries no
+procedure for reaching it, so the walks, the counts, and the rules on names,
+images, color, focus, announcements, and hover are written out here. The
+pieces of the floor that live with their subjects — contrast, tap targets,
+focus visibility, enlarged text, reduce motion, a channel that is never touch
+or sound alone, a label never replaced by a placeholder — stayed in
+rules/states.md, rules/motion.md, and rules/forms.md, and rules/a11y.md names
+them rather than moving them.
+
+--------------------------------------------------------------------------
+Where the numbers come from
+
+Every number in the rule files falls into one of the three groups below. A
+rule with no number cannot be inspected, which is why the numbers are here
+at all, and each one is attributed rather than asserted.
+
+Accessibility guidelines — WCAG 2.2, level AA except where the entry says
+otherwise.
+
+  4.5 to 1, body text contrast                      rules/states.md
+      SC 1.4.3 Contrast (Minimum)
+  3 to 1, large text and non-text controls          rules/states.md
+      SC 1.4.3 Contrast (Minimum); SC 1.4.11 Non-text Contrast
+  24 by 24 CSS pixels, web tap target               rules/states.md
+      SC 2.5.8 Target Size (Minimum)
+  44 by 44 CSS pixels, web at the enhanced level    rules/states.md
+      SC 2.5.5 Target Size (Enhanced), level AAA
+
+Platform guidelines. Each platform states its own, and these are not the
+accessibility figures above.
+
+  44 by 44 points, Apple platforms                  rules/states.md
+      Human Interface Guidelines, Accessibility: the default control size on
+      iOS and iPadOS; the minimum stated there is 28 by 28
+  48 by 48 density-independent pixels, Android      rules/states.md
+      Android developers, Accessibility: "Use large, simple controls"
+
+This skill's defaults. Stated by no guideline document. A project may state
+its own value instead, and where it does, the project's value applies
+everywhere.
+
+  300 ms, the ceiling for the occasional band       rules/motion.md
+  0.97, the press scale for buttons and cards       rules/motion.md
+  200 ms, the floor for the occasional band         rules/motion.md
+  150 ms, the ceiling for the tens-of-times-a-day band         rules/motion.md
+  100 to 150 ms, press feedback                     rules/motion.md
+  95 percent, the size an entrance opens at         rules/motion.md
+  seven-tenths, an exit against its entrance        rules/motion.md
+  the eighth item, where a stagger stops            rules/motion.md
+  sixty frames per second                           rules/motion.md
+  1 or 2 typeface families in one flow              rules/anti-slop.md
+  three seconds, before a wait shows a measure      rules/states.md
+  two seconds, cold start to first accepted input   rules/states.md
+  fifty milliseconds, keystroke to character        rules/states.md
+  three times the expected length, long content     rules/states.md
+  ten times the expected items, long collections    rules/states.md
+  one step above the platform's default text size   rules/states.md
+  3 to 5 top-level sections                         rules/navigation.md
+  4 or 8, the base spacing unit                     rules/tokens.md
+  4 to 6 named color values                         rules/tokens.md
+  three to five palette values in a style system    rules/assets.md
+  four hundred percent, the edge inspection         rules/assets.md
+  60 pixels, the product icon check                 rules/assets.md
+  three deficits named before a review gathers      rules/review.md
+  five or eight surviving references in a gather    rules/review.md
+  five repairs between one look and the next        rules/review.md
+  five studied references before a visual direction SKILL.md
+  one studied reference walked as a running flow    SKILL.md

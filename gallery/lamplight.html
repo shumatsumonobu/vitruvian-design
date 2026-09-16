@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lamplight — the crew that works nights</title>
+<meta name="description" content="Lamplight is a crew of five agents that works your backlog between midnight and dawn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1&family=Karla:wght@300..800&display=swap" rel="stylesheet">
+<style>
+/* ── Lamplight token declaration — .design/declaration.md ───────────────── */
+:root{
+  /* named colors */
+  --lamp:#F2A93B;      /* accent: lamplight, primary action, active state */
+  --paper:#F4E7CF;     /* lit interior walls, display type */
+  --moss:#5E8A6A;      /* vegetation, running instrument line */
+  --clay:#C4705C;      /* brick, tile, plumage, cloth */
+  /* cool grey family */
+  --night-950:#0C1024; --night-900:#141A38; --night-800:#1D2650;
+  --night-600:#33407A; --night-400:#7286BC; --night-200:#C7D5EC;
+  /* spacing, base unit 4 */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px;
+  --s8:32px; --s10:40px; --s12:48px; --s16:64px; --s20:80px; --s24:96px;
+  /* radius */
+  --r0:0; --r-sm:8px; --r-lg:14px; --r-pill:999px;
+  /* elevation */
+  --e0:none; --e1:0 2px 0 var(--night-950);
+  /* motion */
+  --ease-out:cubic-bezier(.22,.61,.36,1); --dur:140ms;
+  /* measure */
+  --measure:62ch; --content:1120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--night-900); color:var(--night-200);
+  font-family:Karla,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.6; font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0; list-style:none}
+a{color:inherit}
+.wrap{max-width:var(--content); margin:0 auto; padding-inline:var(--s6)}
+.skip{position:absolute; left:-9999px}
+.skip:focus{left:var(--s6); top:var(--s3); z-index:9; background:var(--lamp);
+  color:var(--night-950); padding:var(--s2) var(--s4); border-radius:var(--r-pill); font-weight:700}
+
+/* ── type steps ─────────────────────────────────────────────────────────── */
+.t-display{
+  font-family:Fraunces,"Iowan Old Style","Hoefler Text",Georgia,serif;
+  font-variation-settings:"opsz" 144,"SOFT" 60,"WONK" 1; font-weight:600;
+  font-size:clamp(44px,6.4vw,78px); line-height:1.02; letter-spacing:-.022em;
+  color:var(--paper);
+}
+.t-plate{
+  font-family:Fraunces,"Iowan Old Style","Hoefler Text",Georgia,serif;
+  font-variation-settings:"opsz" 24,"SOFT" 60,"WONK" 1; font-weight:600;
+  font-size:20px; line-height:1.15; letter-spacing:-.005em; color:var(--paper);
+}
+.t-lede{font-size:18px; line-height:1.55}
+.t-label{font-size:13px; line-height:1.3; font-weight:600; letter-spacing:.01em}
+.t-caption{font-size:12px; line-height:1.4; color:var(--night-400)}
+
+/* ── chrome: sits in the sky, made of moonlight ─────────────────────────── */
+.chrome{position:relative; z-index:3; padding-block:var(--s6)}
+.chrome .wrap{display:flex; align-items:center; gap:var(--s4) var(--s6); flex-wrap:wrap}
+.mark{display:flex; align-items:center; gap:var(--s3); text-decoration:none}
+.mark span{font-family:Fraunces,"Iowan Old Style","Hoefler Text",Georgia,serif;
+  font-variation-settings:"opsz" 24,"SOFT" 60,"WONK" 1; font-weight:600;
+  font-size:19px; letter-spacing:-.01em; color:var(--paper)}
+.chrome nav{margin-left:auto; display:flex; flex-wrap:wrap; gap:var(--s2) var(--s6)}
+@media (max-width:640px){.chrome nav{margin-left:0; width:100%}}
+.chrome nav a{color:var(--night-400); text-decoration:none; padding-block:var(--s1)}
+.chrome nav a:hover{color:var(--night-200)}
+.chrome nav a[aria-current="page"]{color:var(--lamp)}
+
+/* ── actions ────────────────────────────────────────────────────────────── */
+.act{display:inline-block; border-radius:var(--r-pill); text-decoration:none;
+  padding:var(--s3) var(--s6); font-size:13px; font-weight:700; letter-spacing:.01em;
+  transition:transform var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out),
+             color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out)}
+.act-primary{background:var(--lamp); color:var(--night-950); box-shadow:var(--e1)}
+.act-primary:hover{transform:translateY(-2px); box-shadow:0 4px 0 var(--night-950)}
+.act-quiet{color:var(--night-200); border:1px solid var(--night-600); box-shadow:var(--e0)}
+.act-quiet:hover{border-color:var(--night-400); color:var(--paper)}
+:where(a,button):focus-visible{outline:3px solid var(--lamp); outline-offset:3px; border-radius:var(--r-sm)}
+
+/* ── the world ──────────────────────────────────────────────────────────── */
+.world{position:relative; overflow:hidden; background:var(--night-900)}
+.sky{position:absolute; inset:0 0 auto 0; width:100%; height:640px; display:block; z-index:0}
+.hero{position:relative; z-index:2; padding-top:var(--s16); padding-bottom:var(--s12)}
+.hero__copy{max-width:min(var(--measure),640px)}
+.hero p{margin-top:var(--s5); max-width:var(--measure); color:var(--night-200)}
+.hero__acts{margin-top:var(--s8); display:flex; gap:var(--s4); flex-wrap:wrap; align-items:center}
+
+.house-bleed{position:relative; z-index:2; overflow:hidden; background:var(--night-950)}
+.house{display:block; width:100%; max-width:var(--content); min-width:760px;
+  margin-inline:auto; height:auto}
+@media (max-width:820px){
+  .house{margin-left:50%; transform:translateX(-50%)}
+}
+
+/* ── roster ─────────────────────────────────────────────────────────────── */
+.roster{position:relative; z-index:2; background:var(--night-950); padding-block:var(--s16) var(--s20)}
+.roster h2{margin-bottom:var(--s10); max-width:var(--measure)}
+.crew{display:grid; grid-template-columns:repeat(5,1fr); gap:var(--s6)}
+.crew li{display:flex; flex-direction:column}
+.bust{display:block; width:100%; height:auto}
+.crew .t-plate{margin-top:var(--s4)}
+.job{color:var(--lamp); margin-top:var(--s1)}
+.crew p{margin-top:var(--s3); color:var(--night-200); font-size:14px; line-height:1.55}
+@media (max-width:920px){.crew{grid-template-columns:repeat(2,1fr); gap:var(--s10)}}
+@media (max-width:560px){.crew{grid-template-columns:1fr}}
+
+/* ── footer ─────────────────────────────────────────────────────────────── */
+.foot{position:relative; z-index:2; background:var(--night-950); border-top:1px solid var(--night-800)}
+.foot .wrap{display:flex; flex-wrap:wrap; gap:var(--s6); align-items:baseline;
+  padding-block:var(--s8) var(--s12)}
+.foot nav{margin-left:auto; display:flex; flex-wrap:wrap; gap:var(--s2) var(--s6)}
+.foot a{color:var(--night-400); text-decoration:none}
+.foot a:hover{color:var(--night-200)}
+
+@media (prefers-reduced-motion:reduce){
+  .act{transition:none}
+  .act-primary:hover{transform:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#crew">Skip to the crew</a>
+
+<!-- ═══ style system: one hand for every drawing ═══════════════════════════
+     family  : drawn line — ink contour, flat gouache fill, stipple shading
+     palette : --night-950 ink, --paper lit, --clay, --moss, --lamp, on --night-950
+     light   : one warm lamp, above and to the left, soft edged; moonlight is the
+               only cool light and touches exteriors only; nothing is glossy
+     grammar : night animals in workwear, three-quarter bust, one eye construction
+               (ink pupil, single lid line, one paper catchlight), one hand shape
+     full text: .design/style-system.md
+═══════════════════════════════════════════════════════════════════════════ -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+<defs>
+  <pattern id="stipple" width="6" height="6" patternUnits="userSpaceOnUse">
+    <circle cx="1.5" cy="1.5" r="1" fill="#0C1024" opacity=".34"/>
+    <circle cx="4.5" cy="4.5" r=".8" fill="#0C1024" opacity=".22"/>
+  </pattern>
+  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+    <line x1="0" y1="0" x2="0" y2="7" stroke="#0C1024" stroke-width="1.6" opacity=".3"/>
+  </pattern>
+  <pattern id="tile" width="26" height="16" patternUnits="userSpaceOnUse">
+    <path d="M0 16 q6.5 -13 13 0 q6.5 -13 13 0" fill="none" stroke="#0C1024" stroke-width="1.6" opacity=".55"/>
+  </pattern>
+  <pattern id="brick" width="34" height="18" patternUnits="userSpaceOnUse">
+    <path d="M0 0h34M0 9h34M0 18h34" stroke="#0C1024" stroke-width="1.2" opacity=".42"/>
+    <path d="M17 0v9M0 9v9M34 9v9" stroke="#0C1024" stroke-width="1.2" opacity=".42"/>
+  </pattern>
+  <radialGradient id="g-moon" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#1D2650"/><stop offset="100%" stop-color="#0C1024" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="g-lamp" cx="50%" cy="34%" r="66%">
+    <stop offset="0%" stop-color="#F2A93B" stop-opacity=".62"/>
+    <stop offset="55%" stop-color="#C4705C" stop-opacity=".30"/>
+    <stop offset="100%" stop-color="#1D2650" stop-opacity=".92"/>
+  </radialGradient>
+  <radialGradient id="g-globe" cx="50%" cy="45%" r="50%">
+    <stop offset="0%" stop-color="#F2A93B" stop-opacity=".55"/>
+    <stop offset="100%" stop-color="#F2A93B" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+
+  <!-- ── five heads, drawn once, used in the windows and in the roster ──── -->
+  <g id="ink" ></g>
+
+  <symbol id="ag-wren" viewBox="0 0 200 206">
+    <g stroke="#0C1024" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M44 122 C26 114 13 98 6 78 L30 68 C39 88 50 103 62 112 Z" fill="#8E4738" stroke-width="3"/>
+      <path d="M100 22 C134 22 162 54 162 96 C162 124 155 148 150 170 L50 170 C45 148 38 124 38 96 C38 54 66 22 100 22 Z" fill="#C4705C" stroke-width="3.2"/>
+      <path d="M102 74 C122 74 134 96 134 120 C134 144 121 164 102 166 C84 164 72 144 72 120 C72 96 82 74 102 74 Z" fill="#F4E7CF" stroke-width="2"/>
+      <path d="M100 22 C134 22 162 54 162 96 C162 124 155 148 150 170 L120 170 C129 140 136 112 134 88 C132 62 120 38 100 22 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M62 94 C88 98 108 118 114 150 C98 160 76 157 64 142 C55 130 55 109 62 94 Z" fill="#8E4738" stroke-width="2.4"/>
+      <path d="M70 108 C86 114 98 126 105 142 M64 124 C78 130 88 140 94 152" stroke-width="1.6"/>
+      <path d="M147 82 L186 91 L147 102 Z" fill="#F2A93B" stroke-width="2.4"/>
+      <path d="M147 92 L182 92" stroke-width="1.4"/>
+      <circle cx="134" cy="79" r="7" fill="#0C1024" stroke="none"/>
+      <circle cx="136.4" cy="76.4" r="2.1" fill="#F4E7CF" stroke="none"/>
+      <path d="M122 66 C130 60 141 60 148 66" stroke-width="2"/>
+      <path d="M96 28 C100 16 108 10 118 10 M110 24 C116 14 125 12 133 16" stroke-width="2.2"/>
+      <path d="M58 158 L74 132 M142 158 L128 132" stroke-width="2.6"/>
+      <path d="M50 170 L150 170" stroke-width="2.6"/>
+      <path d="M118 146 L162 136 L168 158 L124 168 Z" fill="#F4E7CF" stroke-width="2.2"/>
+      <path d="M118 146 L144 156 L168 158" stroke-width="1.6"/>
+    </g>
+  </symbol>
+
+  <symbol id="ag-moth" viewBox="0 0 200 206">
+    <g stroke="#0C1024" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M100 114 C62 114 24 140 12 196 L188 196 C176 140 138 114 100 114 Z" fill="#E4D2B6" stroke-width="3.4"/>
+      <path d="M12 196 q11 -12 22 0 q11 -12 22 0 q11 -12 22 0 q11 -12 22 0 q11 -12 22 0 q11 -12 22 0 q11 -12 22 0" fill="#E4D2B6" stroke-width="3"/>
+      <path d="M100 114 C122 128 140 158 146 196 L188 196 C176 140 138 114 100 114 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M40 150 C56 148 72 154 84 168 M160 150 C144 148 128 154 116 168 M28 172 C48 168 68 174 80 184 M172 172 C152 168 132 174 120 184" stroke-width="2"/>
+      <ellipse cx="46" cy="170" rx="15" ry="11" fill="#C4705C" stroke-width="2.4"/>
+      <ellipse cx="154" cy="170" rx="15" ry="11" fill="#C4705C" stroke-width="2.4"/>
+      <circle cx="46" cy="170" r="4.5" fill="#8E4738" stroke="none"/>
+      <circle cx="154" cy="170" r="4.5" fill="#8E4738" stroke="none"/>
+      <path d="M74 46 C54 22 34 8 8 4" stroke-width="4.6"/>
+      <path d="M126 46 C146 22 166 8 192 4" stroke-width="4.6"/>
+      <path d="M66 38 l-14 -11 M58 29 l-13 -12 M49 21 l-12 -11 M39 14 l-11 -9 M28 9 l-10 -8
+               M134 38 l14 -11 M142 29 l13 -12 M151 21 l12 -11 M161 14 l11 -9 M172 9 l10 -8" stroke-width="2.8"/>
+      <path d="M100 38 C130 38 150 62 150 90 C150 116 130 134 100 134 C70 134 50 116 50 90 C50 62 70 38 100 38 Z" fill="#F4E7CF" stroke-width="3.4"/>
+      <path d="M100 38 C130 38 150 62 150 90 C150 116 130 134 100 134 C120 122 128 106 128 88 C128 64 118 46 100 38 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M56 64 l-10 -7 M64 53 l-9 -8 M144 64 l10 -7 M136 53 l9 -8 M52 110 l-11 5 M148 110 l11 5 M100 36 l0 -10" stroke-width="2"/>
+      <ellipse cx="77" cy="86" rx="13" ry="16" fill="#0C1024" stroke="none"/>
+      <ellipse cx="123" cy="86" rx="13" ry="16" fill="#0C1024" stroke="none"/>
+      <circle cx="72.5" cy="79" r="4" fill="#F4E7CF" stroke="none"/>
+      <circle cx="118.5" cy="79" r="4" fill="#F4E7CF" stroke="none"/>
+      <path d="M64 70 C70 62 82 60 90 66 M136 70 C130 62 118 60 110 66" stroke-width="2.2"/>
+      <path d="M92 112 C96 118 104 118 108 112" stroke-width="2.2"/>
+      <path d="M66 126 C80 142 120 142 134 126 L140 140 C122 156 78 156 60 140 Z" fill="#5E8A6A" stroke-width="2.6"/>
+      <path d="M134 126 L158 122 L154 140 L140 140 Z" fill="#5E8A6A" stroke-width="2.6"/>
+    </g>
+  </symbol>
+
+  <symbol id="ag-beetle" viewBox="0 0 200 206">
+    <g stroke="#0C1024" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M100 114 C62 114 32 142 26 198 L174 198 C168 142 138 114 100 114 Z" fill="#1D2650" stroke-width="3.2"/>
+      <path d="M100 114 C122 128 138 160 144 198 L174 198 C168 142 138 114 100 114 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M100 118 L100 198" stroke-width="2.4"/>
+      <path d="M62 146 C76 138 86 138 96 144 M138 146 C124 138 114 138 104 144" stroke-width="2" stroke="#5E8A6A"/>
+      <path d="M72 128 L86 198 M128 128 L114 198" stroke-width="2.6" stroke="#C4705C"/>
+      <path d="M58 168 L142 168" stroke-width="2.4" stroke="#C4705C"/>
+      <rect x="92" y="160" width="16" height="16" rx="3" fill="#F2A93B" stroke-width="2"/>
+      <path d="M95 46 C90 26 91 12 100 2 C109 12 110 26 105 46 Z" fill="#33407A" stroke-width="2.8"/>
+      <path d="M100 44 C126 44 142 60 142 84 C142 106 126 122 100 122 C74 122 58 106 58 84 C58 60 74 44 100 44 Z" fill="#33407A" stroke-width="3.2"/>
+      <path d="M100 44 C126 44 142 60 142 84 C142 106 126 122 100 122 C116 110 122 98 122 82 C122 64 114 52 100 44 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M76 116 C66 126 60 138 64 150 C74 142 82 132 87 122" fill="#0C1024" stroke-width="2.6"/>
+      <path d="M124 116 C134 126 140 138 136 150 C126 142 118 132 113 122" fill="#0C1024" stroke-width="2.6"/>
+      <path d="M56 54 C70 42 130 42 144 54" stroke-width="3" stroke="#8E4738"/>
+      <circle cx="80" cy="48" r="13" fill="#7286BC" stroke-width="2.6"/>
+      <circle cx="120" cy="48" r="13" fill="#7286BC" stroke-width="2.6"/>
+      <path d="M74 43 C77 40 81 39 85 41" stroke-width="1.8" stroke="#F4E7CF"/>
+      <path d="M114 43 C117 40 121 39 125 41" stroke-width="1.8" stroke="#F4E7CF"/>
+      <circle cx="82" cy="86" r="6.5" fill="#0C1024" stroke="none"/>
+      <circle cx="118" cy="86" r="6.5" fill="#0C1024" stroke="none"/>
+      <circle cx="79.8" cy="83.6" r="2.1" fill="#F4E7CF" stroke="none"/>
+      <circle cx="115.8" cy="83.6" r="2.1" fill="#F4E7CF" stroke="none"/>
+      <path d="M88 102 C94 106 106 106 112 102" stroke-width="2"/>
+    </g>
+  </symbol>
+
+  <symbol id="ag-owl" viewBox="0 0 200 206">
+    <g stroke="#0C1024" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M100 146 C62 146 34 168 28 200 L172 200 C166 168 138 146 100 146 Z" fill="#5E8A6A" stroke-width="3.2"/>
+      <path d="M100 146 C122 158 138 176 144 200 L172 200 C166 168 138 146 100 146 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M78 152 L100 176 L122 152" stroke-width="2.6"/>
+      <path d="M100 176 L100 200" stroke-width="2.4"/>
+      <circle cx="100" cy="188" r="3.6" fill="#F2A93B" stroke-width="1.6"/>
+      <path d="M52 46 C44 28 44 14 50 4 C61 16 68 32 72 44 Z" fill="#8E4738" stroke-width="2.8"/>
+      <path d="M148 46 C156 28 156 14 150 4 C139 16 132 32 128 44 Z" fill="#8E4738" stroke-width="2.8"/>
+      <path d="M100 28 C142 28 170 58 170 96 C170 132 142 154 100 154 C58 154 30 132 30 96 C30 58 58 28 100 28 Z" fill="#8E4738" stroke-width="3.2"/>
+      <path d="M100 28 C142 28 170 58 170 96 C170 132 142 154 100 154 C128 142 146 122 146 94 C146 64 126 40 100 28 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M100 52 C74 52 56 74 56 100 C56 126 74 142 100 142 C126 142 144 126 144 100 C144 74 126 52 100 52 Z" fill="#F4E7CF" stroke-width="2.4"/>
+      <path d="M100 52 L100 142" stroke-width="1.6" opacity=".55"/>
+      <path d="M40 74 C50 70 58 70 64 74 M160 74 C150 70 142 70 136 74 M36 112 C46 114 54 114 60 112 M164 112 C154 114 146 114 140 112" stroke-width="1.8"/>
+      <circle cx="76" cy="98" r="20" fill="#1D2650" fill-opacity=".45" stroke-width="3"/>
+      <circle cx="124" cy="98" r="20" fill="#1D2650" fill-opacity=".45" stroke-width="3"/>
+      <path d="M96 98 L104 98 M56 94 L40 88 M144 94 L160 88" stroke-width="2.4"/>
+      <circle cx="76" cy="98" r="7.5" fill="#0C1024" stroke="none"/>
+      <circle cx="124" cy="98" r="7.5" fill="#0C1024" stroke="none"/>
+      <circle cx="73.4" cy="95" r="2.4" fill="#F4E7CF" stroke="none"/>
+      <circle cx="121.4" cy="95" r="2.4" fill="#F4E7CF" stroke="none"/>
+      <path d="M100 108 L110 126 L100 134 L90 126 Z" fill="#F2A93B" stroke-width="2.2"/>
+    </g>
+  </symbol>
+
+  <symbol id="ag-hare" viewBox="0 0 200 206">
+    <g stroke="#0C1024" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M76 62 C66 34 62 10 72 2 C86 10 92 36 96 60 Z" fill="#7286BC" stroke-width="3"/>
+      <path d="M79 56 C72 36 70 18 74 12 C82 20 86 38 89 55 Z" fill="#C4705C" stroke-width="1.8"/>
+      <path d="M114 60 C120 34 132 14 152 6 C158 20 144 46 130 66 Z" fill="#7286BC" stroke-width="3"/>
+      <path d="M117 56 C122 38 130 24 144 16 C148 26 138 44 128 58 Z" fill="#C4705C" stroke-width="1.8"/>
+      <path d="M100 148 C64 148 36 168 30 200 L170 200 C164 168 136 148 100 148 Z" fill="#C4705C" stroke-width="3.2"/>
+      <path d="M100 148 C122 160 138 178 144 200 L170 200 C164 168 136 148 100 148 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M72 154 L100 178 L128 154" stroke-width="2.6"/>
+      <path d="M46 158 L156 196" stroke-width="9" stroke="#1D2650"/>
+      <path d="M46 158 L156 196" stroke-width="2.2"/>
+      <rect x="96" y="166" width="17" height="14" rx="2" fill="#F2A93B" stroke-width="2" transform="rotate(19 104 173)"/>
+      <path d="M100 54 C126 54 144 76 144 102 C144 122 132 140 114 148 L86 148 C68 140 56 122 56 102 C56 76 74 54 100 54 Z" fill="#7286BC" stroke-width="3.2"/>
+      <path d="M100 54 C126 54 144 76 144 102 C144 122 132 140 114 148 L100 148 C120 134 128 118 128 100 C128 78 116 62 100 54 Z" fill="url(#stipple)" stroke="none"/>
+      <path d="M100 108 C116 108 128 118 128 130 C128 142 116 150 100 150 C84 150 72 142 72 130 C72 118 84 108 100 108 Z" fill="#F4E7CF" stroke-width="2.4"/>
+      <path d="M100 118 L107 126 L100 131 L93 126 Z" fill="#0C1024" stroke-width="1.6"/>
+      <path d="M100 131 L100 140 M100 137 C94 143 88 143 84 140 M100 137 C106 143 112 143 116 140" stroke-width="1.8"/>
+      <path d="M74 130 L46 124 M74 136 L48 138 M126 130 L154 124 M126 136 L152 138" stroke-width="1.5"/>
+      <circle cx="78" cy="94" r="7" fill="#0C1024" stroke="none"/>
+      <circle cx="122" cy="94" r="7" fill="#0C1024" stroke="none"/>
+      <circle cx="75.6" cy="91.2" r="2.2" fill="#F4E7CF" stroke="none"/>
+      <circle cx="119.6" cy="91.2" r="2.2" fill="#F4E7CF" stroke="none"/>
+      <path d="M64 80 C70 74 80 73 87 77 M136 80 C130 74 120 73 113 77" stroke-width="2"/>
+    </g>
+  </symbol>
+</defs>
+</svg>
+
+<div class="world">
+
+  <!-- ── the sky: moon, stars, wires ──────────────────────────────────── -->
+  <svg class="sky" viewBox="0 0 1200 640" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false">
+    <rect width="1200" height="640" fill="#141A38"/>
+    <circle cx="988" cy="150" r="280" fill="url(#g-moon)"/>
+    <g fill="#C7D5EC">
+      <circle cx="120" cy="66" r="1.8" opacity=".7"/><circle cx="238" cy="132" r="1.4" opacity=".5"/>
+      <circle cx="352" cy="58" r="2.1" opacity=".8"/><circle cx="470" cy="118" r="1.3" opacity=".45"/>
+      <circle cx="560" cy="48" r="1.7" opacity=".6"/><circle cx="664" cy="150" r="1.5" opacity=".5"/>
+      <circle cx="742" cy="70" r="2" opacity=".75"/><circle cx="836" cy="190" r="1.4" opacity=".5"/>
+      <circle cx="1096" cy="72" r="1.9" opacity=".7"/><circle cx="1152" cy="206" r="1.5" opacity=".5"/>
+      <circle cx="46" cy="196" r="1.5" opacity=".5"/><circle cx="300" cy="236" r="1.3" opacity=".4"/>
+      <circle cx="900" cy="44" r="1.6" opacity=".6"/><circle cx="1030" cy="286" r="1.4" opacity=".45"/>
+      <circle cx="176" cy="300" r="1.3" opacity=".4"/><circle cx="640" cy="268" r="1.5" opacity=".45"/>
+    </g>
+    <g stroke="#C7D5EC" stroke-width="1.4" stroke-linecap="round" opacity=".55" fill="none">
+      <path d="M346 52 l0 -12 M346 52 l0 12 M346 52 l-12 0 M346 52 l12 0"/>
+      <path d="M742 64 l0 -10 M742 64 l0 10 M742 64 l-10 0 M742 64 l10 0"/>
+    </g>
+    <g>
+      <circle cx="988" cy="150" r="62" fill="#F4E7CF"/>
+      <circle cx="966" cy="134" r="11" fill="#E4D2B6" opacity=".85"/>
+      <circle cx="1006" cy="166" r="8" fill="#E4D2B6" opacity=".75"/>
+      <circle cx="998" cy="122" r="5.5" fill="#E4D2B6" opacity=".7"/>
+      <path d="M950 190 C968 200 1014 198 1030 180" fill="none" stroke="#E4D2B6" stroke-width="3" opacity=".6" stroke-linecap="round"/>
+    </g>
+    <g stroke="#0C1024" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".85">
+      <path d="M-20 232 C180 268 320 268 430 236"/>
+      <path d="M-20 248 C180 286 320 286 430 252"/>
+      <path d="M430 210 L430 330 M408 224 L452 224 M412 240 L448 240"/>
+      <path d="M430 236 C560 266 700 266 820 238 M430 252 C560 284 700 284 820 254"/>
+    </g>
+    <g fill="#0C1024" opacity=".9">
+      <path d="M470 218 c6 -5 12 -5 18 0 c-6 -2 -12 -2 -18 0 Z"/>
+      <path d="M512 226 c6 -5 12 -5 18 0 c-6 -2 -12 -2 -18 0 Z"/>
+      <path d="M556 230 c5 -4 10 -4 15 0 c-5 -2 -10 -2 -15 0 Z"/>
+    </g>
+    <rect width="1200" height="640" filter="url(#grain)" opacity=".05" style="mix-blend-mode:overlay"/>
+  </svg>
+
+  <header class="chrome">
+    <div class="wrap">
+      <a class="mark" href="#top">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+          <path d="M14 3 L22 11 L22 24 L6 24 L6 11 Z" fill="#1D2650" stroke="#0C1024" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M11 14 h6 v6 h-6 Z" fill="#F2A93B" stroke="#0C1024" stroke-width="1.6"/>
+        </svg>
+        <span>Lamplight</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="#crew" aria-current="page">The crew</a>
+        <a href="#crew">How a night runs</a>
+        <a href="#crew">What it costs</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── hero copy, standing in the empty upper-left third of the sky ──── -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero__copy">
+        <h1 class="t-display">Somebody has to be awake at 03:00.</h1>
+        <p class="t-lede">Lamplight is a crew of five agents that works your backlog between
+          midnight and dawn. They sort it, watch it, mend it, read it, and leave it on your
+          desk before you're up.</p>
+        <div class="hero__acts">
+          <a class="act act-primary" href="#crew">Put them on tonight</a>
+          <a class="act act-quiet" href="#crew">Read last night's log</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── the house: five lit rooms, five agents, five jobs ─────────────── -->
+  <div class="house-bleed">
+  <svg class="house" viewBox="0 0 1200 700" role="img"
+       aria-labelledby="house-t house-d">
+    <title id="house-t">The Lamplight house at night</title>
+    <desc id="house-d">A cutaway drawing of a narrow brick house after dark. Five lit rooms sit
+      in a row behind arched windows. Wren sorts envelopes at a wall of pigeonholes; Moth watches
+      a bank of gauges under a hanging lamp; Beetle repairs an opened machine at a workbench; Owl
+      reads at a slanted desk beside a full bookcase; Hare ties a parcel next to a loaded handcart.
+      An enamel plate under each window gives the agent's name and job. Below, a lamplit street
+      with a hedge, two lamp posts and a crate of finished work by the door.</desc>
+
+    <!-- roof -->
+    <path d="M26 96 L120 14 L1080 14 L1174 96 Z" fill="#C4705C" stroke="#0C1024" stroke-width="3.4" stroke-linejoin="round"/>
+    <path d="M26 96 L120 14 L1080 14 L1174 96 Z" fill="url(#tile)" stroke="none"/>
+    <path d="M26 96 L1174 96" stroke="#0C1024" stroke-width="4"/>
+    <path d="M152 14 L152 -30 L214 -30 L214 14" fill="#8E4738" stroke="#0C1024" stroke-width="3.2" stroke-linejoin="round" transform="translate(0,34)"/>
+    <g stroke="#7286BC" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5">
+      <path d="M170 34 C158 16 182 6 172 -12 M196 34 C186 18 208 8 198 -8"/>
+    </g>
+    <g stroke="#0C1024" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M1010 14 L1010 -34"/>
+      <path d="M980 -22 L1044 -34 L980 -46 Z" fill="#F2A93B" stroke-width="2.6"/>
+      <path d="M994 -28 L1026 -28"/>
+    </g>
+
+    <!-- facade -->
+    <rect x="62" y="96" width="1076" height="474" fill="#1D2650" stroke="#0C1024" stroke-width="3.4"/>
+    <rect x="62" y="96" width="1076" height="474" fill="url(#brick)" stroke="none"/>
+    <path d="M62 96 L1138 96" stroke="#0C1024" stroke-width="3.4"/>
+
+    <!-- ivy on the left pier -->
+    <g stroke="#5E8A6A" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M78 566 C70 480 92 400 80 318 C72 250 90 190 82 116"/>
+      <path d="M80 512 c14 -8 22 -22 18 -34 c-14 2 -22 16 -18 34 Z" fill="#5E8A6A" stroke-width="2"/>
+      <path d="M82 440 c-14 -6 -22 -20 -18 -32 c14 2 22 16 18 32 Z" fill="#5E8A6A" stroke-width="2"/>
+      <path d="M84 358 c14 -8 22 -20 18 -32 c-14 2 -22 14 -18 32 Z" fill="#5E8A6A" stroke-width="2"/>
+      <path d="M82 274 c-14 -6 -22 -20 -18 -32 c14 2 22 16 18 32 Z" fill="#5E8A6A" stroke-width="2"/>
+      <path d="M84 192 c14 -8 22 -20 18 -32 c-14 2 -22 14 -18 32 Z" fill="#5E8A6A" stroke-width="2"/>
+    </g>
+
+    <defs>
+      <clipPath id="w1"><path d="M104 232 a88 88 0 0 1 176 0 L280 392 L104 392 Z"/></clipPath>
+      <clipPath id="w2"><path d="M308 232 a88 88 0 0 1 176 0 L484 392 L308 392 Z"/></clipPath>
+      <clipPath id="w3"><path d="M512 232 a88 88 0 0 1 176 0 L688 392 L512 392 Z"/></clipPath>
+      <clipPath id="w4"><path d="M716 232 a88 88 0 0 1 176 0 L892 392 L716 392 Z"/></clipPath>
+      <clipPath id="w5"><path d="M920 232 a88 88 0 0 1 176 0 L1096 392 L920 392 Z"/></clipPath>
+    </defs>
+
+    <!-- ── room 1 · Wren · triage ─────────────────────────────────────── -->
+    <g clip-path="url(#w1)">
+      <rect x="104" y="144" width="176" height="248" fill="#8E4738"/>
+      <rect x="104" y="144" width="176" height="248" fill="url(#g-lamp)"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M188 150 L188 172"/>
+        <path d="M166 196 L172 176 L204 176 L210 196 Z" fill="#33407A"/>
+        <ellipse cx="188" cy="198" rx="9" ry="5" fill="#F2A93B" stroke-width="2"/>
+      </g>
+      <circle cx="188" cy="204" r="104" fill="url(#g-globe)"/>
+      <g stroke="#0C1024" stroke-width="2" fill="none">
+        <rect x="112" y="204" width="160" height="90" fill="#8E4738"/>
+        <path d="M112 234h160M112 264h160M152 204v90M192 204v90M232 204v90"/>
+        <path d="M118 220 l26 -6 M158 220 l26 -6 M198 250 l26 -6 M238 280 l26 -6 M118 280 l26 -6"
+              stroke="#F4E7CF" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M100 348 L284 348" stroke-width="4"/>
+        <path d="M118 348 L118 392 M266 348 L266 392" stroke-width="3"/>
+      </g>
+      <use href="#ag-wren" x="118" y="212" width="150" height="155"/>
+      <g stroke="#0C1024" stroke-width="2.2" fill="#F4E7CF">
+        <path d="M118 318 L172 318 L172 350 L118 350 Z"/>
+        <path d="M118 318 L145 336 L172 318" fill="none"/>
+        <path d="M126 306 L180 306 L180 338 L126 338 Z" fill="#E4D2B6"/>
+        <path d="M126 306 L153 324 L180 306" fill="none"/>
+      </g>
+      <g stroke="#0C1024" stroke-width="2.2" fill="none" opacity=".9">
+        <path d="M232 296 C232 282 246 274 258 278 C270 282 274 296 268 306 L268 340 L228 340 L228 306 Z" fill="#33407A"/>
+        <path d="M228 316 L268 316 M228 328 L268 328"/>
+      </g>
+    </g>
+
+    <!-- ── room 2 · Moth · watch ──────────────────────────────────────── -->
+    <g clip-path="url(#w2)">
+      <rect x="308" y="144" width="176" height="248" fill="#8E4738"/>
+      <rect x="308" y="144" width="176" height="248" fill="url(#g-lamp)"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M396 144 L396 188"/>
+        <path d="M368 188 L424 188 L412 216 L380 216 Z" fill="#33407A"/>
+        <ellipse cx="396" cy="218" rx="10" ry="6" fill="#F2A93B" stroke-width="2"/>
+      </g>
+      <circle cx="396" cy="222" r="96" fill="url(#g-globe)"/>
+      <g stroke="#0C1024" stroke-width="2" fill="none">
+        <rect x="320" y="238" width="152" height="86" rx="6" fill="#1D2650" stroke-width="2.6"/>
+        <rect x="330" y="248" width="60" height="44" rx="3" fill="#0C1024"/>
+        <path d="M330 278 l10 0 l6 -18 l8 30 l7 -22 l6 12 l23 0" stroke="#5E8A6A" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="414" cy="264" r="15" fill="#F4E7CF" stroke-width="2.4"/>
+        <path d="M414 264 L422 254" stroke-width="2.4"/>
+        <circle cx="450" cy="264" r="15" fill="#F4E7CF" stroke-width="2.4"/>
+        <path d="M450 264 L444 253" stroke-width="2.4"/>
+        <rect x="404" y="292" width="24" height="9" rx="4" fill="#C4705C" stroke-width="2"/>
+        <rect x="438" y="292" width="24" height="9" rx="4" fill="#5E8A6A" stroke-width="2"/>
+        <path d="M312 324 L480 324" stroke-width="4"/>
+      </g>
+      <use href="#ag-moth" x="322" y="218" width="150" height="155"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M456 328 L456 300 C456 292 466 292 466 300 L466 330" fill="#33407A"/>
+        <circle cx="461" cy="334" r="7" fill="#F2A93B" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- ── room 3 · Beetle · repair ───────────────────────────────────── -->
+    <g clip-path="url(#w3)">
+      <rect x="512" y="144" width="176" height="248" fill="#8E4738"/>
+      <rect x="512" y="144" width="176" height="248" fill="url(#g-lamp)"/>
+      <g stroke="#0C1024" stroke-width="2" fill="none">
+        <path d="M524 162 L676 162" stroke-width="3"/>
+        <path d="M540 162 L540 190 L532 190 L532 206 L548 206 L548 190 L540 190" fill="#33407A" stroke-width="2.2"/>
+        <path d="M576 162 L576 200 M568 200 L584 200 L580 214 L572 214 Z" fill="#33407A" stroke-width="2.2"/>
+        <path d="M614 162 L614 186 L606 196 L622 196 L614 186" fill="#7286BC" stroke-width="2.2"/>
+        <path d="M648 162 L648 204 M642 204 h12" stroke-width="2.4"/>
+      </g>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <rect x="524" y="250" width="86" height="82" rx="6" fill="#1D2650"/>
+        <path d="M524 250 L524 226 L568 226" stroke-width="2.6"/>
+        <circle cx="552" cy="286" r="20" fill="#33407A"/>
+        <circle cx="552" cy="286" r="7" fill="#F2A93B" stroke-width="2"/>
+        <path d="M552 266 v-8 M552 314 v8 M532 286 h-8 M572 286 h8 M538 272 l-6 -6 M566 300 l6 6 M566 272 l6 -6 M538 300 l-6 6"/>
+        <circle cx="592" cy="312" r="12" fill="#5E8A6A"/>
+        <path d="M592 300 v-6 M592 324 v6 M580 312 h-6 M604 312 h6"/>
+        <path d="M514 332 L686 332" stroke-width="4"/>
+      </g>
+      <use href="#ag-beetle" x="530" y="216" width="150" height="155"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M646 300 L672 274" stroke-width="6" stroke="#7286BC"/>
+        <path d="M646 300 L672 274"/>
+        <circle cx="676" cy="270" r="8" fill="#C4705C" stroke-width="2.2"/>
+        <g stroke="#F2A93B" stroke-width="2.6" stroke-linecap="round">
+          <path d="M664 258 l-8 -10 M676 252 l2 -12 M688 258 l10 -8"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- ── room 4 · Owl · research ────────────────────────────────────── -->
+    <g clip-path="url(#w4)">
+      <rect x="716" y="144" width="176" height="248" fill="#8E4738"/>
+      <rect x="716" y="144" width="176" height="248" fill="url(#g-lamp)"/>
+      <g stroke="#0C1024" stroke-width="2.2" fill="none">
+        <rect x="724" y="160" width="160" height="140" fill="#1D2650" stroke-width="2.6"/>
+        <path d="M724 212 h160 M724 258 h160"/>
+        <g stroke-width="2">
+          <rect x="732" y="170" width="13" height="40" fill="#C4705C"/>
+          <rect x="747" y="176" width="10" height="34" fill="#5E8A6A"/>
+          <rect x="759" y="168" width="14" height="42" fill="#F4E7CF"/>
+          <rect x="775" y="178" width="11" height="32" fill="#8E4738"/>
+          <rect x="788" y="172" width="13" height="38" fill="#33407A"/>
+          <rect x="806" y="176" width="10" height="34" fill="#C4705C"/>
+          <rect x="732" y="220" width="12" height="36" fill="#5E8A6A"/>
+          <rect x="746" y="216" width="14" height="40" fill="#F4E7CF"/>
+          <rect x="762" y="224" width="10" height="32" fill="#C4705C"/>
+          <rect x="774" y="218" width="13" height="38" fill="#33407A"/>
+          <path d="M812 236 l24 0 l0 20 l-24 0 Z" fill="#8E4738"/>
+          <path d="M812 236 l24 0 M818 236 l0 20"/>
+        </g>
+      </g>
+      <g stroke="#0C1024" stroke-width="2.6" fill="none">
+        <path d="M720 336 L722 300 L886 300 L888 336" fill="#8E4738"/>
+        <path d="M722 300 L886 300"/>
+        <path d="M726 340 L882 340" stroke-width="4"/>
+      </g>
+      <use href="#ag-owl" x="732" y="206" width="150" height="155"/>
+      <g stroke="#0C1024" stroke-width="2.2" fill="none">
+        <path d="M744 308 L812 296 L816 330 L748 342 Z" fill="#F4E7CF"/>
+        <path d="M752 314 l50 -9 M754 322 l50 -9 M756 330 l40 -7" stroke-width="1.6" opacity=".8"/>
+        <path d="M778 302 L782 336" stroke="#C4705C" stroke-width="2.4"/>
+        <circle cx="854" cy="306" r="16" fill="#7286BC" fill-opacity=".45" stroke-width="2.6"/>
+        <path d="M866 318 L880 332" stroke-width="4" stroke="#C4705C"/>
+      </g>
+    </g>
+
+    <!-- ── room 5 · Hare · dispatch ───────────────────────────────────── -->
+    <g clip-path="url(#w5)">
+      <rect x="920" y="144" width="176" height="248" fill="#8E4738"/>
+      <rect x="920" y="144" width="176" height="248" fill="url(#g-lamp)"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <rect x="1030" y="170" width="66" height="180" fill="#0C1024"/>
+        <rect x="1038" y="182" width="50" height="168" fill="#33407A"/>
+        <path d="M1038 268 C1052 254 1074 254 1088 268 L1088 350 L1038 350 Z" fill="#F2A93B" opacity=".55" stroke="none"/>
+        <circle cx="1046" cy="266" r="4" fill="#F2A93B" stroke-width="1.6"/>
+      </g>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <path d="M928 340 L1100 340" stroke-width="4"/>
+        <rect x="930" y="286" width="46" height="54" fill="#8E4738"/>
+        <path d="M953 286 L953 340 M930 312 L976 312" stroke-width="2.2"/>
+        <rect x="936" y="246" width="38" height="40" fill="#C4705C"/>
+        <path d="M955 246 L955 286 M936 266 L974 266" stroke-width="2.2"/>
+      </g>
+      <use href="#ag-hare" x="946" y="214" width="150" height="155"/>
+      <g stroke="#0C1024" stroke-width="2.4" fill="none">
+        <rect x="988" y="300" width="56" height="42" fill="#E4D2B6"/>
+        <path d="M1016 300 L1016 342 M988 322 L1044 322" stroke="#8E4738" stroke-width="3"/>
+        <path d="M1016 300 C1008 292 1000 292 998 300 M1016 300 C1024 292 1032 292 1034 300" stroke="#8E4738" stroke-width="2.4"/>
+      </g>
+    </g>
+
+    <!-- window frames -->
+    <g fill="none" stroke="#0C1024" stroke-width="4" stroke-linejoin="round">
+      <path d="M104 232 a88 88 0 0 1 176 0 L280 392 L104 392 Z"/>
+      <path d="M308 232 a88 88 0 0 1 176 0 L484 392 L308 392 Z"/>
+      <path d="M512 232 a88 88 0 0 1 176 0 L688 392 L512 392 Z"/>
+      <path d="M716 232 a88 88 0 0 1 176 0 L892 392 L716 392 Z"/>
+      <path d="M920 232 a88 88 0 0 1 176 0 L1096 392 L920 392 Z"/>
+    </g>
+    <g fill="none" stroke="#0C1024" stroke-width="2.6" opacity=".8">
+      <path d="M192 144 L192 392 M104 250 L280 250"/>
+      <path d="M396 144 L396 392 M308 250 L484 250"/>
+      <path d="M600 144 L600 392 M512 250 L688 250"/>
+      <path d="M804 144 L804 392 M716 250 L892 250"/>
+      <path d="M1008 144 L1008 392 M920 250 L1096 250"/>
+    </g>
+    <!-- sills -->
+    <g fill="#C4705C" stroke="#0C1024" stroke-width="3">
+      <rect x="96" y="392" width="192" height="14" rx="3"/>
+      <rect x="300" y="392" width="192" height="14" rx="3"/>
+      <rect x="504" y="392" width="192" height="14" rx="3"/>
+      <rect x="708" y="392" width="192" height="14" rx="3"/>
+      <rect x="912" y="392" width="192" height="14" rx="3"/>
+    </g>
+
+    <!-- enamel name plates -->
+    <g stroke="#0C1024" stroke-width="2.6">
+      <rect x="112" y="424" width="160" height="50" rx="8" fill="#0C1024"/>
+      <rect x="316" y="424" width="160" height="50" rx="8" fill="#0C1024"/>
+      <rect x="520" y="424" width="160" height="50" rx="8" fill="#0C1024"/>
+      <rect x="724" y="424" width="160" height="50" rx="8" fill="#0C1024"/>
+      <rect x="928" y="424" width="160" height="50" rx="8" fill="#0C1024"/>
+    </g>
+    <g stroke="#F2A93B" stroke-width="1.6" fill="none" opacity=".7">
+      <rect x="118" y="430" width="148" height="38" rx="5"/>
+      <rect x="322" y="430" width="148" height="38" rx="5"/>
+      <rect x="526" y="430" width="148" height="38" rx="5"/>
+      <rect x="730" y="430" width="148" height="38" rx="5"/>
+      <rect x="934" y="430" width="148" height="38" rx="5"/>
+    </g>
+    <g text-anchor="middle" font-family="Fraunces, Georgia, serif"
+       style="font-variation-settings:'opsz' 24,'SOFT' 60,'WONK' 1" font-weight="600" font-size="23" fill="#F4E7CF">
+      <text x="192" y="450">Wren</text><text x="396" y="450">Moth</text>
+      <text x="600" y="450">Beetle</text><text x="804" y="450">Owl</text>
+      <text x="1008" y="450">Hare</text>
+    </g>
+    <g text-anchor="middle" font-family="Karla, Arial, sans-serif" font-weight="600" font-size="13" fill="#F2A93B">
+      <text x="192" y="466">Triage</text><text x="396" y="466">Watch</text>
+      <text x="600" y="466">Repair</text><text x="804" y="466">Research</text>
+      <text x="1008" y="466">Dispatch</text>
+    </g>
+
+    <!-- door -->
+    <g stroke="#0C1024" stroke-width="3.4" fill="none">
+      <path d="M560 570 L560 524 a40 40 0 0 1 80 0 L640 570 Z" fill="#8E4738"/>
+      <path d="M560 542 L640 542 M580 542 L580 570 M620 542 L620 570" stroke-width="2.4"/>
+      <circle cx="630" cy="556" r="5" fill="#F2A93B" stroke-width="2"/>
+      <path d="M576 526 C584 514 616 514 624 526" stroke-width="2.4" fill="#F2A93B"/>
+      <path d="M600 517 L600 526 M586 521 L588 529 M614 521 L612 529" stroke-width="1.8"/>
+    </g>
+    <circle cx="600" cy="528" r="44" fill="url(#g-globe)"/>
+
+    <!-- ground -->
+    <rect x="0" y="570" width="1200" height="130" fill="#0C1024"/>
+    <path d="M0 570 L1200 570" stroke="#33407A" stroke-width="3"/>
+    <g stroke="#33407A" stroke-width="2" opacity=".55" fill="none">
+      <path d="M0 596 h1200 M0 626 h1200"/>
+      <path d="M40 570v26M140 570v26M240 570v26M340 570v26M440 570v26M540 570v26M640 570v26M740 570v26M840 570v26M940 570v26M1040 570v26M1140 570v26"/>
+      <path d="M90 596v30M190 596v30M290 596v30M390 596v30M490 596v30M590 596v30M690 596v30M790 596v30M890 596v30M990 596v30M1090 596v30"/>
+    </g>
+
+    <!-- hedge -->
+    <g stroke="#0C1024" stroke-width="3" fill="#5E8A6A">
+      <path d="M150 570 C150 548 172 536 194 542 C206 528 232 530 240 546 C262 542 280 554 280 570 Z"/>
+      <path d="M840 570 C840 552 858 540 876 546 C888 534 910 536 916 550 C934 548 948 558 948 570 Z"/>
+    </g>
+    <g stroke="#0C1024" stroke-width="1.6" fill="none" opacity=".5">
+      <path d="M170 566 l8 -10 M196 562 l8 -12 M222 564 l8 -10 M250 566 l8 -10"/>
+      <path d="M860 566 l7 -9 M886 560 l7 -10 M912 564 l7 -9"/>
+    </g>
+
+    <!-- lamp posts: heads kept below the plate band so no name sits under a light -->
+    <circle cx="294" cy="518" r="66" fill="url(#g-globe)"/>
+    <circle cx="906" cy="518" r="66" fill="url(#g-globe)"/>
+    <g stroke="#0C1024" stroke-width="3.4" fill="none">
+      <path d="M294 570 L294 532"/>
+      <path d="M280 580 L308 580 L304 570 L284 570 Z" fill="#33407A"/>
+      <path d="M278 532 L310 532 L303 506 L285 506 Z" fill="#F2A93B"/>
+      <path d="M281 506 L307 506 L294 492 Z" fill="#0C1024"/>
+      <path d="M284 519 L304 519" stroke-width="2"/>
+    </g>
+    <g stroke="#0C1024" stroke-width="3.4" fill="none">
+      <path d="M906 570 L906 532"/>
+      <path d="M892 580 L920 580 L916 570 L896 570 Z" fill="#33407A"/>
+      <path d="M890 532 L922 532 L915 506 L897 506 Z" fill="#F2A93B"/>
+      <path d="M893 506 L919 506 L906 492 Z" fill="#0C1024"/>
+      <path d="M896 519 L916 519" stroke-width="2"/>
+    </g>
+
+    <!-- the night's work, packed and waiting by the door -->
+    <g stroke="#0C1024" stroke-width="3" fill="none">
+      <rect x="668" y="522" width="62" height="48" fill="#8E4738"/>
+      <path d="M699 522 L699 570 M668 546 L730 546" stroke-width="2.2"/>
+      <rect x="682" y="486" width="48" height="36" fill="#C4705C"/>
+      <path d="M706 486 L706 522 M682 504 L730 504" stroke-width="2.2"/>
+      <path d="M744 570 L744 512 L790 512" stroke-width="3.4"/>
+      <circle cx="758" cy="562" r="12" fill="#33407A"/>
+      <circle cx="758" cy="562" r="3.6" fill="#0C1024"/>
+      <rect x="748" y="504" width="44" height="34" fill="#E4D2B6"/>
+      <path d="M770 504 L770 538 M748 521 L792 521" stroke="#8E4738" stroke-width="2.4"/>
+    </g>
+
+    <!-- grain, one hand over the whole scene -->
+    <rect y="-40" width="1200" height="740" filter="url(#grain)" opacity=".05" style="mix-blend-mode:overlay"/>
+  </svg>
+  </div>
+
+  <!-- ── the roster ───────────────────────────────────────────────────── -->
+  <section class="roster" id="crew">
+    <div class="wrap">
+      <h2 class="t-display" style="font-size:clamp(30px,3.4vw,40px)">Five of them, and each one has a job you can name.</h2>
+      <ul class="crew">
+        <li>
+          <svg class="bust" viewBox="0 0 200 250" role="img" aria-label="Wren, a small round bird in a canvas apron, holding an envelope.">
+            <defs><clipPath id="f1"><path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z"/></clipPath></defs>
+            <g clip-path="url(#f1)">
+              <rect x="14" y="38" width="172" height="198" fill="#1D2650"/>
+              <rect x="14" y="38" width="172" height="198" fill="url(#g-lamp)"/>
+              <g stroke="#0C1024" stroke-width="2" opacity=".55" fill="none">
+                <path d="M34 96h132M34 136h132M34 176h132M76 96v120M124 96v120"/>
+              </g>
+              <use href="#ag-wren" x="22" y="70" width="156" height="161"/>
+            </g>
+            <path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z" fill="none" stroke="#0C1024" stroke-width="4"/>
+            <path d="M14 236 L186 236" stroke="#C4705C" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <p class="t-plate">Wren</p>
+          <p class="t-label job">Triage</p>
+          <p>Opens everything that came in overnight and decides what can wait until you are up.</p>
+        </li>
+        <li>
+          <svg class="bust" viewBox="0 0 200 250" role="img" aria-label="Moth, a pale moth with feathered antennae and a green scarf, wings folded.">
+            <defs><clipPath id="f2"><path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z"/></clipPath></defs>
+            <g clip-path="url(#f2)">
+              <rect x="14" y="38" width="172" height="198" fill="#1D2650"/>
+              <rect x="14" y="38" width="172" height="198" fill="url(#g-lamp)"/>
+              <g stroke="#0C1024" stroke-width="2" opacity=".5" fill="none">
+                <circle cx="62" cy="120" r="20"/><circle cx="138" cy="120" r="20"/>
+                <path d="M34 168 l14 0 l8 -20 l10 34 l8 -24 l7 12 l45 0" stroke="#5E8A6A" stroke-width="2.6" opacity=".9"/>
+              </g>
+              <use href="#ag-moth" x="22" y="70" width="156" height="161"/>
+            </g>
+            <path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z" fill="none" stroke="#0C1024" stroke-width="4"/>
+            <path d="M14 236 L186 236" stroke="#C4705C" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <p class="t-plate">Moth</p>
+          <p class="t-label job">Watch</p>
+          <p>Sits with the alarms all night, so the phone on your bedside table stays quiet.</p>
+        </li>
+        <li>
+          <svg class="bust" viewBox="0 0 200 250" role="img" aria-label="Beetle, a horned stag beetle in a leather apron with goggles pushed up.">
+            <defs><clipPath id="f3"><path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z"/></clipPath></defs>
+            <g clip-path="url(#f3)">
+              <rect x="14" y="38" width="172" height="198" fill="#1D2650"/>
+              <rect x="14" y="38" width="172" height="198" fill="url(#g-lamp)"/>
+              <g stroke="#0C1024" stroke-width="2" opacity=".55" fill="none">
+                <path d="M34 78h132"/>
+                <path d="M54 78v26 M46 104h16v14H46Z M96 78v30 M88 108h16l-4 12h-8Z M138 78v22 l-8 10h16Z"/>
+              </g>
+              <use href="#ag-beetle" x="22" y="70" width="156" height="161"/>
+            </g>
+            <path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z" fill="none" stroke="#0C1024" stroke-width="4"/>
+            <path d="M14 236 L186 236" stroke="#C4705C" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <p class="t-plate">Beetle</p>
+          <p class="t-label job">Repair</p>
+          <p>Finds the test that broke at 02:00 and has the build green again by 04:00.</p>
+        </li>
+        <li>
+          <svg class="bust" viewBox="0 0 200 250" role="img" aria-label="Owl, a spectacled owl with ear tufts in a green cardigan.">
+            <defs><clipPath id="f4"><path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z"/></clipPath></defs>
+            <g clip-path="url(#f4)">
+              <rect x="14" y="38" width="172" height="198" fill="#1D2650"/>
+              <rect x="14" y="38" width="172" height="198" fill="url(#g-lamp)"/>
+              <g stroke="#0C1024" stroke-width="2" opacity=".5">
+                <rect x="34" y="70" width="13" height="40" fill="#C4705C"/>
+                <rect x="49" y="76" width="10" height="34" fill="#5E8A6A"/>
+                <rect x="61" y="68" width="14" height="42" fill="#F4E7CF"/>
+                <rect x="127" y="70" width="12" height="40" fill="#33407A"/>
+                <rect x="141" y="76" width="11" height="34" fill="#C4705C"/>
+                <rect x="154" y="68" width="13" height="42" fill="#5E8A6A"/>
+              </g>
+              <use href="#ag-owl" x="22" y="70" width="156" height="161"/>
+            </g>
+            <path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z" fill="none" stroke="#0C1024" stroke-width="4"/>
+            <path d="M14 236 L186 236" stroke="#C4705C" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <p class="t-plate">Owl</p>
+          <p class="t-label job">Research</p>
+          <p>Reads the eight hundred page thing and leaves you the six lines that matter.</p>
+        </li>
+        <li>
+          <svg class="bust" viewBox="0 0 200 250" role="img" aria-label="Hare, a long-eared hare in a messenger coat with a canvas strap.">
+            <defs><clipPath id="f5"><path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z"/></clipPath></defs>
+            <g clip-path="url(#f5)">
+              <rect x="14" y="38" width="172" height="198" fill="#1D2650"/>
+              <rect x="14" y="38" width="172" height="198" fill="url(#g-lamp)"/>
+              <g stroke="#0C1024" stroke-width="2" opacity=".5" fill="none">
+                <rect x="30" y="150" width="44" height="34" fill="#8E4738"/>
+                <path d="M52 150v34M30 167h44"/>
+                <rect x="128" y="142" width="44" height="42" fill="#C4705C"/>
+                <path d="M150 142v42M128 163h44"/>
+              </g>
+              <use href="#ag-hare" x="22" y="70" width="156" height="161"/>
+            </g>
+            <path d="M14 124 a86 86 0 0 1 172 0 L186 236 L14 236 Z" fill="none" stroke="#0C1024" stroke-width="4"/>
+            <path d="M14 236 L186 236" stroke="#C4705C" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <p class="t-plate">Hare</p>
+          <p class="t-label job">Dispatch</p>
+          <p>Packs the night's work, labels it, and puts it on your desk before you are awake.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p class="t-caption">Lamplight Co. Open from dusk. Billed by the night.</p>
+      <nav aria-label="Footer">
+        <a href="#crew">Terms</a>
+        <a href="#crew">Privacy</a>
+        <a href="#top">Back to the top</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

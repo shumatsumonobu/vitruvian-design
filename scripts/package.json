@@ -1,0 +1,9 @@
+{
+  "name": "vitruvian-design-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Tools that make the README images and count what the README claims. Usage in README.md",
+  "dependencies": {
+    "puppeteer-core": "^25.11.0"
+  }
+}

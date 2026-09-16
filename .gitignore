@@ -1,0 +1,26 @@
+# Claude Code local files
+.claude/*
+!.claude/rules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies (if any)
+node_modules/
+
+# Capture tool intermediates
+scripts/.tmp/

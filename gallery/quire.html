@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quire. Nothing but the page.</title>
+<meta name="description" content="Quire is an e-ink reader that holds one thing: the page of the book you are reading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap">
+<style>
+/* ── Declaration: .design/declaration.md ─────────────────────────────────── */
+:root {
+  color-scheme: light;               /* one theme; the system setting is not read */
+
+  --sweep:      #DCDEDA;             /* the studio ground both objects stand on */
+  --sweep-pool: #EDEEEB;             /* the ground where the light lands */
+  --sweep-fall: #C3C6C1;             /* the ground where the light has fallen off */
+  --ink:        #000000;             /* the headline */
+  --graphite:   #34383A;             /* the anodized aluminium of the device body */
+  --stock:      #EFE9DD;             /* the paper the depicted page is printed on */
+
+  --u: 8px;                          /* base spacing unit; every gap is a multiple */
+
+  --r-flat: 0;                       /* the page carries no containers */
+  --r-panel: calc(var(--dw) * 0.0093);   /*  4px at full size: the cut e-ink panel */
+  --r-shell: calc(var(--dw) * 0.0556);   /* 24px at full size: the machined shell  */
+
+  --serif: "Literata", "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
+           Georgia, "Times New Roman", serif;
+
+  /* Bead-blasted aluminium and lime plaster share one grain, at different strengths. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  /* Device geometry. One width drives every other dimension, so the proportions
+     survive reflow. 432 × 576 at full size: a 10.3-inch 4:3 panel in a shell. */
+  --dw:    clamp(240px, 31vw, 520px);
+  --dh:    calc(var(--dw) * 1.33333);
+  --bez-x: calc(var(--dw) * 0.05556);
+  --bez-t: calc(var(--dw) * 0.0625);
+  --bez-b: calc(var(--dw) * 0.09259);
+  --thk:   calc(var(--dw) * 0.041);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; overflow: clip; }
+
+body {
+  margin: 0;
+  font-family: var(--serif);
+  color: var(--ink);
+  background-color: var(--sweep);
+  /* Gradient 1 of 3 — the seamless sweep under one soft source at the upper right.
+     Without the falloff the two objects stand in no room at all. */
+  background-image:
+    radial-gradient(104% 78% at 70% 24%,
+      var(--sweep-pool) 0%, rgba(237,238,235,.60) 32%, rgba(237,238,235,0) 60%),
+    radial-gradient(86% 72% at 14% 104%,
+      rgba(112,120,112,.34) 0%, rgba(112,120,112,0) 62%),
+    linear-gradient(180deg,
+      rgba(255,255,255,.34) 0%, rgba(255,255,255,0) 24%,
+      rgba(140,148,140,0) 52%, rgba(88,96,88,.30) 100%);
+  overflow: clip;            /* the cast shadow overhangs the frame; nothing scrolls */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The plaster's own grain. It also stops the sweep banding. */
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: var(--grain);
+  opacity: .035;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.hero {
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  padding: calc(var(--u) * 12);        /* 96px outer margin */
+}
+
+/* Structure: two columns, 96px gap, capped at the declared maximum content width.
+   Reflow at 1040px: stack to one column, reading order held, nothing hidden. */
+.frame {
+  width: min(1680px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: calc(var(--u) * 12);
+  /* The headline's last baseline and the device's foot are one line: the two
+     masses stand on the same floor rather than floating past each other. */
+  align-items: end;
+}
+
+/* ── Object one: the claim ──────────────────────────────────────────────── */
+.claim {
+  margin: 0;
+  max-width: 13em;
+  font-size: clamp(52px, 9.2vw, 152px);
+  font-variation-settings: "opsz" 72;
+  font-weight: 380;
+  line-height: .94;
+  letter-spacing: -.022em;
+  overflow-wrap: break-word;          /* declared overflow: wraps, never truncates */
+  /* The cap-line is the box top, so it shares the device's top edge exactly. */
+  text-box: trim-both cap alphabetic;
+}
+@supports not (text-box: trim-both cap alphabetic) {
+  .claim { margin-top: -.175em; }
+}
+
+/* ── Object two: the device ─────────────────────────────────────────────── */
+.stage {
+  position: relative;
+  width: var(--dw);
+  height: var(--dh);
+  perspective: 2600px;
+}
+
+/* One shadow, in three layers, from the one light. */
+.sh { position: absolute; border-radius: 50%; pointer-events: none; }
+.sh-ambient {
+  left: -84%; top: 62%; width: 262%; height: 72%;
+  background: radial-gradient(closest-side, rgba(58,66,58,.34), rgba(58,66,58,0) 74%);
+  filter: blur(46px);
+}
+.sh-cast {
+  left: -62%; top: 83%; width: 178%; height: 30%;
+  background: radial-gradient(closest-side, rgba(38,45,39,.52), rgba(38,45,39,0) 72%);
+  filter: blur(17px);
+  transform: skewX(-21deg);
+}
+.sh-contact {
+  left: -2%; top: 95.6%; width: 101%; height: 7.4%;
+  background: radial-gradient(closest-side, rgba(14,19,16,.74), rgba(14,19,16,0) 74%);
+  filter: blur(4px);
+  transform: skewX(-9deg);
+}
+
+.device {
+  position: absolute; inset: 0;
+  margin: 0;
+  transform-style: preserve-3d;
+  /* Camera at the frame centre and a little above: we see the left flank and the
+     top edge. The angle is what keeps this from reading as a rectangle. */
+  transform: rotateX(-4.5deg) rotateY(17deg);
+}
+
+.face { position: absolute; }
+
+/* The left flank and the top edge: real geometry, extruded forward to the front
+   plane, so the silhouette has thickness rather than an implied one. */
+.flank {
+  left: 0; top: var(--r-shell);
+  width: var(--thk); height: calc(100% - var(--r-shell) * 2);
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  /* The flank faces away from the light; the plaster bounces a little back into it. */
+  background: linear-gradient(180deg, #1d2123 0%, #15191b 48%, #0f1214 82%, #232a28 100%);
+}
+.top-edge {
+  left: var(--r-shell); top: 0;
+  width: calc(100% - var(--r-shell) * 2); height: var(--thk);
+  transform-origin: center top;
+  transform: rotateX(90deg);
+  background: linear-gradient(90deg, #4e5456 0%, #646a6d 58%, #787e81 100%);
+}
+
+/* Gradient 2 of 3 — the aluminium's shading under that same source, chamfer
+   highlight included. A flat fill here is the flat rounded rectangle, exactly. */
+.front {
+  inset: 0;
+  transform: translateZ(var(--thk));
+  border-radius: var(--r-shell);
+  background-color: var(--graphite);
+  background-image:
+    var(--grain),
+    radial-gradient(74% 54% at 92% 4%, rgba(255,255,255,.20), rgba(255,255,255,0) 64%),
+    linear-gradient(215deg, #565c5e 0%, #464b4d 22%, #34383a 54%, #23272a 84%, #171a1c 100%);
+  background-size: 180px 180px, auto, auto;
+  background-blend-mode: overlay, screen, normal;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.52),        /* lit chamfer, top    */
+    inset -2px 0 0 rgba(255,255,255,.30),       /* lit chamfer, right  */
+    inset 2px 0 0 rgba(0,0,0,.52),              /* shaded chamfer, left */
+    inset 0 -2.5px 0 rgba(0,0,0,.60),           /* shaded chamfer, foot */
+    inset 0 -7px 12px -6px rgba(178,190,178,.30),/* plaster bounce along the foot */
+    inset 0 0 38px rgba(0,0,0,.34);
+}
+
+/* The e-ink panel, cut into the shell and sitting below its plane. */
+.screen {
+  position: absolute;
+  left: var(--bez-x); right: var(--bez-x);
+  top: var(--bez-t); bottom: var(--bez-b);
+  border-radius: var(--r-panel);
+  background: var(--stock);
+  overflow: hidden;
+  /* Gradient 3 of 3 — the bezel casts a short shade across the top of the page
+     and a fainter one down its left. This is what makes the panel read recessed. */
+  box-shadow:
+    0 0 0 1px rgba(14,17,15,.58),
+    0 1px 0 rgba(255,255,255,.10),
+    inset 0 5px 8px -4px rgba(48,40,29,.46),
+    inset 4px 0 7px -5px rgba(48,40,29,.28),
+    inset 0 -2px 3px -2px rgba(255,255,255,.60);
+}
+/* Matte e-ink surface: the same raking light, the same grain, no reflection. */
+.screen::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    var(--grain),
+    linear-gradient(215deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,0) 34%,
+                            rgba(88,78,62,.06) 74%, rgba(88,78,62,.13) 100%);
+  background-size: 180px 180px, auto;
+  opacity: .5;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ── The page the product exists to hold ────────────────────────────────── */
+.page {
+  height: 100%;
+  padding: 2.1em 2em 1.3em;
+  font-size: calc(var(--dw) * 0.02546);   /* 11px at full size */
+  font-variation-settings: "opsz" 8;
+  font-weight: 400;
+  line-height: 1.62;
+  letter-spacing: .004em;
+  color: #2B2724;                          /* e-ink is dark grey, never black */
+  font-feature-settings: "liga" 1, "kern" 1, "onum" 1;
+  display: flex;
+  flex-direction: column;
+}
+.chnum {
+  margin: 0;
+  font-style: italic;
+  font-size: .909em;
+  font-weight: 500;
+  font-variation-settings: "opsz" 12;
+  letter-spacing: .02em;
+  color: #6A625A;
+}
+.chtitle {
+  margin: .1em 0 1.5em;
+  font-size: 1.545em;
+  font-weight: 400;
+  font-variation-settings: "opsz" 24;
+  letter-spacing: .004em;
+  line-height: 1.1;
+}
+.page p.body {
+  margin: 0;
+  text-align: justify;
+  text-indent: 1.35em;
+  hyphens: auto;
+}
+.page p.body.opening { text-indent: 0; }
+.initial {
+  float: left;
+  font-size: 4.02em;
+  line-height: 1;
+  font-weight: 420;
+  font-variation-settings: "opsz" 36;
+  margin: .04em .055em -.06em 0;
+  text-box: trim-both cap alphabetic;
+}
+@supports not (text-box: trim-both cap alphabetic) {
+  .initial { margin-top: -.2em; }
+}
+.folio {
+  margin: auto 0 0;
+  text-align: center;
+  font-size: .773em;
+  letter-spacing: .04em;
+  color: #6A625A;
+}
+
+/* ── Reflow ─────────────────────────────────────────────────────────────── */
+@media (max-width: 1040px) {
+  .frame {
+    grid-template-columns: minmax(0, 1fr);
+    gap: calc(var(--u) * 9);
+    justify-items: start;
+  }
+  .hero { padding: calc(var(--u) * 7); place-content: center start; }
+  :root { --dw: clamp(240px, 46vw, 400px); }
+}
+@media (max-width: 560px) {
+  .hero { padding: calc(var(--u) * 4); }
+  :root { --dw: clamp(200px, 62vw, 300px); }
+}
+</style>
+</head>
+<body>
+<main class="hero">
+  <div class="frame">
+
+    <h1 class="claim">Quire.<br>Nothing but<br>the page.</h1>
+
+    <div class="stage">
+      <div class="sh sh-ambient"></div>
+      <div class="sh sh-cast"></div>
+      <div class="sh sh-contact"></div>
+
+      <figure class="device" role="img"
+        aria-label="The Quire reader, turned a few degrees so its left flank and top edge show: a bead-blasted graphite aluminium slab with a recessed matte e-ink panel, open at the first page of the chapter Reading from Thoreau's Walden, set in Literata with a drop cap and a justified measure.">
+        <div class="face flank"></div>
+        <div class="face top-edge"></div>
+        <div class="face front">
+          <div class="screen">
+            <div class="page">
+              <p class="chnum">III</p>
+              <h2 class="chtitle">Reading</h2>
+              <p class="body opening"><span class="initial">W</span>ith a little more deliberation in the choice of their pursuits, all men would perhaps become essentially students and observers, for certainly their nature and destiny are interesting to all alike.</p>
+              <p class="body">In accumulating property for ourselves or our posterity, in founding a family or a state, or acquiring fame even, we are mortal; but in dealing with truth we are immortal, and need fear no change nor accident.</p>
+              <p class="body">The oldest Egyptian or Hindoo philosopher raised a corner of the veil from the statue of the divinity; and still the trembling robe remains raised, and I gaze upon as fresh a glory as he did, since it was I in him that was then so bold, and it is he in me that now reviews the vision.</p>
+              <p class="folio">97</p>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+
+  </div>
+</main>
+</body>
+</html>

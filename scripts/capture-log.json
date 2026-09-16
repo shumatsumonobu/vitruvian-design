@@ -1,0 +1,180 @@
+{
+  "asterism.gif": {
+    "sha256": "01b9f503bfb9569567c0d1e304aa68b5bc1ccd8a5d7b539f6d85c25a539a5a74",
+    "mode": "motion",
+    "theme": "light",
+    "source": "gallery/asterism.html",
+    "options": {
+      "frames": 45,
+      "stepMs": 120,
+      "openSettled": 8
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:47:10.822Z"
+  },
+  "blurt.gif": {
+    "sha256": "7e9f6335caf42f0928d598b7a111eee5f5422aee6d2173ae00e485ceaa1a3976",
+    "mode": "motion",
+    "theme": "light",
+    "source": "gallery/blurt.html",
+    "options": {
+      "frames": 45,
+      "stepMs": 120,
+      "openSettled": 8
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:47:28.576Z"
+  },
+  "deep-field.gif": {
+    "sha256": "cf80e6a39b624d1c9aa9a2c6fb3c6be47ab5c38ca6a56fd687ba811d100ddede",
+    "mode": "motion",
+    "theme": "light",
+    "source": "gallery/deep-field.html",
+    "options": {
+      "frames": 45,
+      "stepMs": 120,
+      "openSettled": 8
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:47:40.745Z"
+  },
+  "dispatch.png": {
+    "sha256": "2a57c9ec31148bd1bc893fb776f814aaa28cc72e596cf4f1eb179415b6fc2272",
+    "mode": "still",
+    "theme": "light",
+    "source": "gallery/dispatch.html",
+    "options": {
+      "settleMs": 1500,
+      "colors": 64
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:46:49.222Z"
+  },
+  "lamplight.png": {
+    "sha256": "0e5fb4a0d9050492d97a686ec1172a74d998526d39ce0a06a170727d2f473eeb",
+    "mode": "still",
+    "theme": "light",
+    "source": "gallery/lamplight.html",
+    "options": {
+      "settleMs": 1500,
+      "colors": 128
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:46:58.504Z"
+  },
+  "quire.png": {
+    "sha256": "6302579c4a7dc9d2b08ff1f31fcf7f07d62c71d2a2e107d64fb6604dfafabedf",
+    "mode": "still",
+    "theme": "light",
+    "source": "gallery/quire.html",
+    "options": {
+      "settleMs": 1500,
+      "colors": 64
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:46:43.801Z"
+  },
+  "roast-ledger.png": {
+    "sha256": "a3dc4ef014a68014e8d171ccecc8f41cd1efc9cda5aa818e41b77dccfa8a2165",
+    "mode": "still",
+    "theme": "light",
+    "source": "gallery/roast-ledger.html",
+    "options": {
+      "settleMs": 1500,
+      "colors": 64
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-09-16T14:46:53.417Z"
+  }
+}

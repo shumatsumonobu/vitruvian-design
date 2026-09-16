@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BLURT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Shantell+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ── tokens ─────────────────────────────────────────────────────────────
+   Values come from .design/declaration.md. Nothing below invents one.     */
+:root{
+  --sky-zenith:#1358D8;
+  --sky-noon:#3E9BF5;
+  --sky-haze:#A9E0FF;
+  --cloud-shade:#B9D4EE;
+  --paper:#FFFCF4;
+  --ink:#241F1A;
+  --marble:#FF5B24;
+
+  --w1:#F6F2E9; --w2:#D7CFC0; --w3:#9A9083; --w4:#4A443C;
+
+  --u:4px;
+  --r-sm:6px; --r-md:14px; --r-full:9999px;
+
+  /* three steps, all blue-black because the only fill light on this board is sky.
+     e1 and e2 are realised inside the artwork's shared #cast filter, where a sticker needs
+     them in SVG user units; e3 is the marble, held above the board. */
+  --e1:1.6px 2.6px 1.1px rgba(14,46,98,.50);
+  --e2:0 7px 5px rgba(8,34,78,.26);
+  --e3:0 22px 26px rgba(15,48,98,.34);
+
+  --ease-out:cubic-bezier(.17,.84,.36,1);
+  --ease-in:cubic-bezier(.62,.03,.86,.31);
+  /* --spring-settle / --spring-soft are emitted at runtime as linear() */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  background:var(--sky-noon);
+  overflow:hidden;
+  font-family:"Shantell Sans","Comic Sans MS","Segoe Print",cursive;
+  -webkit-font-smoothing:antialiased;
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ── the sky ────────────────────────────────────────────────────────────
+   Five layers, not a ramp: zenith wash, body, an off-centre sun bloom,
+   a horizon haze that sits lowest and brightest, and printed grain.      */
+.sky{position:fixed;inset:0;z-index:0;background:
+  radial-gradient(120% 62% at 26% 8%, rgba(255,247,214,.62) 0%, rgba(255,247,214,0) 58%),
+  radial-gradient(150% 46% at 50% 108%, var(--sky-haze) 0%, rgba(169,224,255,0) 66%),
+  radial-gradient(110% 80% at 50% 96%, rgba(255,255,255,.42) 0%, rgba(255,255,255,0) 60%),
+  linear-gradient(177deg, var(--sky-zenith) 0%, #2874EC 30%, var(--sky-noon) 58%, #6FBDF9 80%, #97D7FF 100%);
+}
+.sky::after{content:"";position:absolute;inset:0;opacity:.17;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");}
+.sky::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(130% 110% at 50% 46%, rgba(4,32,86,0) 46%, rgba(4,32,86,.26) 100%);}
+
+/* ── the cloud mass behind the logotype ─────────────────────────────── */
+.cloud{position:fixed;left:50%;top:50%;z-index:1;pointer-events:none;
+  transform:translate(-50%,-50%);filter:blur(1px)}
+.cloud i{position:absolute;border-radius:var(--r-full);background:
+  radial-gradient(circle at 36% 28%, #fff 0%, #FBFDFF 52%, var(--cloud-shade) 100%);}
+.cloud .u{background:radial-gradient(circle at 50% 34%, rgba(150,183,214,.55), rgba(150,183,214,0) 70%)}
+
+/* ── the burst ──────────────────────────────────────────────────────── */
+.board{position:fixed;inset:0;z-index:2}
+.st{position:absolute;left:0;top:0;will-change:transform}
+.arc,.spin,.idle{will-change:transform}
+.sk{display:block;overflow:visible}
+/* the contact shadow is baked into each sticker's own raster rather than applied as a CSS
+   filter on the animating wrapper: a filter there re-rasterises 48 subtrees every frame */
+
+/* ── logotype ───────────────────────────────────────────────────────── */
+.logo{position:fixed;left:50%;top:50%;z-index:3;margin:0;transform:translate(-50%,-50%);
+  pointer-events:none;will-change:transform}
+.logo svg{display:block}
+
+.line{position:fixed;left:50%;z-index:4;transform:translateX(-50%);margin:0;
+  font-weight:700;letter-spacing:.005em;line-height:1.35;color:var(--ink);
+  font-size:clamp(17px,2.1vw,23px);text-align:center;max-width:48ch;pointer-events:none;
+  text-shadow:0 0 12px rgba(255,255,255,.95),0 0 4px rgba(255,255,255,1)}
+
+/* ── the marble: the one control ────────────────────────────────────── */
+.marble{position:fixed;left:50%;top:50%;z-index:6;
+  appearance:none;border:0;background:none;padding:0;margin:0;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:calc(var(--u) * 4);
+  transform:translate(-50%,-50%);border-radius:var(--r-full);
+  font:inherit;color:var(--ink);-webkit-tap-highlight-color:transparent}
+.marble .glass{display:block;width:clamp(84px,17vmin,152px);height:auto;
+  filter:drop-shadow(var(--e3))}
+.marble .cap{font-weight:600;font-size:16px;letter-spacing:.02em;
+  text-shadow:0 0 10px rgba(255,255,255,.9),0 1px 0 rgba(255,255,255,.9)}
+.marble:focus-visible{outline:4px solid var(--paper);outline-offset:8px}
+.mpress{display:block;transition:transform 120ms var(--ease-out)}
+.marble:active .mpress{transform:scale(.97)}
+
+/* the compression ring the slam throws off */
+.ring{position:fixed;left:50%;top:50%;z-index:5;width:120px;height:120px;margin:-60px 0 0 -60px;
+  border-radius:var(--r-full);border:3px solid rgba(255,255,255,.9);opacity:0;pointer-events:none}
+
+/* ── the entrance ───────────────────────────────────────────────────── */
+@keyframes launch{from{transform:translate3d(var(--lx),var(--ly),0)}to{transform:translate3d(0,0,0)}}
+@keyframes arc{0%{transform:translate3d(var(--ax),var(--ay),0)}
+               42%{transform:translate3d(calc(var(--ax) * .34),calc(var(--ay) * .34),0)}
+               100%{transform:translate3d(0,0,0)}}
+@keyframes land{from{transform:rotate(var(--r0)) scale(.12)}to{transform:rotate(var(--rot)) scale(1)}}
+@keyframes drift{from{transform:translate3d(var(--d1x),var(--d1y),0) rotate(var(--d1r))}
+                 to{transform:translate3d(var(--d2x),var(--d2y),0) rotate(var(--d2r))}}
+
+.st{opacity:0;animation:launch var(--dur) var(--spring) var(--delay) both,
+                        reveal 1ms linear var(--delay) both}
+.arc{display:block;animation:arc var(--dur) var(--ease-out) var(--delay) both}
+.spin{display:block;animation:land var(--dur) var(--spring) var(--delay) both}
+.idle{display:block;animation:drift var(--idur) ease-in-out var(--iwait) infinite alternate}
+
+@keyframes logoIn{from{transform:translate(-50%,-50%) scale(.14)}
+                  to{transform:translate(-50%,-50%) scale(1)}}
+.logo{opacity:0;animation:logoIn 940ms var(--spring-settle) 1250ms both,
+                          reveal 1ms linear 1250ms both}
+@keyframes cloudIn{from{transform:translate(-50%,-50%) scale(.58);opacity:0}
+                   to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.cloud{animation:cloudIn 1300ms var(--ease-out) 1230ms both}
+@keyframes lineIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}
+                  to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.line{animation:lineIn 280ms var(--ease-out) 2760ms both}
+
+/* the marble's four staged parts, one per layer so each owns a transform */
+@keyframes sink{from{transform:translateY(-7vh) scale(3.6);opacity:.2}
+                24%{opacity:1}
+                to{transform:translateY(0) scale(1.07);opacity:1}}
+@keyframes unblur{from{filter:blur(16px)}to{filter:blur(0)}}
+@keyframes slam{from{transform:scale(1.07) translateY(-2.2vh)}to{transform:scale(1) translateY(0)}}
+@keyframes squash{0%{transform:scale(1,1)}
+                  14%{transform:scale(1.52,.52)}
+                  46%{transform:scale(.92,1.11)}
+                  72%{transform:scale(1.03,.97)}
+                  100%{transform:scale(1,1)}}
+@keyframes travel{from{transform:translate(-50%,-50%) translateY(0)}
+                  to{transform:translate(-50%,-50%) translateY(var(--rest))}}
+/* nothing exists before the impact throws it: fill-mode would otherwise park every sticker
+   at twelve percent in the middle of the frame through the whole anticipation beat */
+@keyframes reveal{from{opacity:0}to{opacity:1}}
+@keyframes ringOut{0%{opacity:0;transform:scale(.25)}
+                   12%{opacity:.95}
+                   100%{opacity:0;transform:scale(8.2)}}
+@keyframes capIn{from{opacity:0}to{opacity:1}}
+
+.m-sink{display:block;animation:sink 820ms var(--ease-out) 60ms both}
+.m-blur{display:block;animation:unblur 560ms var(--ease-out) 60ms both}
+.m-slam{display:block;animation:slam 110ms var(--ease-in) 1140ms both}
+.m-squash{display:block;animation:squash 420ms var(--ease-out) 1250ms both}
+.marble{animation:travel 700ms var(--spring-settle) 1670ms both}
+.marble .cap{animation:capIn 280ms var(--ease-out) 2900ms both}
+.ring{animation:ringOut 620ms var(--ease-out) 1250ms both}
+
+/* one sticker leaving, when the marble is pressed */
+@keyframes sendoff{from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}
+                   to{transform:translate3d(var(--sx),var(--sy),0) rotate(var(--sr)) scale(.34);opacity:0}}
+.sending .idle{animation:sendoff 280ms var(--ease-out) both}
+
+/* ── reduce motion: the whole board cross-fades, nothing travels ────── */
+@media (prefers-reduced-motion:reduce){
+  @keyframes xfade{from{opacity:0}to{opacity:1}}
+  .st,.arc,.idle,.m-sink,.m-blur,.m-slam,.m-squash,.cloud,.line,.marble,.marble .cap{
+    animation:xfade 420ms linear var(--fade,0ms) both!important;transform:none!important;opacity:1}
+  .logo{opacity:1}
+  .cloud{transform:translate(-50%,-50%)!important}
+  .line{transform:translateX(-50%)!important}
+  .marble{transform:translate(-50%,-50%) translateY(var(--rest))!important}
+  .spin{animation:xfade 420ms linear var(--fade,0ms) both!important;
+        transform:rotate(var(--rot))!important}
+  .logo{animation:xfade 480ms linear 120ms both!important;
+        transform:translate(-50%,-50%)!important}
+  .ring{display:none}
+  .mpress{transition:opacity 120ms linear}
+  .marble:active .mpress{transform:none;opacity:.72}
+  .sending .idle{animation:sendaway 260ms linear both!important}
+  @keyframes sendaway{from{opacity:1}to{opacity:0}}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true"></div>
+<div class="cloud" aria-hidden="true" id="cloud"></div>
+
+<main>
+  <div class="board" id="board" role="img"
+       aria-label="Forty-eight die-cut stickers — everyday things and foods with faces, each saying one handwritten word — burst out from the centre of a noon sky and settle around the logotype."></div>
+
+  <h1 class="logo" id="logo"><span class="sr">BLURT</span></h1>
+
+  <p class="line" id="line">Say the whole thing in one word.</p>
+
+  <div class="ring" aria-hidden="true"></div>
+
+  <button class="marble" id="marble" type="button">
+    <span class="m-sink"><span class="m-blur"><span class="m-slam"><span class="m-squash"><span class="mpress">
+      <svg class="glass" width="152" height="152" viewBox="0 0 112 112" aria-hidden="true">
+        <defs>
+          <radialGradient id="mbody" cx="36%" cy="28%" r="78%">
+            <stop offset="0%"   stop-color="#FFD9C4"/>
+            <stop offset="22%"  stop-color="#FF8B52"/>
+            <stop offset="55%"  stop-color="#FF5B24"/>
+            <stop offset="84%"  stop-color="#C8360D"/>
+            <stop offset="100%" stop-color="#6E1C05"/>
+          </radialGradient>
+          <radialGradient id="msky" cx="34%" cy="20%" r="52%">
+            <stop offset="0%"   stop-color="#EAF6FF" stop-opacity=".95"/>
+            <stop offset="60%"  stop-color="#9ED2FF" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="#9ED2FF" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="mbounce" cx="66%" cy="86%" r="42%">
+            <stop offset="0%"   stop-color="#FFE9B8" stop-opacity=".85"/>
+            <stop offset="100%" stop-color="#FFE9B8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="mcore" x1="20%" y1="10%" x2="80%" y2="92%">
+            <stop offset="0%"   stop-color="#FFF6E6"/>
+            <stop offset="48%"  stop-color="#FFC08C"/>
+            <stop offset="100%" stop-color="#E23F0C"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="56" cy="103" rx="30" ry="6.5" fill="#0E3A72" opacity=".34"/>
+        <ellipse cx="66" cy="101" rx="15" ry="4" fill="#FFE39A" opacity=".55"/>
+        <circle cx="56" cy="54" r="46" fill="url(#mbody)"/>
+        <!-- the twisted core of a shooter marble, not a sphere with a highlight -->
+        <path d="M38 34q22-10 36 6 12 14-2 28-16 16-34 6-16-9-6-24 3-9 6-16z" fill="none"
+              stroke="url(#mcore)" stroke-width="11" stroke-linecap="round" opacity=".92"/>
+        <path d="M44 70q14 8 28-4" fill="none" stroke="#FFF1DC" stroke-width="5"
+              stroke-linecap="round" opacity=".5"/>
+        <circle cx="56" cy="54" r="46" fill="url(#msky)"/>
+        <circle cx="56" cy="54" r="46" fill="url(#mbounce)"/>
+        <circle cx="56" cy="54" r="46" fill="none" stroke="#5A1A04" stroke-width="2.5" opacity=".5"/>
+        <path d="M22 66a34 34 0 0 0 58 22" fill="none" stroke="#FFD9A8" stroke-width="4"
+              stroke-linecap="round" opacity=".55"/>
+        <ellipse cx="40" cy="32" rx="14" ry="9.5" fill="#FFFFFF" opacity=".92"
+                 transform="rotate(-28 40 32)"/>
+        <ellipse cx="72" cy="30" rx="4.5" ry="3" fill="#FFFFFF" opacity=".6"
+                 transform="rotate(-28 72 30)"/>
+      </svg>
+    </span></span></span></span></span>
+    <span class="cap">send your first one</span>
+  </button>
+</main>
+
+<!-- shared artwork defs: one grain, one light, one curl, used by all 48 -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <filter id="grainF" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="7"/>
+    </filter>
+    <filter id="cast" x="-30%" y="-30%" width="170%" height="170%">
+      <!-- --e1 then --e2, the same two values, expressed in SVG user units -->
+      <feDropShadow dx="1.6" dy="2.6" stdDeviation="1.1" flood-color="#0E2E62" flood-opacity=".50"/>
+      <feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#08224E" flood-opacity=".26"/>
+    </filter>
+    <pattern id="grainP" width="132" height="132" patternUnits="userSpaceOnUse">
+      <rect width="132" height="132" filter="url(#grainF)"/>
+    </pattern>
+    <linearGradient id="paperLight" gradientUnits="userSpaceOnUse" x1="4" y1="0" x2="120" y2="128">
+      <stop offset="0%"   stop-color="#FFFFFF" stop-opacity=".36"/>
+      <stop offset="42%"  stop-color="#FFFFFF" stop-opacity=".03"/>
+      <stop offset="100%" stop-color="#1B2E4E" stop-opacity=".22"/>
+    </linearGradient>
+    <linearGradient id="lipG" gradientUnits="userSpaceOnUse" x1="0" y1="96" x2="0" y2="134">
+      <stop offset="0%"   stop-color="#241F1A" stop-opacity=".30"/>
+      <stop offset="34%"  stop-color="#9A9083"/>
+      <stop offset="72%"  stop-color="#D7CFC0"/>
+      <stop offset="100%" stop-color="#FFFCF4"/>
+    </linearGradient>
+    <linearGradient id="lipFade" gradientUnits="userSpaceOnUse" x1="0" y1="92" x2="0" y2="122">
+      <stop offset="0%" stop-color="#000"/>
+      <stop offset="100%" stop-color="#fff"/>
+    </linearGradient>
+    <mask id="lipM" maskUnits="userSpaceOnUse" x="-20" y="-20" width="172" height="172">
+      <rect x="-20" y="-20" width="172" height="172" fill="url(#lipFade)"/>
+    </mask>
+  </defs>
+</svg>
+
+<script>
+(() => {
+"use strict";
+
+/* ── springs, sampled into CSS linear() so they run on the compositor ── */
+function spring(zeta, periodMs, durMs, n = 76){
+  const w = 2 * Math.PI / periodMs, wd = w * Math.sqrt(1 - zeta * zeta), out = [];
+  for (let i = 0; i <= n; i++){
+    const t = durMs * i / n;
+    const x = 1 - Math.exp(-zeta * w * t) * (Math.cos(wd * t) + (zeta * w / wd) * Math.sin(wd * t));
+    out.push((i === n ? 1 : x).toFixed(4));
+  }
+  return `linear(${out.join(",")})`;
+}
+const SETTLE = spring(0.45, 520, 900);   // one clear overshoot, then still
+const SOFT   = spring(0.33, 720, 1400);  // two lazy swings, for the far wave
+document.documentElement.style.setProperty("--spring-settle", SETTLE);
+document.documentElement.style.setProperty("--spring-soft", SOFT);
+
+/* ── one seeded source of randomness, so the board is the same every load ── */
+let seed = 20260916;
+const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+const rr  = (a, b) => a + (b - a) * rnd();
+const pick = a => a[(rnd() * a.length) | 0];
+
+/* ── the artwork palette: five printing inks, the stock, the keyline ── */
+const I = "#241F1A", PA = "#FFFCF4",
+      Y = "#F5C33B", R = "#E8523F", G = "#3FB98A", V = "#7B6BE0", B = "#F49BB5",
+      Yd = "#D9A420", Rd = "#C33B2C", Gd = "#2F9670", Vd = "#5F50BC", Bd = "#D47C96";
+
+/* an organic outline, built once so every soft-edged subject shares one hand */
+function blob(cx, cy, rx, ry, wob, s){
+  let q = s * 9301 % 233280, n = 9, pts = [];
+  const nx = () => (q = (q * 9301 + 49297) % 233280) / 233280;
+  for (let i = 0; i < n; i++){
+    const a = i / n * Math.PI * 2, k = 1 + (nx() - .5) * wob;
+    pts.push([cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k]);
+  }
+  let d = "";
+  for (let i = 0; i < n; i++){
+    const p = pts[i], q1 = pts[(i + 1) % n], m = [(p[0] + q1[0]) / 2, (p[1] + q1[1]) / 2];
+    d += i === 0 ? `M${m[0].toFixed(1)} ${m[1].toFixed(1)}`
+                 : `Q${p[0].toFixed(1)} ${p[1].toFixed(1)} ${m[0].toFixed(1)} ${m[1].toFixed(1)}`;
+  }
+  const p0 = pts[0], m0 = [(pts[n - 1][0] + p0[0]) / 2, (pts[n - 1][1] + p0[1]) / 2];
+  d += `Q${pts[n-1][0].toFixed(1)} ${pts[n-1][1].toFixed(1)} ${m0[0].toFixed(1)} ${m0[1].toFixed(1)}Z`;
+  return d;
+}
+const box = (x, y, w, h, r) =>
+  `M${x+r} ${y}h${w-2*r}a${r} ${r} 0 0 1 ${r} ${r}v${h-2*r}a${r} ${r} 0 0 1 ${-r} ${r}h${-(w-2*r)}a${r} ${r} 0 0 1 ${-r} ${-r}v${-(h-2*r)}a${r} ${r} 0 0 1 ${r} ${-r}z`;
+
+/* ── the face vocabulary: one artist, four mouths ─────────────────── */
+function face(x, y, s, m, blush){
+  const e = 4.4 * s, g = 11 * s;
+  let d = `<ellipse cx="${x-g}" cy="${y}" rx="${e*.82}" ry="${e}" fill="${I}"/>` +
+          `<ellipse cx="${x+g}" cy="${y}" rx="${e*.82}" ry="${e}" fill="${I}"/>` +
+          `<circle cx="${x-g+1.4*s}" cy="${y-1.6*s}" r="${1.5*s}" fill="${PA}"/>` +
+          `<circle cx="${x+g+1.4*s}" cy="${y-1.6*s}" r="${1.5*s}" fill="${PA}"/>`;
+  const my = y + 10 * s;
+  if (m === "smile") d += `<path d="M${x-8*s} ${my-2*s}q${8*s} ${9*s} ${16*s} 0" fill="none" stroke="${I}" stroke-width="${2.6*s}" stroke-linecap="round"/>`;
+  if (m === "open")  d += `<path d="M${x-8*s} ${my-3*s}q${8*s} ${14*s} ${16*s} 0z" fill="${I}"/><path d="M${x-3.4*s} ${my+3.6*s}q${3.4*s} ${4*s} ${6.8*s} 0z" fill="${B}"/>`;
+  if (m === "flat")  d += `<path d="M${x-7*s} ${my}h${14*s}" fill="none" stroke="${I}" stroke-width="${2.6*s}" stroke-linecap="round"/>`;
+  if (m === "o")     d += `<ellipse cx="${x}" cy="${my+1*s}" rx="${4.2*s}" ry="${5*s}" fill="${I}"/>`;
+  if (m === "wob")   d += `<path d="M${x-9*s} ${my}q${4.5*s} ${5*s} ${9*s} 0 ${4.5*s} ${-5*s} ${9*s} 0" fill="none" stroke="${I}" stroke-width="${2.6*s}" stroke-linecap="round"/>`;
+  if (blush) d += `<ellipse cx="${x-20*s}" cy="${y+7*s}" rx="${5.4*s}" ry="${3.4*s}" fill="${B}" opacity=".8"/>` +
+                  `<ellipse cx="${x+20*s}" cy="${y+7*s}" rx="${5.4*s}" ry="${3.4*s}" fill="${B}" opacity=".8"/>`;
+  return d;
+}
+
+/* ── forty-eight everyday things, each drawn as itself first ───────── */
+const S = [
+{k:"cup",w:"wake",c:R,d:`M16 46h84l-6 18-6 52q-1 8-9 8H37q-8 0-9-8l-6-52-6-18z`,
+ a:()=>`<path d="M16 46h84l-6 18H22z" fill="${Y}" stroke="${I}" stroke-width="3"/>
+        <path d="M30 88h52l-2 18H32z" fill="${PA}" opacity=".95"/>
+        <path d="M30 88h52l-2 18H32z" fill="none" stroke="${I}" stroke-width="2.4"/>`, f:[58,78,1,"smile",1]},
+
+{k:"toast",w:"brb",c:Y,d:`M14 66q0-18 16-22 3-16 22-16t22 16q16 4 16 22v46q0 8-8 8H22q-8 0-8-8z`,
+ a:()=>`<path d="M26 72q0-10 12-13 2-10 16-10t16 10q12 3 12 13v38q0 4-4 4H30q-4 0-4-4z" fill="#FBE3A6" stroke="${I}" stroke-width="2.6"/>`, f:[52,88,1,"o",1]},
+
+{k:"egg",w:"hi",c:PA,d:blob(58,82,44,36,.30,3),
+ a:()=>`<circle cx="66" cy="78" r="20" fill="${Y}" stroke="${I}" stroke-width="3"/>`, f:[46,80,.92,"smile",1]},
+
+{k:"onigiri",w:"ok",c:PA,d:`M58 38q8 0 13 9l30 54q5 9-5 13H20q-10-4-5-13l30-54q5-9 13-9z`,
+ a:()=>`<path d="M36 90h44v22H36z" fill="#2E3A2A" stroke="${I}" stroke-width="2.6"/>`, f:[58,76,1,"flat",1]},
+
+{k:"avocado",w:"soon",c:G,d:blob(58,80,40,44,.16,11),
+ a:()=>`<ellipse cx="58" cy="82" rx="27" ry="31" fill="#E9F0B8" stroke="${I}" stroke-width="2.6"/>
+        <ellipse cx="58" cy="86" rx="14" ry="16" fill="#9A6B34" stroke="${I}" stroke-width="2.6"/>`, f:[58,84,.8,"flat",0]},
+
+{k:"banana",w:"nope",c:Y,d:`M22 44q-8 30 8 50t54 20q10-2 6-12-26 4-42-12T34 44q-2-10-12 0z`,
+ a:()=>`<path d="M84 102q10-2 6-12" fill="none" stroke="${Yd}" stroke-width="5"/>`, f:[52,84,.86,"wob",0]},
+
+{k:"donut",w:"treat",c:B,d:blob(58,80,42,40,.10,5),
+ a:()=>`<circle cx="58" cy="80" r="13" fill="${PA}" stroke="${I}" stroke-width="3"/>
+        <path d="M20 68q10-10 22-4M78 52q12 4 16 16M92 96q-8 10-20 10M30 104q-8-6-10-16" fill="none" stroke="${PA}" stroke-width="4" stroke-linecap="round"/>`, f:[58,58,.74,"smile",1]},
+
+{k:"ramen",w:"slurp",c:R,d:`M12 68h92q0 34-22 46H34q-22-12-22-46z M4 74h12v10H4z M100 74h12v10h-12z`,
+ a:()=>`<path d="M12 68h92q0 8-1 14H13q-1-6-1-14z" fill="#F9D9A0" stroke="${I}" stroke-width="2.4"/>
+        <path d="M34 42q6-10 0-18M58 40q6-12 0-20M82 42q6-10 0-18" fill="none" stroke="${PA}" stroke-width="4" stroke-linecap="round" opacity=".9"/>`, f:[58,96,.86,"open",1]},
+
+{k:"cone",w:"melt",c:B,d:`M58 34q24 0 24 20 0 8-6 12h-36q-6-4-6-12 0-20 24-20z M34 66h48l-18 52q-6 10-12 0z`,
+ a:()=>`<path d="M34 66h48l-3 9H37z" fill="${PA}" opacity=".7"/>
+        <path d="M44 78l10 30M60 74l8 34" fill="none" stroke="#C9955C" stroke-width="2.4"/>`, f:[58,50,.8,"smile",1]},
+
+{k:"berry",w:"cute",c:R,d:blob(58,84,36,38,.14,17),
+ a:()=>`<path d="M40 52q18-10 36 0-10 8-18 8t-18-8z" fill="${G}" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="40" cy="96" r="2.4" fill="${Yd}"/><circle cx="76" cy="92" r="2.4" fill="${Yd}"/><circle cx="58" cy="108" r="2.4" fill="${Yd}"/>`, f:[58,80,.9,"smile",1]},
+
+{k:"pizza",w:"yum",c:Y,d:`M58 34l44 76q4 8-6 8H20q-10 0-6-8z`,
+ a:()=>`<path d="M58 44l36 62H22z" fill="#F7C36A" stroke="${I}" stroke-width="2.4"/>
+        <circle cx="46" cy="90" r="6" fill="${R}" stroke="${I}" stroke-width="2.2"/>
+        <circle cx="72" cy="96" r="6" fill="${R}" stroke="${I}" stroke-width="2.2"/>`, f:[58,68,.8,"open",1]},
+
+{k:"sushi",w:"mine",c:PA,d:`M18 76q0-14 16-14h48q16 0 16 14v22q0 14-16 14H34q-16 0-16-14z M22 68q14-16 36-16t36 16q-6 8-36 8t-36-8z`,
+ a:()=>`<path d="M22 66q14-14 36-14t36 14q-6 8-36 8t-36-8z" fill="${R}" stroke="${I}" stroke-width="2.8"/>
+        <path d="M52 62h12v50H52z" fill="${G}" stroke="${I}" stroke-width="2.4"/>`, f:[36,92,.72,"flat",1]},
+
+{k:"boba",w:"same",c:V,d:`M26 50h64l-6 62q-1 8-9 8H41q-8 0-9-8z M22 42h72v10H22z M66 8l10 34`,
+ a:()=>`<path d="M22 42h72v10H22z" fill="${PA}" stroke="${I}" stroke-width="2.8"/>
+        <path d="M66 12l10 32" stroke="${PA}" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M66 12l10 32" stroke="${I}" stroke-width="2.4" fill="none"/>
+        <circle cx="42" cy="104" r="6" fill="${I}"/><circle cx="58" cy="108" r="6" fill="${I}"/><circle cx="74" cy="103" r="6" fill="${I}"/>`, f:[58,76,.86,"smile",1]},
+
+{k:"hotdog",w:"wow",c:Y,d:`M12 74q0-20 20-20h52q20 0 20 20t-20 20H32q-20 0-20-20z`,
+ a:()=>`<path d="M18 72q0-10 14-10h48q14 0 14 10t-14 10H32q-14 0-14-10z" fill="${Rd}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M24 70q8-8 16 0t16 0 16 0 16 0" fill="none" stroke="${Y}" stroke-width="4" stroke-linecap="round"/>`, f:[58,96,.76,"open",0]},
+
+{k:"broccoli",w:"ugh",c:G,d:`M58 34q22 0 26 16 16 2 14 18-2 14-18 14H36q-16 0-18-14-2-16 14-18 4-16 26-16z M46 82h24v34q0 8-12 8t-12-8z`,
+ a:()=>`<path d="M46 82h24v34q0 8-12 8t-12-8z" fill="${Gd}" stroke="${I}" stroke-width="2.6"/>`, f:[58,58,.84,"wob",0]},
+
+{k:"mushroom",w:"hmm",c:R,d:`M58 34q34 0 38 28 2 12-12 12H32q-14 0-12-12 4-28 38-28z M42 74h32v34q0 12-16 12t-16-12z`,
+ a:()=>`<ellipse cx="42" cy="50" rx="8" ry="5" fill="${PA}"/><ellipse cx="72" cy="46" rx="6" ry="4" fill="${PA}"/>`, f:[58,92,.82,"flat",1]},
+
+{k:"pickle",w:"fine",c:G,d:`M30 36q22-8 34 8t12 44q-2 26-22 30t-28-14 2-52 2-16z`,
+ a:()=>`<path d="M40 54q-6 14-4 30M56 50q-6 18-4 38M70 64q-4 14-4 26" fill="none" stroke="${Gd}" stroke-width="3.4" stroke-linecap="round"/>`, f:[48,84,.82,"flat",0]},
+
+{k:"peach",w:"aw",c:B,d:blob(58,82,40,40,.12,23),
+ a:()=>`<path d="M58 46q4-14 18-14-4 12-18 14z" fill="${G}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M58 48v58" fill="none" stroke="${Bd}" stroke-width="3"/>`, f:[58,82,.92,"smile",1]},
+
+{k:"lemon",w:"sour",c:Y,d:`M58 44q34 0 34 36t-34 36-34-36 34-36z M92 76l12-4M24 76l-12-4`,
+ a:()=>`<path d="M58 54q24 0 24 26t-24 26-24-26 24-26z" fill="#FBE08A" opacity=".8"/>`, f:[58,80,.9,"wob",1]},
+
+{k:"cupcake",w:"yay",c:V,d:`M58 36q22 0 26 14 12 2 10 14-2 8-12 8H34q-10 0-12-8-2-12 10-14 4-14 26-14z M28 72h60l-8 40q-1 8-9 8H45q-8 0-9-8z`,
+ a:()=>`<path d="M28 72h60l-2 10H30z" fill="${PA}" opacity=".6"/>
+        <path d="M40 82l-4 30M58 82v30M76 82l4 30" fill="none" stroke="${Vd}" stroke-width="2.6"/>
+        <circle cx="58" cy="32" r="6" fill="${R}" stroke="${I}" stroke-width="2.4"/>`, f:[58,56,.76,"open",1]},
+
+{k:"sock",w:"lost",c:V,d:`M34 34h34v50l24 14q10 6 4 16t-16 6l-40-22q-8-4-8-14V34z`,
+ a:()=>`<path d="M34 34h34v12H34z" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M34 52h34M34 62h34" fill="none" stroke="${Vd}" stroke-width="3"/>`, f:[64,96,.7,"wob",0]},
+
+{k:"brush",w:"clean",c:G,d:`M46 30h22q6 0 6 8v14q0 6-6 6H46q-6 0-6-6V38q0-8 6-8z M50 58h14v56q0 8-7 8t-7-8z`,
+ a:()=>`<path d="M44 24h6v8h-6zM54 22h6v10h-6zM64 24h6v8h-6z" fill="${PA}" stroke="${I}" stroke-width="2"/>`, f:[57,86,.66,"smile",1]},
+
+{k:"clock",w:"late",c:R,d:`M58 40q34 0 34 38t-34 38-34-38 34-38z M32 38l-12-10M84 38l12-10`,
+ a:()=>`<circle cx="58" cy="78" r="24" fill="${PA}" stroke="${I}" stroke-width="3"/>
+        <path d="M58 78V62M58 78l14 8" fill="none" stroke="${I}" stroke-width="3.4" stroke-linecap="round"/>`, f:[58,104,.62,"o",0]},
+
+{k:"key",w:"home",c:Y,d:`M42 34q22 0 22 22 0 14-12 19v49h10v10h-10v9h-8V75q-12-5-12-19 0-22 10-22z`,
+ a:()=>`<circle cx="46" cy="52" r="7" fill="${PA}" stroke="${I}" stroke-width="2.6"/>`, f:[46,96,.58,"smile",1]},
+
+{k:"battery",w:"dead",c:G,d:`${box(16,54,84,50,10)} M100 68h10v22h-10z`,
+ a:()=>`<path d="${box(24,62,30,34,5)}" fill="${Gd}" stroke="${I}" stroke-width="2.4"/>
+        <path d="${box(58,62,34,34,5)}" fill="${PA}" opacity=".5"/>`, f:[76,80,.68,"flat",0]},
+
+{k:"umbrella",w:"rain",c:V,d:`M58 34q40 0 44 38H14q4-38 44-38z M54 72h8v36q0 10 12 10t12-10h-8q0 4-4 4t-4-4z`,
+ a:()=>`<path d="M14 72q10-12 22 0 10-12 22 0 10-12 22 0 10-12 22 0" fill="${Vd}" stroke="${I}" stroke-width="2.6"/>`, f:[58,54,.74,"smile",1]},
+
+{k:"shoe",w:"go",c:R,d:`M20 60h26l18 18 28 8q14 4 14 16v10q0 8-10 8H24q-8 0-8-8V64q0-4 4-4z`,
+ a:()=>`<path d="M16 96h90v8q0 8-10 8H24q-8 0-8-8z" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M50 72l12 8M58 62l14 10" fill="none" stroke="${PA}" stroke-width="3.4"/>`, f:[42,80,.66,"open",0]},
+
+{k:"tape",w:"mood",c:V,d:box(12,48,96,58,10),
+ a:()=>`<path d="${box(24,60,72,34,5)}" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="44" cy="77" r="7" fill="${I}"/><circle cx="76" cy="77" r="7" fill="${I}"/>
+        <path d="M44 77h32" stroke="${I}" stroke-width="4"/>`, f:[60,100,.56,"smile",0]},
+
+{k:"bulb",w:"idea",c:Y,d:`M58 30q28 0 28 28 0 16-12 24v10H42V82q-12-8-12-24 0-28 28-28z M44 94h28v8H44z M46 106h24q0 12-12 12t-12-12z`,
+ a:()=>`<path d="M44 94h28v8H44zM46 106h24" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M48 58q0-12 10-14" fill="none" stroke="${PA}" stroke-width="4" stroke-linecap="round"/>`, f:[58,58,.76,"open",1]},
+
+{k:"envelope",w:"sent",c:PA,d:box(10,50,100,60,8),
+ a:()=>`<path d="M10 54l50 34 50-34" fill="none" stroke="${I}" stroke-width="3"/>
+        <path d="M10 106l34-26M110 106L76 80" fill="none" stroke="${I}" stroke-width="2.4"/>`, f:[60,96,.62,"smile",1]},
+
+{k:"pencil",w:"noted",c:Y,d:`M40 26h30l4 62-19 30-19-30z`,
+ a:()=>`<path d="M36 90h40l-15 26h-10z" fill="#F3D7A8" stroke="${I}" stroke-width="2.6"/>
+        <path d="M51 108h10l-5 8z" fill="${I}"/>
+        <path d="M40 26h30v12H40z" fill="${B}" stroke="${I}" stroke-width="2.6"/>`, f:[55,62,.66,"flat",1]},
+
+{k:"mug",w:"tea",c:G,d:`M16 46h66v52q0 14-14 14H30q-14 0-14-14z M82 58h10q14 0 14 14t-14 14h-10z`,
+ a:()=>`<path d="M82 66h8q6 0 6 6t-6 6h-8z" fill="${PA}"/>
+        <path d="M16 46h66v10H16z" fill="${Gd}"/>`, f:[48,80,.9,"smile",1]},
+
+{k:"plant",w:"grow",c:G,d:`M34 84h48l-6 30q-1 8-9 8H49q-8 0-9-8z M58 84V56 M58 62q-22 0-24-20 22-2 24 20z M58 58q2-20 24-22-2 20-24 22z`,
+ a:()=>`<path d="M34 84h48l-2 10H36z" fill="#C2723E"/>
+        <path d="M58 84V56" fill="none" stroke="${Gd}" stroke-width="3.4"/>`, f:[58,104,.62,"smile",1]},
+
+{k:"duck",w:"quack",c:Y,d:`M60 40q20 0 22 20l2 12q22 6 22 24 0 16-22 18H32q-18-2-18-18t20-24l4-12q2-20 22-20z M84 52h20q6 0 2 8l-22 4z`,
+ a:()=>`<path d="M84 52h20q6 0 2 8l-22 4z" fill="#F0932B" stroke="${I}" stroke-width="2.6"/>`, f:[62,60,.72,"smile",1]},
+
+{k:"cat",w:"meow",c:V,d:`M24 56l-6-22 24 10h32l24-10-6 22q10 12 10 26 0 32-44 32T14 82q0-14 10-26z`,
+ a:()=>`<path d="M26 92h-16M26 98h-16M90 92h16M90 98h16" fill="none" stroke="${I}" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M54 88h12l-6 6z" fill="${B}" stroke="${I}" stroke-width="2"/>`, f:[58,74,.96,"wob",1]},
+
+{k:"dog",w:"walk",c:Y,d:`M58 38q30 0 34 28 14 2 14 18t-16 18q-8 20-32 20t-32-20Q10 100 10 84t14-18q4-28 34-28z`,
+ a:()=>`<ellipse cx="58" cy="96" rx="9" ry="7" fill="${I}"/>
+        <path d="M46 110q12 8 24 0" fill="none" stroke="${I}" stroke-width="2.6" stroke-linecap="round"/>`, f:[58,70,.96,"flat",1]},
+
+{k:"bird",w:"tweet",c:G,d:`M46 44q26 0 34 22t-6 42q-12 12-30 8T18 84q-2-22 8-30t20-10z M74 66l24-8-16 18z`,
+ a:()=>`<path d="M74 66l24-8-16 18z" fill="#F0932B" stroke="${I}" stroke-width="2.6"/>
+        <path d="M34 78q14-6 26 4-12 14-26 4z" fill="${Gd}" stroke="${I}" stroke-width="2.4"/>`, f:[54,62,.76,"o",1]},
+
+{k:"frog",w:"hop",c:G,d:`M32 46q12 0 14 14h24q2-14 14-14t14 16q12 12 12 28 0 24-40 24T10 90q0-16 12-28 0-16 10-16z`,
+ a:()=>`<circle cx="32" cy="54" r="10" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="84" cy="54" r="10" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="33" cy="55" r="4.4" fill="${I}"/><circle cx="85" cy="55" r="4.4" fill="${I}"/>
+        <path d="M38 88q20 16 40 0" fill="none" stroke="${I}" stroke-width="3" stroke-linecap="round"/>`, f:[58,74,.5,"flat",1]},
+
+{k:"ghost",w:"boo",c:PA,d:`M58 34q32 0 32 34v46q-8 8-14 0t-14 0-14 0-14 0-12 0V68q0-34 36-34z`,
+ a:()=>``, f:[58,70,1.02,"o",1]},
+
+{k:"cloudy",w:"nap",c:PA,d:`M36 106q-24 0-24-20t22-20q2-22 24-22t26 20q20 0 20 20t-22 22z`,
+ a:()=>`<path d="M14 92q20 8 42 0t44 6" fill="none" stroke="${Bd}" stroke-width="2.4" opacity=".5"/>`, f:[58,80,.86,"smile",1]},
+
+{k:"bus",w:"omw",c:R,d:`${box(10,44,100,58,12)} M26 102h16v10H26z M78 102h16v10H78z`,
+ a:()=>`<path d="${box(20,54,36,24,4)}" fill="#BFE6FF" stroke="${I}" stroke-width="2.6"/>
+        <path d="${box(64,54,32,24,4)}" fill="#BFE6FF" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="34" cy="106" r="9" fill="${I}"/><circle cx="86" cy="106" r="9" fill="${I}"/>`, f:[58,90,.6,"smile",0]},
+
+{k:"cone2",w:"oops",c:R,d:`M58 32l26 66H32z M14 100h88q6 0 6 8t-6 8H14q-6 0-6-8t6-8z`,
+ a:()=>`<path d="M44 68h28l4 12H40z" fill="${PA}"/>`, f:[58,60,.68,"o",0]},
+
+{k:"book",w:"read",c:V,d:`${box(16,42,84,68,6)} M16 42h12v68H16z`,
+ a:()=>`<path d="M16 42h12v68H16z" fill="${Vd}" stroke="${I}" stroke-width="2.4"/>
+        <path d="M40 58h44M40 68h44" fill="none" stroke="${PA}" stroke-width="3" opacity=".7"/>`, f:[62,92,.66,"flat",1]},
+
+{k:"cans",w:"busy",c:V,d:`M14 74q0-32 44-32t44 32v22q0 10-10 10h-8q-8 0-8-10V80q0-6 8-6h6q-4-22-32-22t-32 22h6q8 0 8 6v16q0 10-8 10h-8q-10 0-10-10z`,
+ a:()=>`<path d="${box(74,70,26,42,8)}" fill="${Vd}" stroke="${I}" stroke-width="2.6"/>
+        <path d="${box(16,70,26,42,8)}" fill="${Vd}" stroke="${I}" stroke-width="2.6"/>`, f:[58,58,.6,"flat",0]},
+
+{k:"tv",w:"later",c:G,d:`${box(10,46,100,64,10)} M40 40l14 8M84 38l-14 10`,
+ a:()=>`<path d="${box(20,56,68,44,6)}" fill="#BFE6FF" stroke="${I}" stroke-width="2.8"/>
+        <path d="M40 40l14 8M84 38l-14 10" fill="none" stroke="${I}" stroke-width="3.4" stroke-linecap="round"/>`, f:[54,78,.82,"smile",1]},
+
+{k:"bottle",w:"thirst",c:B,d:`M46 26h22v18q18 10 18 30v38q0 10-12 10H40q-12 0-12-10V74q0-20 18-30z`,
+ a:()=>`<path d="M44 20h26v10H44z" fill="${Bd}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M32 80h50v18H32z" fill="${PA}" opacity=".85" stroke="${I}" stroke-width="2.2"/>`, f:[57,66,.62,"o",1]},
+
+{k:"soap",w:"squeak",c:B,d:`${box(20,56,72,56,14)} M46 36h20v20H46z`,
+ a:()=>`<path d="M46 36h20v20H46z" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <path d="M32 68q14-6 28 0" fill="none" stroke="${PA}" stroke-width="4" stroke-linecap="round" opacity=".8"/>`, f:[56,86,.76,"smile",1]},
+
+{k:"clip",w:"wait",c:G,d:`M38 30q22 0 22 22v50q0 12-14 12t-14-12V56h10v44q0 4 4 4t4-4V54q0-14-12-14t-12 14v46H16V52q0-22 22-22z`,
+ a:()=>``, f:[44,86,.52,"wob",0]},
+
+{k:"stapler",w:"snap",c:R,d:`M12 84h92q8 0 8 10t-8 10H12q-8 0-8-10t8-10z M20 56h72q10 0 10 12v14H20q-8 0-8-12t8-14z`,
+ a:()=>`<path d="M26 62h58v12H26z" fill="${Rd}" stroke="${I}" stroke-width="2.4"/>`, f:[58,94,.56,"open",0]},
+
+{k:"headphone",w:"loud",c:V,d:`M12 96V74q0-40 46-40t46 40v22q0 10-10 10h-6q-8 0-8-10V78q0-6 8-6h4q-6-26-34-26T24 72h4q8 0 8 6v18q0 10-8 10h-6q-10 0-10-10z`,
+ a:()=>`<path d="${box(76,68,28,40,8)}" fill="${Vd}" stroke="${I}" stroke-width="2.6"/>
+        <path d="${box(12,68,28,40,8)}" fill="${Vd}" stroke="${I}" stroke-width="2.6"/>`, f:[58,56,.6,"open",1]},
+
+{k:"leaf",w:"psst",c:G,d:`M96 28q4 46-24 66t-58 4Q18 50 52 36t44-8z M20 108q22-30 54-54`,
+ a:()=>`<path d="M22 104q24-30 58-56" fill="none" stroke="${Gd}" stroke-width="3.4" stroke-linecap="round"/>`, f:[52,72,.72,"smile",1]},
+
+{k:"radio",w:"tune",c:Y,d:`${box(10,50,100,60,10)} M84 50V26`,
+ a:()=>`<path d="M84 50V26" fill="none" stroke="${I}" stroke-width="3.4" stroke-linecap="round"/>
+        <path d="${box(20,60,44,40,5)}" fill="${PA}" stroke="${I}" stroke-width="2.6"/>
+        <circle cx="86" cy="72" r="8" fill="${Yd}" stroke="${I}" stroke-width="2.4"/>
+        <circle cx="86" cy="94" r="8" fill="${Yd}" stroke="${I}" stroke-width="2.4"/>`, f:[42,80,.66,"smile",0]}
+];
+
+/* ── the speech bubble: part of the die, never a floating chip ─────── */
+const BUB = "M76 10H116a10 10 0 0 1 10 10V40a10 10 0 0 1-10 10H86l-16 14 5-14H76a10 10 0 0 1-10-10V20a10 10 0 0 1 10-10Z";
+
+function stickerSVG(s){
+  const all = s.d + " " + BUB;
+  const fs = s.w.length <= 3 ? 20 : s.w.length <= 4 ? 17.5 : s.w.length <= 5 ? 15.5 : 13.5;
+  return `<svg class="sk" viewBox="-8 -6 148 148" width="100%" height="100%">
+   <path d="${all}" filter="url(#cast)" fill="#9E9484" stroke="#9E9484"
+         stroke-width="15" stroke-linejoin="round" transform="translate(0,2.6)"/>
+   <path d="${all}" transform="translate(0,1.3)" fill="#D8CFBE" stroke="#D8CFBE"
+         stroke-width="15" stroke-linejoin="round"/>
+   <path d="${all}" fill="${PA}" stroke="${PA}" stroke-width="15" stroke-linejoin="round"/>
+   <path d="${s.d}" fill="${s.c}" stroke="${I}" stroke-width="3.4" stroke-linejoin="round"/>
+   ${s.a()}
+   ${face(s.f[0], s.f[1], s.f[2], s.f[3], s.f[4])}
+   <path d="${BUB}" fill="${PA}" stroke="${I}" stroke-width="3"/>
+   <text x="96" y="31" font-family="Shantell Sans, cursive" font-weight="700" font-size="${fs}"
+         fill="${I}" text-anchor="middle" dominant-baseline="middle">${s.w}</text>
+   <path d="${all}" fill="url(#paperLight)" stroke="url(#paperLight)" stroke-width="15" stroke-linejoin="round"/>
+   <g mask="url(#lipM)"><path d="${all}" transform="translate(0,-3)" fill="url(#lipG)"
+      stroke="url(#lipG)" stroke-width="15" stroke-linejoin="round"/></g>
+   <path d="${all}" fill="url(#grainP)" stroke="url(#grainP)" stroke-width="15"
+      stroke-linejoin="round" opacity=".11"/>
+  </svg>`;
+}
+
+/* ── the composition: four rings, densest just outside the logotype ── */
+const board = document.getElementById("board"),
+      logoEl = document.getElementById("logo"),
+      lineEl = document.getElementById("line"),
+      cloudEl = document.getElementById("cloud"),
+      marbleEl = document.getElementById("marble");
+
+const RINGS = [
+  {n:18, r0:.16, r1:.33, delay:1250, dur:880,  spring:"var(--spring-settle)", arc:[ .00, -.10], spin:14, size:1.20},
+  {n:14, r0:.30, r1:.50, delay:1330, dur:980,  spring:"var(--spring-settle)", arc:[ .18, -.30], spin:20, size:1.06},
+  {n:10, r0:.48, r1:.72, delay:1430, dur:1100, spring:"var(--spring-settle)", arc:[-.26, -.12], spin:26, size:.92},
+  {n: 6, r0:.70, r1:1.04,delay:1550, dur:1300, spring:"var(--spring-soft)",   arc:[ .10,  .30], spin:34, size:.80}
+];
+
+let nodes = [], logoBox = {rx:0, ry:0};
+
+function buildLogo(){
+  const fs = Math.max(74, Math.min(innerWidth * .21, innerHeight * .26, 268));
+  const w = fs * 3.9, h = fs * 1.28, base = h * .78, capTop = base - fs * .76, capH = fs * .82;
+  logoBox = {rx:fs * 1.66, ry:fs * .50};
+  logoEl.innerHTML = `<span class="sr">BLURT</span>
+   <svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+    <defs>
+      <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#0B1F3A"/>
+        <stop offset="6%"   stop-color="#2E5C97"/>
+        <stop offset="17%"  stop-color="#9FC9F2"/>
+        <stop offset="30%"  stop-color="#FFFFFF"/>
+        <stop offset="40%"  stop-color="#D3E8FB"/>
+        <stop offset="46%"  stop-color="#5E8FCB"/>
+        <stop offset="50%"  stop-color="#12315C"/>
+        <stop offset="53%"  stop-color="#12315C"/>
+        <stop offset="57%"  stop-color="#7BA3D4"/>
+        <stop offset="64%"  stop-color="#FFF8E6"/>
+        <stop offset="74%"  stop-color="#FFE9B4"/>
+        <stop offset="86%"  stop-color="#C08F3E"/>
+        <stop offset="95%"  stop-color="#7A5A20"/>
+        <stop offset="100%" stop-color="#2E2007"/>
+      </linearGradient>
+      <mask id="letters">
+        <text x="50%" y="${base}" text-anchor="middle" font-family="Baloo 2, Trebuchet MS, sans-serif"
+              font-weight="800" font-size="${fs}" letter-spacing="-0.045em" fill="#fff">BLURT</text>
+      </mask>
+    </defs>
+    <text x="50%" y="${base}" text-anchor="middle" font-family="Baloo 2, Trebuchet MS, sans-serif"
+          font-weight="800" font-size="${fs}" letter-spacing="-0.045em"
+          fill="none" stroke="#FFFCF4" stroke-width="${fs * .19}" stroke-linejoin="round">BLURT</text>
+    <text x="50%" y="${base}" text-anchor="middle" font-family="Baloo 2, Trebuchet MS, sans-serif"
+          font-weight="800" font-size="${fs}" letter-spacing="-0.045em"
+          fill="none" stroke="#0A2246" stroke-width="${fs * .105}" stroke-linejoin="round">BLURT</text>
+    <g mask="url(#letters)">
+      <rect y="${capTop}" width="${w}" height="${capH}" fill="url(#chrome)"/>
+      <rect y="${capTop + capH * .285}" width="${w}" height="${capH * .028}" fill="#fff" opacity=".95"/>
+      <ellipse cx="${w * .31}" cy="${capTop + capH * .20}" rx="${w * .17}" ry="${capH * .055}"
+               fill="#fff" opacity=".85"/>
+      <ellipse cx="${w * .68}" cy="${capTop + capH * .74}" rx="${w * .21}" ry="${capH * .045}"
+               fill="#FFF8E2" opacity=".75"/>
+    </g>
+   </svg>`;
+}
+
+function buildCloud(){
+  const s = Math.min(innerWidth, innerHeight);
+  const w = Math.min(innerWidth * .80, 1020), h = s * .46;
+  cloudEl.style.width = w + "px"; cloudEl.style.height = h + "px";
+  const lumps = [[.50,.60,.46,.56],[.20,.66,.30,.40],[.80,.64,.32,.42],
+                 [.34,.44,.28,.38],[.65,.42,.30,.40],[.50,.32,.24,.32],
+                 [.08,.74,.18,.26],[.92,.72,.18,.26]];
+  cloudEl.innerHTML = lumps.map(([x,y,lw,lh]) =>
+    `<i style="left:${(x-lw/2)*100}%;top:${(y-lh/2)*100}%;width:${lw*100}%;height:${lh*100}%;
+      filter:blur(${(s*.006).toFixed(1)}px);opacity:${(.97 - Math.abs(.5-x)*.22).toFixed(2)}"></i>`).join("")
+    + `<i class="u" style="left:10%;top:60%;width:80%;height:34%;filter:blur(${(s*.022).toFixed(1)}px)"></i>`;
+}
+
+function layout(first){
+  const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2;
+  const S0 = Math.min(w, h);
+  const Rmax = Math.hypot(w, h) / 2 * .96;
+  const base = Math.max(74, Math.min(S0 * .162, 186));
+  const lineY = cy + logoBox.ry + S0 * .028;
+  lineEl.style.top = lineY + "px";
+  // the marble rests below the line with real clearance, and never off the bottom of the frame
+  const mH = marbleEl.offsetHeight || 190;
+  const restY = Math.max(
+    Math.min(S0 * .315, h * .5 - mH / 2 - 14),
+    Math.min(lineY + lineEl.offsetHeight + S0 * .05 + mH / 2 - cy, h * .5 - mH / 2 - 14));
+  document.documentElement.style.setProperty("--rest", restY + "px");
+
+  /* Three keep-outs. The logotype's is deliberately tighter than the logotype itself: the
+     stickers are meant to crowd it and tuck behind its edge, which is where the density
+     around the centre comes from. The line and the marble get real clearance, because both
+     have to stay readable. */
+  const boxes = [
+    {cx, cy, hx:logoBox.rx * .90, hy:logoBox.ry * .86},
+    {cx, cy:lineY + lineEl.offsetHeight / 2,
+     hx:lineEl.offsetWidth / 2 + base * .34, hy:lineEl.offsetHeight / 2 + base * .30}
+  ];
+  const clear = (x, y) => {
+    for (const bx of boxes){
+      let dx = x - bx.cx, dy = y - bx.cy;
+      if (Math.abs(dx) < bx.hx && Math.abs(dy) < bx.hy){
+        const k = Math.max(bx.hx / Math.max(Math.abs(dx), 1), bx.hy / Math.max(Math.abs(dy), 1));
+        x = bx.cx + dx * k; y = bx.cy + dy * k;
+      }
+    }
+    const mx = x - cx, my = (y - (cy + restY)) * .78, md = Math.hypot(mx, my), mr = base * 1.14;
+    if (md < mr){ const k = mr / Math.max(md, 1); x = cx + mx * k; y = cy + restY + my * k / .78; }
+    return [x, y];
+  };
+
+  const items = [];
+  let idx = 0;
+  seed = 20260916;
+  RINGS.forEach((ring, ri) => {
+    const off = rnd() * Math.PI * 2;
+    for (let i = 0; i < ring.n; i++){
+      const a = off + (i + rr(-.34, .34)) / ring.n * Math.PI * 2;
+      let rad = Rmax * rr(ring.r0, ring.r1);
+      let x = cx + Math.cos(a) * rad, y = cy + Math.sin(a) * rad * .92;
+      [x, y] = clear(x, y);
+      items.push({ri, ring, a, rad, x, y, s:S[idx++ % S.length], idx:idx - 1});
+    }
+  });
+  // three relaxation passes, so nothing is wholly buried
+  const sizeOf = it => base * it.ring.size * (1 + (1 - it.rad / Rmax) * .16);
+  for (let p = 0; p < 4; p++){
+    for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++){
+      const A = items[i], C = items[j], mn = (sizeOf(A) + sizeOf(C)) * .255;
+      let dx = C.x - A.x, dy = C.y - A.y, d = Math.hypot(dx, dy) || .01;
+      if (d < mn){ const push = (mn - d) / 2 / d; A.x -= dx * push; A.y -= dy * push; C.x += dx * push; C.y += dy * push; }
+    }
+    for (const it of items) [it.x, it.y] = clear(it.x, it.y);
+  }
+
+  if (first){
+    board.innerHTML = items.map(it => {
+      const size = sizeOf(it);
+      const rot = rr(-24, 24);
+      const lx = cx - it.x, ly = cy - it.y;
+      const perp = [-Math.sin(it.a), Math.cos(it.a)];
+      const amp = Math.min(Rmax * .30, 260);
+      const ax = (perp[0] * it.ring.arc[0] + it.ring.arc[1] * 0) * amp,
+            ay = (perp[1] * it.ring.arc[0] + it.ring.arc[1]) * amp;
+      const jitter = rr(0, 70);
+      return `<div class="st" style="
+        left:${(it.x - size / 2).toFixed(1)}px;top:${(it.y - size / 2).toFixed(1)}px;
+        width:${size.toFixed(1)}px;height:${size.toFixed(1)}px;
+        --lx:${lx.toFixed(1)}px;--ly:${ly.toFixed(1)}px;
+        --ax:${ax.toFixed(1)}px;--ay:${ay.toFixed(1)}px;
+        --rot:${rot.toFixed(1)}deg;--r0:${(rot + rr(-it.ring.spin, it.ring.spin) - 60 * Math.sign(rot || 1)).toFixed(1)}deg;
+        --dur:${it.ring.dur}ms;--delay:${(it.ring.delay + jitter).toFixed(0)}ms;
+        --spring:${it.ring.spring};--fade:${(220 + it.idx * 9).toFixed(0)}ms;
+        --d1x:${rr(-3, 3).toFixed(1)}px;--d1y:${rr(-3, 3).toFixed(1)}px;--d1r:${rr(-.5, .5).toFixed(2)}deg;
+        --d2x:${rr(-3, 3).toFixed(1)}px;--d2y:${rr(-3, 3).toFixed(1)}px;--d2r:${rr(-.5, .5).toFixed(2)}deg;
+        --idur:${rr(9000, 17000).toFixed(0)}ms;--iwait:${(3250 + rr(0, 2600)).toFixed(0)}ms;
+        --sx:${rr(-40, 40).toFixed(0)}px;--sy:${(-h * .6).toFixed(0)}px;--sr:${rr(-90, 90).toFixed(0)}deg;
+      "><span class="arc"><span class="spin"><span class="idle">${stickerSVG(it.s)}</span></span></span></div>`;
+    }).join("");
+    nodes = [...board.children];
+  } else {
+    items.forEach((it, i) => {
+      const size = sizeOf(it), n = nodes[i];
+      if (!n) return;
+      n.style.left = (it.x - size / 2).toFixed(1) + "px";
+      n.style.top  = (it.y - size / 2).toFixed(1) + "px";
+      n.style.width = n.style.height = size.toFixed(1) + "px";
+    });
+  }
+}
+
+buildLogo(); buildCloud(); layout(true);
+
+let t;
+addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => {
+  buildLogo(); buildCloud(); layout(false);
+}, 160); });
+
+/* the control does the one thing it says: it sends one */
+let sent = 0;
+marbleEl.addEventListener("click", () => {
+  const live = nodes.filter(n => !n.classList.contains("sending"));
+  if (!live.length) return;
+  live[(Math.random() * live.length) | 0].classList.add("sending");
+  sent++;
+});
+
+/* the entrance waits for the faces it is made of */
+document.fonts.ready.then(() => document.documentElement.setAttribute("data-ready", "1"));
+window.__blurtReady = true;
+})();
+</script>
+</body>
+</html>

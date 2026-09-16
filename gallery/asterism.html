@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asterism — every point is a note somebody kept</title>
+<meta name="description" content="Asterism is a shared sky of notes. Every point is one note somebody kept; every cluster is a field the community built.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..112,400..600&family=EB+Garamond:wght@400..600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ground */
+  --void:#070E22;
+  /* three luminous hues, spectral-class order */
+  --ice:#C8DDFF;
+  --ember:#FFC27A;
+  --rose:#FF9FB4;
+  /* cool grey family */
+  --text:#EEF3FF;
+  --quiet:#8FA3C4;
+  --ink:#0B1226;
+
+  --u:8px;
+  --r-pill:999px;
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+
+  --font-display:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --font-ui:"Archivo","Helvetica Neue",Arial,"Segoe UI",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--text);
+  font-family:var(--font-ui);
+  overflow:hidden;
+}
+
+#sky{position:fixed;inset:0;display:block}
+
+.mark{
+  position:fixed;
+  left:clamp(24px,5vw,72px);
+  top:clamp(24px,3.4vw,40px);
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:19px;
+  letter-spacing:.02em;
+  color:var(--text);
+  opacity:0;
+}
+
+.copy{
+  position:fixed;
+  left:clamp(24px,5vw,72px);
+  top:0;
+  height:100%;
+  width:clamp(232px,33vw,400px);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:safe center;
+  padding:calc(var(--u)*3) 0;
+  opacity:0;
+  pointer-events:none;
+}
+.copy>*{pointer-events:auto}
+
+.line{
+  margin:0 0 calc(var(--u)*4) 0;
+  font-family:var(--font-display);
+  font-weight:500;
+  font-size:clamp(30px,5.2vw,58px);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  color:var(--text);
+  max-width:22ch;
+  text-wrap:balance;
+}
+
+.act{
+  font-family:var(--font-ui);
+  font-variation-settings:"wdth" 100,"wght" 600;
+  font-size:15px;
+  letter-spacing:.005em;
+  color:var(--ink);
+  background:var(--ember);
+  border:0;
+  border-radius:var(--r-pill);
+  height:48px;
+  padding:0 calc(var(--u)*3);
+  cursor:pointer;
+  transition:background 160ms var(--ease-out);
+}
+.act:hover{background:#FFD5A2}
+.act:active{background:#F5B366}
+
+.fields{position:fixed;inset:0;pointer-events:none;opacity:0}
+.field{
+  position:absolute;
+  font-family:var(--font-ui);
+  font-variation-settings:"wdth" 87,"wght" 500;
+  font-size:12px;
+  letter-spacing:.03em;
+  line-height:1.25;
+  /* overflow: wraps, to at most the width of the widest field name; never truncates,
+     because what distinguishes one field from another sits at the end of the word */
+  max-width:min(34vw,168px);
+  color:var(--quiet);
+  transform:translateY(-50%);
+}
+.field.l{text-align:right}
+
+:focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+
+.lit .mark{animation:rise 700ms var(--ease-out) 120ms both}
+.lit .copy{animation:rise 800ms var(--ease-out) 280ms both}
+.lit .fields{animation:rise 900ms var(--ease-out) 1150ms both}
+@keyframes rise{from{opacity:0}to{opacity:1}}
+
+@media (prefers-reduced-motion:reduce){
+  .mark,.copy,.fields{opacity:1}
+  .lit .mark,.lit .copy,.lit .fields{animation:none;opacity:1}
+  .act{transition:none}
+}
+
+@media (max-aspect-ratio:9/10){
+  .copy{justify-content:safe flex-end;width:min(88vw,460px);padding-bottom:clamp(28px,7vh,64px)}
+}
+</style>
+</head>
+<body>
+
+<canvas id="sky" role="img"
+  aria-label="A dark navy sky filled with thousands of fine points of light, gathered into eleven named clusters — one point for each note somebody kept, one cluster for each field of knowledge."></canvas>
+
+<div class="mark">Asterism</div>
+
+<main class="copy">
+  <h1 class="line">Every point is a note somebody kept.</h1>
+  <button class="act" type="button">Keep your first note</button>
+</main>
+
+<div class="fields" id="fields" role="list" aria-label="Fields in this sky"></div>
+
+<script>
+(() => {
+  const SEED = 20260916;
+  const TAU = Math.PI * 2;
+  const VOID = '#070E22';
+  // each luminous hue carries a deep variant for the faint end, where thin light
+  // over navy otherwise washes out to grey
+  const HUE = {
+    ice:   [[156,192,255], [200,221,255]],
+    ember: [[255,169, 79], [255,194,122]],
+    rose:  [[255,125,155], [255,159,180]]
+  };
+
+  // labelled clusters: normalised centre, radius in units of min(w,h), share of stars,
+  // which side the label sits on, and the label's vertical offset from the centroid.
+  const FIELDS = [
+    { label:'Orbital mechanics', x:.72, y:.27, r:.115, n:1.00, side:'r', dy:-.02 },
+    { label:'Mycology',          x:.55, y:.74, r:.105, n:.94,  side:'r', dy: .03 },
+    { label:'Glaciology',        x:.88, y:.58, r:.080, n:.60,  side:'l', dy: .01 },
+    { label:'Ottoman archives',  x:.61, y:.49, r:.062, n:.42,  side:'r', dy:-.01 },
+    { label:'Type design',       x:.45, y:.18, r:.058, n:.40,  side:'r', dy: .00 },
+    { label:'Fermentation',      x:.33, y:.86, r:.065, n:.46,  side:'r', dy: .02 },
+    { label:'Birdsong',          x:.93, y:.14, r:.052, n:.34,  side:'l', dy: .00 },
+    { label:'Cryptography',      x:.70, y:.90, r:.058, n:.38,  side:'r', dy: .00 },
+    { label:'Etymology',         x:.21, y:.12, r:.050, n:.32,  side:'r', dy: .00 },
+    { label:'Seismology',        x:.95, y:.86, r:.044, n:.26,  side:'l', dy: .00 },
+    { label:'Bookbinding',       x:.47, y:.60, r:.040, n:.22,  side:'r', dy:-.01 }
+  ];
+
+  // unlabelled clusters — the geography between the named fields
+  const MINOR = [
+    { x:.83, y:.72, r:.030, n:.13 },
+    { x:.63, y:.17, r:.028, n:.12 },
+    { x:.52, y:.55, r:.026, n:.10 },
+    { x:.78, y:.55, r:.022, n:.08 },
+    { x:.88, y:.31, r:.026, n:.10 },
+    { x:.46, y:.93, r:.028, n:.11 }
+  ];
+
+  // the only stars that carry a halo
+  const HEROES = [
+    { x:.735, y:.245, s:1.00, c:'ice'   },
+    { x:.545, y:.735, s:0.92, c:'ember' },
+    { x:.885, y:.575, s:0.72, c:'ice'   },
+    { x:.620, y:.487, s:0.60, c:'rose'  },
+    { x:.442, y:.176, s:0.56, c:'ice'   },
+    { x:.325, y:.858, s:0.66, c:'ember' },
+    { x:.930, y:.137, s:0.48, c:'ice'   },
+    { x:.697, y:.898, s:0.54, c:'rose'  },
+    { x:.206, y:.117, s:0.46, c:'ice'   },
+    { x:.505, y:.362, s:0.42, c:'ember' }
+  ];
+
+  const cvs = document.getElementById('sky');
+  const ctx = cvs.getContext('2d', { alpha:false });
+  const fieldsEl = document.getElementById('fields');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let cw = 0, ch = 0, dpr = 1, u = 1, R = 1;
+  let stars = [], heroes = [], ticks = [], raf = 0;
+
+  const mul = a => () => {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+  const easeOut = p => 1 - Math.pow(1 - p, 3);
+  const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+
+  function gauss(rng){
+    let x = 0, y = 0;
+    while (x === 0) x = rng();
+    while (y === 0) y = rng();
+    return Math.sqrt(-2 * Math.log(x)) * Math.cos(TAU * y);
+  }
+
+  function rgba(c, a){ return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')'; }
+
+  function tint(name, m){
+    const c = HUE[name][m < .58 ? 0 : 1];
+    if (m <= .975) return c;
+    const k = (m - .975) / .025 * .55;
+    return [Math.round(c[0] + (255 - c[0]) * k),
+            Math.round(c[1] + (255 - c[1]) * k),
+            Math.round(c[2] + (255 - c[2]) * k)];
+  }
+
+  // the quiet region the copy sits in. The clusters keep out of it; a thin dust stays.
+  function layout(){
+    const portrait = cw / ch < 0.9;
+    return portrait
+      ? { res:{ x0:.04, y0:.62, x1:.97, y1:.99 }, map:(f) => ({ x:.08 + f.x * .86, y:.04 + f.y * .55, r:f.r * .88 }) }
+      : { res:{ x0:.02, y0:.22, x1:.43, y1:.82 }, map:(f) => ({ x:f.x, y:f.y, r:f.r }) };
+  }
+
+  function keep(x, y, res){
+    const hx = (res.x1 - res.x0) / 2, hy = (res.y1 - res.y0) / 2;
+    const cx = (res.x0 + res.x1) / 2 * cw, cy = (res.y0 + res.y1) / 2 * ch;
+    const d = Math.max(Math.abs(x - cx) / (hx * cw), Math.abs(y - cy) / (hy * ch));
+    return smooth(.72, 1.18, d);
+  }
+
+  function push(out, x, y, m, hueName, res, rng){
+    if (x < -8 || y < -8 || x > cw + 8 || y > ch + 8) return;
+    const k = keep(x, y, res);
+    if (k < 1 && rng() > .06 + .94 * k) return;
+    if (k < .6) m = Math.min(m, .5);
+    const a = (.05 + Math.pow(m, 1.6) * .95) * (.3 + .7 * k);
+    const tier = m < .93 ? 1 : m < .985 ? 2 : 3;
+    if (tier === 3) m = Math.min(1, m + .01);
+    const c = tint(hueName, m);
+    out.push({
+      x: x | 0, y: y | 0,
+      tier: tier,
+      css: rgba(c, clamp(a, .04, 1)),
+      arm: tier > 1 ? rgba(c, clamp(a * .5, .04, 1)) : null,
+      t0: .46 * Math.pow(m, .8),
+      td: .5
+    });
+  }
+
+  function hueFor(rng){ const v = rng(); return v < .52 ? 'ice' : v < .82 ? 'ember' : 'rose'; }
+
+  function build(){
+    const rng = mul(SEED);
+    const { res, map } = layout();
+    R = Math.min(cw, ch);
+    stars = []; heroes = []; ticks = [];
+    fieldsEl.innerHTML = '';
+
+    const total = clamp(Math.round(cw * ch / (16 * dpr * dpr)), 9000, 34000);
+    const all = FIELDS.concat(MINOR);
+    const weight = all.reduce((s, f) => s + f.n, 0);
+    const clustered = total * .62;
+    const labels = [];
+
+    for (const f of all){
+      const g = map(f);
+      const cx = g.x * cw, cy = g.y * ch, r = g.r * R;
+      const count = Math.round(clustered * f.n / weight);
+      // every cluster is elongated and turned, so none of them repeats another's shape
+      const ecc = .52 + rng() * .86, rot = rng() * TAU;
+      const cs = Math.cos(rot), sn = Math.sin(rot);
+      const conc = .20 + rng() * .18;
+      const arms = 2 + (rng() * 3 | 0);
+      const dirs = [], lens = [];
+      for (let i = 0; i < arms; i++){ dirs.push(rng() * TAU); lens.push(.9 + rng() * 1.5); }
+
+      for (let i = 0; i < count; i++){
+        const pick = rng();
+        let dx, dy, core = 0;
+        if (pick < .44){
+          dx = gauss(rng) * r * conc; dy = gauss(rng) * r * conc; core = 1;
+        } else if (pick < .80){
+          const k = rng() * arms | 0, d = dirs[k];
+          const t = Math.pow(rng(), .65) * r * lens[k];
+          const off = gauss(rng) * r * .10;
+          dx = Math.cos(d) * t - Math.sin(d) * off;
+          dy = Math.sin(d) * t + Math.cos(d) * off;
+          core = .4;
+        } else {
+          const a = rng() * TAU, t = r * (.5 + Math.pow(rng(), .7) * 1.35);
+          dx = Math.cos(a) * t; dy = Math.sin(a) * t;
+        }
+        const ey = dy * ecc;
+        const m = Math.pow(rng(), 3.4 - 1.1 * core);
+        push(stars, cx + dx * cs - ey * sn, cy + dx * sn + ey * cs, m, hueFor(rng), res, rng);
+      }
+
+      // a handful of luminaries per cluster: the heart the eye lands on. No halo —
+      // only the ten hero stars get one.
+      const lum = 5 + (rng() * 6 | 0);
+      for (let i = 0; i < lum; i++){
+        const dx = gauss(rng) * r * conc * .8, dy = gauss(rng) * r * conc * .8;
+        const ey = dy * ecc;
+        push(stars, cx + dx * cs - ey * sn, cy + dx * sn + ey * cs, .955 + rng() * .045, hueFor(rng), res, rng);
+      }
+
+      if (f.label) labels.push({ text:f.label, cx:cx, r:r, side:f.side, y:Math.round(cy + f.dy * R) });
+    }
+
+    // field dust — the notes that have not joined a field yet. Nothing here is ever
+    // brighter than the faint end of a cluster, so the ground stays dark and stays grain.
+    const dust = Math.max(0, total - stars.length);
+    for (let i = 0; i < dust; i++){
+      const m = Math.pow(rng(), 3.6) * .70;
+      push(stars, rng() * cw, rng() * ch, m, hueFor(rng), res, rng);
+    }
+
+    // labels last: separate any that collide, and flip a label that would run off the edge
+    const pad = 10 * dpr, minGap = (cw / ch < .9 ? 19 : 17) * dpr, charW = 6.55 * dpr;
+    labels.sort((a, b) => a.y - b.y);
+    let prev = -1e9;
+    for (const L of labels){
+      const w = Math.min(L.text.length * charW, 168 * dpr);
+      if (L.y - prev < minGap) L.y = prev + minGap;
+      L.y = Math.round(clamp(L.y, pad + 6 * dpr, ch - pad - 6 * dpr));
+      prev = L.y;
+      const reach = L.r + 30 * dpr;
+      let right = L.side === 'r';
+      if (right && L.cx + reach + w > cw - pad) right = false;
+      if (!right && L.cx - reach - w < pad) right = true;
+      const lx = right ? L.cx + L.r + 6 * dpr : L.cx - L.r - 6 * dpr;
+      const ex = right ? lx + 16 * dpr : lx - 16 * dpr;
+      ticks.push({ x0:Math.min(lx, ex) | 0, y:L.y, w:(16 * dpr) | 0 });
+
+      const el = document.createElement('div');
+      el.className = 'field ' + (right ? 'r' : 'l');
+      el.setAttribute('role', 'listitem');
+      el.textContent = L.text;
+      el.style.top = (L.y / dpr) + 'px';
+      if (right) el.style.left = ((ex + 8 * dpr) / dpr) + 'px';
+      else el.style.right = ((cw - ex + 8 * dpr) / dpr) + 'px';
+      fieldsEl.appendChild(el);
+    }
+
+    // final guard: a label that lands outside the frame — because it is long, or because
+    // the field name changed — is pulled back to the edge and kept there
+    let guarding = false;
+    const guard = () => {
+      if (guarding) return;
+      guarding = true;
+      for (const el of fieldsEl.children){
+        const r = el.getBoundingClientRect();
+        if (r.right > innerWidth - 8){ el.style.left = ''; el.style.right = '8px'; }
+        else if (r.left < 8){ el.style.right = ''; el.style.left = '8px'; }
+      }
+      guarding = false;
+    };
+    requestAnimationFrame(guard);
+    if (window.ResizeObserver){
+      const ro = new ResizeObserver(() => requestAnimationFrame(guard));
+      for (const el of fieldsEl.children) ro.observe(el);
+    }
+
+    for (const h of HEROES){
+      const g = map({ x:h.x, y:h.y, r:0 });
+      heroes.push({
+        x: Math.round(g.x * cw), y: Math.round(g.y * ch),
+        s: h.s, c: HUE[h.c][1],
+        halo: (12 + 31 * h.s) * dpr,
+        spike: (12 + 46 * h.s) * dpr,
+        core: Math.max(u, Math.round((1 + 1.6 * h.s) * dpr)),
+        t0: .58 + h.s * .18, td: .42
+      });
+    }
+  }
+
+  function drawHero(h, p){
+    const a = easeOut(p);
+    const g = ctx.createRadialGradient(h.x, h.y, 0, h.x, h.y, h.halo);
+    g.addColorStop(0,   rgba(h.c, .34 * h.s * a));
+    g.addColorStop(.10, rgba(h.c, .15 * h.s * a));
+    g.addColorStop(.26, rgba(h.c, .05 * h.s * a));
+    g.addColorStop(.55, rgba(h.c, .013 * h.s * a));
+    g.addColorStop(1,   rgba(h.c, 0));
+    ctx.fillStyle = g;
+    ctx.fillRect(h.x - h.halo, h.y - h.halo, h.halo * 2, h.halo * 2);
+
+    const L = h.spike, t = Math.max(u, Math.round(dpr));
+    const lin = (x0, y0, x1, y1) => {
+      const s = ctx.createLinearGradient(x0, y0, x1, y1);
+      s.addColorStop(0,   rgba(h.c, 0));
+      s.addColorStop(.5,  rgba(h.c, .42 * h.s * a));
+      s.addColorStop(1,   rgba(h.c, 0));
+      return s;
+    };
+    ctx.fillStyle = lin(h.x - L, h.y, h.x + L, h.y);
+    ctx.fillRect(h.x - L, h.y, L * 2, t);
+    ctx.fillStyle = lin(h.x, h.y - L, h.x, h.y + L);
+    ctx.fillRect(h.x, h.y - L, t, L * 2);
+
+    const c = h.core;
+    ctx.fillStyle = 'rgba(255,255,255,' + (a).toFixed(3) + ')';
+    ctx.fillRect(h.x - (c >> 1), h.y - (c >> 1), c, c);
+    ctx.fillStyle = rgba(h.c, .55 * a);
+    ctx.fillRect(h.x - (c >> 1) - t, h.y, t, t);
+    ctx.fillRect(h.x + c - (c >> 1), h.y, t, t);
+    ctx.fillRect(h.x, h.y - (c >> 1) - t, t, t);
+    ctx.fillRect(h.x, h.y + c - (c >> 1), t, t);
+  }
+
+  function render(prog){
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = VOID;
+    ctx.fillRect(0, 0, cw, ch);
+
+    for (let i = 0; i < stars.length; i++){
+      const s = stars[i];
+      const p = (prog - s.t0) / s.td;
+      if (p <= 0) continue;
+      ctx.globalAlpha = p >= 1 ? 1 : easeOut(p);
+      ctx.fillStyle = s.css;
+      const c = s.tier === 3 ? u * 2 : u;
+      ctx.fillRect(s.x, s.y, c, c);
+      if (s.arm){
+        ctx.fillStyle = s.arm;
+        ctx.fillRect(s.x - u, s.y, u, u);
+        ctx.fillRect(s.x + c, s.y, u, u);
+        ctx.fillRect(s.x, s.y - u, u, u);
+        ctx.fillRect(s.x, s.y + c, u, u);
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    const tp = clamp((prog - .72) / .28, 0, 1);
+    if (tp > 0){
+      ctx.fillStyle = 'rgba(143,163,196,' + (.4 * easeOut(tp)).toFixed(3) + ')';
+      const t = Math.max(u, Math.round(dpr));
+      for (const k of ticks) ctx.fillRect(k.x0, k.y, k.w, t);
+    }
+
+    for (const h of heroes){
+      const p = (prog - h.t0) / h.td;
+      if (p <= 0) continue;
+      drawHero(h, p >= 1 ? 1 : p);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    u = Math.max(1, Math.round(dpr));
+    cw = Math.round(innerWidth * dpr);
+    ch = Math.round(innerHeight * dpr);
+    cvs.width = cw; cvs.height = ch;
+    cvs.style.width = innerWidth + 'px';
+    cvs.style.height = innerHeight + 'px';
+    build();
+  }
+
+  function ignite(){
+    if (still){ render(1); return; }
+    const start = performance.now();
+    const step = now => {
+      const p = clamp((now - start) / 1500, 0, 1);
+      render(p);
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  }
+
+  let deb = 0;
+  addEventListener('resize', () => {
+    clearTimeout(deb);
+    deb = setTimeout(() => { cancelAnimationFrame(raf); resize(); render(1); }, 180);
+  });
+
+  resize();
+  document.body.classList.add('lit');
+  ignite();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {});
+})();
+</script>
+</body>
+</html>

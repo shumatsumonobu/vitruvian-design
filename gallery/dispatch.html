@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Dispatch — the email API</title>
+<meta name="description" content="Dispatch is an HTTP API with one endpoint. Post a message, get an id back, and receive an event when it lands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Declaration (.design/declaration.md) resolved as custom properties ───── */
+:root{
+  /* colour — five values, one accent */
+  --stage:#060607;   /* the ground the whole page stands on */
+  --riser:#0D0D11;   /* recessed planes: the card's frame strips, the footer */
+  --prop:#131318;    /* the lit face of the code card */
+  --edge:#22222B;    /* hairline separations */
+  --neon:#FF2E88;    /* the accent */
+
+  /* grey family — cool */
+  --text:#EDEBEF;
+  --code:#D9D7DE;
+  --text-2:#A8A6B4;
+  --text-3:#85838F;
+
+  /* typefaces */
+  --sans:"Schibsted Grotesk","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Spline Sans Mono","Cascadia Mono",Consolas,ui-monospace,monospace;
+
+  /* spacing — base unit 4 */
+  --s-1:4px;  --s-2:8px;  --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px;
+  --s-7:28px; --s-8:32px; --s-9:36px; --s-10:40px; --s-12:48px; --s-14:56px;
+  --s-16:64px; --s-20:80px; --s-24:96px; --s-30:120px; --s-60:240px;
+
+  /* radius */
+  --r-container:12px;
+  --r-pill:999px;
+
+  /* elevation */
+  --e-0:none;
+  --e-1:0 32px 64px -24px rgba(0,0,0,.92);
+
+  /* bloom — the material that makes the accent read as a light source */
+  --bloom-text:0 0 12px rgba(255,46,136,.95), 0 0 34px rgba(255,46,136,.6), 0 0 72px rgba(255,46,136,.32);
+  --bloom-bar:0 0 10px rgba(255,46,136,1), 0 0 28px rgba(255,46,136,.7), 0 0 70px rgba(255,46,136,.4);
+
+  /* texture — grain, so the wide soft gradients do not band on a near-black ground */
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* gradients, each with its reason in the declaration */
+  --velvet:radial-gradient(1180px 680px at 26% 40%, #15151B 0%, #0C0C11 40%, #08080A 70%, #050506 100%);
+  --lit-row:linear-gradient(90deg, rgba(255,46,136,.26) 0%, rgba(255,46,136,.09) 40%, rgba(255,46,136,.01) 86%);
+  --spill:radial-gradient(46% 52% at 12% 50%, rgba(255,46,136,.13) 0%, rgba(255,46,136,.04) 44%, rgba(255,46,136,0) 74%);
+  --pool:radial-gradient(44% 70% at 17% 0%, rgba(255,46,136,.34) 0%, rgba(255,46,136,.10) 38%, rgba(255,46,136,0) 70%);
+  --halo:radial-gradient(56% 58% at 16% 52%, rgba(255,46,136,.30) 0%, rgba(255,46,136,.08) 40%, rgba(255,46,136,0) 72%);
+  --fade-down:linear-gradient(to bottom, rgba(0,0,0,0) 3%, rgba(0,0,0,.20) 40%, rgba(0,0,0,.66) 100%);
+
+  /* structure */
+  --measure:760px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--stage);
+  background-image:var(--velvet);
+  background-attachment:fixed;
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--neon);color:#14000A}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--neon);outline-offset:3px}
+
+.wrap{max-width:var(--measure);margin:0 auto;padding-inline:clamp(var(--s-5),5vw,var(--s-10))}
+
+/* ── nav ─────────────────────────────────────────────────────────────────── */
+.nav{position:relative;z-index:3}
+.nav .wrap{display:flex;align-items:center;gap:var(--s-6);padding-block:var(--s-6)}
+.mark{font-size:17px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.nav-links{display:flex;gap:var(--s-6);margin-left:auto}
+.nav-links a{font-size:14px;font-weight:400;letter-spacing:.004em;color:var(--text-2);padding-block:var(--s-2)}
+.nav-links a:hover{color:var(--text)}
+.key{
+  font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:-.004em;
+  color:var(--neon);background:rgba(255,46,136,.08);
+  border:1px solid rgba(255,46,136,.36);
+  padding:var(--s-2) var(--s-5);border-radius:var(--r-pill);box-shadow:var(--e-0);
+}
+.key:hover{background:rgba(255,46,136,.16);border-color:var(--neon)}
+
+/* grain sits over everything; it textures the light, it never carries meaning */
+.grain{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.042;background-image:var(--grain);background-size:180px 180px}
+
+/* ── hero ────────────────────────────────────────────────────────────────── */
+.hero{position:relative;z-index:2;padding-top:var(--s-16)}
+h1{
+  margin:0;
+  font-size:clamp(2rem,7.4vw,4rem);
+  font-weight:700;letter-spacing:-.035em;line-height:.98;
+  color:var(--text);
+}
+.lead{
+  margin:var(--s-6) 0 0;max-width:46ch;
+  font-size:18px;font-weight:400;letter-spacing:-.005em;line-height:1.55;
+  color:var(--text-2);
+}
+
+/* ── the stage: card, reflection, pooled light ───────────────────────────── */
+.stage{position:relative;margin:var(--s-12) 0 0}
+.halo,.pool{position:absolute;pointer-events:none}
+.halo{z-index:0;inset:calc(-1 * var(--s-16)) calc(-1 * var(--s-24)) var(--s-20);background:var(--halo);filter:blur(var(--s-8))}
+.pool{z-index:3;left:calc(-1 * var(--s-24));right:calc(-1 * var(--s-24));bottom:0;height:var(--s-60);background:var(--pool);filter:blur(var(--s-8))}
+
+.card{
+  position:relative;z-index:2;
+  background:var(--spill),linear-gradient(var(--prop),var(--prop));
+  border:1px solid var(--edge);
+  border-radius:var(--r-container);
+  box-shadow:var(--e-1);
+  overflow:hidden;
+}
+.card-head,.card-foot{
+  display:flex;align-items:center;gap:var(--s-6);
+  background:var(--riser);
+  font-family:var(--mono);font-size:12.5px;font-weight:400;letter-spacing:.01em;
+  padding:var(--s-3) var(--s-7);
+}
+.card-head{border-bottom:1px solid var(--edge);color:var(--text-2)}
+.card-foot{border-top:1px solid var(--edge);color:var(--text-3)}
+.card-head .route{margin-left:auto;color:var(--text-3)}
+.card-foot .status{color:var(--code);font-weight:500}
+.card-foot .id{color:var(--text-2)}
+.card-foot .ms{margin-left:auto}
+
+.code{display:block;padding-block:var(--s-5);overflow-x:auto}
+.row{
+  position:relative;display:grid;grid-template-columns:var(--s-9) 1fr;
+  gap:var(--s-5);padding-inline:var(--s-7);
+  font-family:var(--mono);font-size:14.5px;font-weight:400;line-height:1.86;
+  min-width:max-content;
+}
+.n{text-align:right;color:var(--text-3);-webkit-user-select:none;user-select:none}
+.t{white-space:pre;color:var(--code)}
+.kw{color:var(--text-2);font-weight:500}
+.id2{color:var(--text-2)}
+.pn{color:var(--text-3)}
+.st{color:var(--code)}
+
+/* the one line that sends: colour, a bar, and extra weight — three channels */
+.row.lit{background:var(--lit-row)}
+.row.lit::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--neon);box-shadow:var(--bloom-bar);
+}
+.row.lit .n{color:var(--neon);font-weight:600}
+.row.lit .send{color:var(--neon);font-weight:600;text-shadow:var(--bloom-text)}
+
+/* the floor: the object's detail dies in it, its light does not */
+.mirror{
+  position:relative;z-index:1;height:var(--s-60);overflow:hidden;
+  display:flex;align-items:flex-end;
+  transform:scaleY(-1);filter:blur(2px);opacity:.8;
+  --prop:#0B0B0F; --riser:#08080B; --edge:#0A0A0E;
+  --code:#26262D; --text-2:#232329; --text-3:#1F1F25;
+  -webkit-mask-image:var(--fade-down);mask-image:var(--fade-down);
+}
+.mirror .card{width:100%;box-shadow:var(--e-0);border-color:transparent}
+
+/* ── what it does ────────────────────────────────────────────────────────── */
+.spec{position:relative;z-index:2;margin-top:var(--s-24)}
+.spec .wrap{border-top:1px solid var(--edge);padding-top:var(--s-12);padding-bottom:var(--s-16)}
+.rows{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-10)}
+.rows h2{margin:0;font-size:16px;font-weight:600;letter-spacing:-.012em;color:var(--text)}
+.rows p{margin:var(--s-3) 0 0;font-size:14.5px;line-height:1.6;color:var(--text-2)}
+
+/* ── footer ──────────────────────────────────────────────────────────────── */
+footer{position:relative;z-index:2;background:var(--riser);border-top:1px solid var(--edge)}
+footer .wrap{padding-block:var(--s-8)}
+.foot{display:flex;align-items:center;gap:var(--s-6)}
+.foot nav{display:flex;gap:var(--s-6);margin-left:auto}
+.foot a{font-size:14px;color:var(--text-2);padding-block:var(--s-2)}
+.foot a:hover{color:var(--text)}
+.fine{margin:var(--s-4) 0 0;font-size:13px;color:var(--text-3)}
+
+/* ── reflow ──────────────────────────────────────────────────────────────── */
+@media (max-width:720px){
+  .hero{padding-top:var(--s-12)}
+  .rows{grid-template-columns:1fr;gap:var(--s-8)}
+  .stage{margin-top:var(--s-10)}
+  .mirror{height:var(--s-30)}
+}
+@media (max-width:520px){
+  .nav-links{display:none}          /* the same links stay in the footer */
+  .card-head .route{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="#top">Dispatch</a>
+    <div class="nav-links">
+      <a href="#docs">Docs</a>
+      <a href="#status">Status</a>
+    </div>
+    <a class="key" href="#key">Get an API key</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Send the email.<br>That is the whole API.</h1>
+      <p class="lead">Dispatch has one endpoint. Post a message, get an id back, and receive an event when it lands.</p>
+
+      <div class="stage">
+        <div class="halo" aria-hidden="true"></div>
+        <div class="pool" aria-hidden="true"></div>
+
+        <div class="card">
+          <div class="card-head"><span class="file">send.ts</span><span class="route">POST /v1/send</span></div>
+          <code class="code"><span class="row"><span class="n">1</span><span class="t"><span class="kw">import</span> { <span class="id2">Dispatch</span> } <span class="kw">from</span> <span class="st">"dispatch"</span><span class="pn">;</span></span></span><span class="row"><span class="n">2</span><span class="t"> </span></span><span class="row"><span class="n">3</span><span class="t"><span class="kw">const</span> <span class="id2">dispatch</span> <span class="pn">=</span> <span class="kw">new</span> <span class="id2">Dispatch</span><span class="pn">(</span><span class="id2">process</span><span class="pn">.</span><span class="id2">env</span><span class="pn">.</span><span class="id2">DISPATCH_API_KEY</span><span class="pn">);</span></span></span><span class="row"><span class="n">4</span><span class="t"> </span></span><span class="row lit"><span class="n">5</span><span class="t"><span class="kw">const</span> <span class="pn">{</span> <span class="id2">id</span> <span class="pn">}</span> <span class="pn">=</span> <span class="kw">await</span> <span class="id2">dispatch</span><span class="pn">.</span><span class="send">send</span><span class="pn">({</span></span></span><span class="row"><span class="n">6</span><span class="t">  <span class="id2">from</span><span class="pn">:</span> <span class="st">"receipts@lumen.store"</span><span class="pn">,</span></span></span><span class="row"><span class="n">7</span><span class="t">  <span class="id2">to</span><span class="pn">:</span> <span class="st">"ada@example.com"</span><span class="pn">,</span></span></span><span class="row"><span class="n">8</span><span class="t">  <span class="id2">subject</span><span class="pn">:</span> <span class="st">"Order 4417 is on its way"</span><span class="pn">,</span></span></span><span class="row"><span class="n">9</span><span class="t">  <span class="id2">html</span><span class="pn">:</span> <span class="st">"&lt;p&gt;Tracking number 9U41 8823 0067&lt;/p&gt;"</span><span class="pn">,</span></span></span><span class="row"><span class="n">10</span><span class="t"><span class="pn">});</span></span></span></code>
+          <div class="card-foot"><span class="status">202 Accepted</span><span class="id">msg_01J9F3K2QW8ZB</span><span class="ms">184 ms</span></div>
+        </div>
+
+        <div class="mirror" aria-hidden="true">
+          <div class="card">
+            <div class="card-head"><span class="file">send.ts</span><span class="route">POST /v1/send</span></div>
+            <code class="code"><span class="row"><span class="n">1</span><span class="t"><span class="kw">import</span> { <span class="id2">Dispatch</span> } <span class="kw">from</span> <span class="st">"dispatch"</span><span class="pn">;</span></span></span><span class="row"><span class="n">2</span><span class="t"> </span></span><span class="row"><span class="n">3</span><span class="t"><span class="kw">const</span> <span class="id2">dispatch</span> <span class="pn">=</span> <span class="kw">new</span> <span class="id2">Dispatch</span><span class="pn">(</span><span class="id2">process</span><span class="pn">.</span><span class="id2">env</span><span class="pn">.</span><span class="id2">DISPATCH_API_KEY</span><span class="pn">);</span></span></span><span class="row"><span class="n">4</span><span class="t"> </span></span><span class="row lit"><span class="n">5</span><span class="t"><span class="kw">const</span> <span class="pn">{</span> <span class="id2">id</span> <span class="pn">}</span> <span class="pn">=</span> <span class="kw">await</span> <span class="id2">dispatch</span><span class="pn">.</span><span class="send">send</span><span class="pn">({</span></span></span><span class="row"><span class="n">6</span><span class="t">  <span class="id2">from</span><span class="pn">:</span> <span class="st">"receipts@lumen.store"</span><span class="pn">,</span></span></span><span class="row"><span class="n">7</span><span class="t">  <span class="id2">to</span><span class="pn">:</span> <span class="st">"ada@example.com"</span><span class="pn">,</span></span></span><span class="row"><span class="n">8</span><span class="t">  <span class="id2">subject</span><span class="pn">:</span> <span class="st">"Order 4417 is on its way"</span><span class="pn">,</span></span></span><span class="row"><span class="n">9</span><span class="t">  <span class="id2">html</span><span class="pn">:</span> <span class="st">"&lt;p&gt;Tracking number 9U41 8823 0067&lt;/p&gt;"</span><span class="pn">,</span></span></span><span class="row"><span class="n">10</span><span class="t"><span class="pn">});</span></span></span></code>
+            <div class="card-foot"><span class="status">202 Accepted</span><span class="id">msg_01J9F3K2QW8ZB</span><span class="ms">184 ms</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="wrap">
+      <div class="rows">
+        <div>
+          <h2>One endpoint</h2>
+          <p>POST /v1/send takes the message and returns an id. There is nothing else to call.</p>
+        </div>
+        <div>
+          <h2>Events, not polling</h2>
+          <p>Delivered, bounced, complained — posted to your URL the moment each one happens.</p>
+        </div>
+        <div>
+          <h2>Your domain, verified once</h2>
+          <p>Three DNS records, then every message you send signs itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <span class="mark">Dispatch</span>
+      <nav aria-label="Footer">
+        <a href="#docs">Docs</a>
+        <a href="#status">Status</a>
+        <a href="#changelog">Changelog</a>
+      </nav>
+    </div>
+    <p class="fine">Dispatch is a fictional product, built as a design study.</p>
+  </div>
+</footer>
+
+</body>
+</html>

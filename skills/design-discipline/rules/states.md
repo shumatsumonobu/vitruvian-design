@@ -90,6 +90,8 @@ takes the determinate wait above instead of the immediate reflection.
   the surrounding layout does not shift.
 - Enlarged system text is long content too. This skill's default is to test at one step above the
   platform's default text size, or higher, recording the size tested alongside the state captures.
+  Text set in a unit that setting does not scale stays the same size when the reader raises it,
+  and that is a defect: the reader asked for larger text and got none.
 - A collection is long content too. Fill it well past the expected item count — this skill's
   default is ten times — and every container that cannot scroll states what happens past its
   capacity: wrap to a stated count, collapse into a stated overflow, or scroll.
@@ -122,7 +124,8 @@ only the states putting text over a colored or an elevated surface — those are
 contrast changes, and the rest render the same twice.
 
 - Loading: throttle or suspend the network so the request stays in flight long enough to capture.
-  If the tooling cannot hold it, add a delay in the data layer and remove it after the pass.
+  If the tooling cannot hold it, hold the request from outside the product — a blocked host, a
+  throttle in the harness — never by editing the product's code.
 - Empty: remove every record the screen reads, or point it at an account with none.
 - First run: create a new account, or clear local storage and enter through the cold-start path.
 - Error: force two failures — transport (network off, host unreachable) and a rejected response
@@ -197,8 +200,10 @@ shown a state of it.
 - Empty-state elements carrying neither information nor an action: 0.
 - Empty states missing the line naming the cause, or the control that fills the container: 0.
 - Screen-level errors that clear on a timer rather than on resolution or dismissal: 0.
-- Long-content captures showing a clipped control, an overlapped neighbor, or content pushed out
-  of the layout: 0.
+- Long-content captures — the long string, the unbroken token, the raised text size, the filled
+  collection — showing a clipped control, an overlapped neighbor, or content pushed out of the
+  layout: 0.
+- Text that stays the same size when the platform's text size is raised one step: 0.
 - Text regions with no declared overflow behavior: 0.
 - Tap targets below the platform's stated minimum: 0.
 - Text contrast below 4.5 to 1 for body text and 3 to 1 for large text and non-text controls, in
@@ -280,8 +285,9 @@ Minimum tap target, as each platform states it:
 - Apple platforms: 44 by 44 points — the Human Interface Guidelines' default control size; the
   minimum they state is 28 by 28, and this skill holds the default.
 - Android: 48 by 48 density-independent pixels.
-- Web: 24 by 24 CSS pixels at the minimum level of the accessibility guidelines, 44 by 44 at the
-  enhanced level.
+- Web: 24 by 24 CSS pixels at the minimum level of the accessibility guidelines, with the
+  criterion's exception — a smaller target passes where a circle of that size centered on it
+  crosses no other target's circle — and 44 by 44 at the enhanced level.
 - Desktop: the control metrics stated by the host operating system.
 
 Hover, and what stands in for it:

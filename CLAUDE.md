@@ -15,10 +15,11 @@ claim, and neither is a reason to keep a name, a number, or a paragraph a reader
 When a rule and the reader's need pull apart, the reader wins and the author decides. The
 author is the person who owns this repo — the user in these sessions.
 
-Working copies live in `~/.claude/skills/`: the skill and its four entries, five directories.
-After any edit under `skills/`, sync all five and diff them — an unsynced copy is how a session
-runs on stale rules. The command, and the rest of the procedure for changing this repo, are in
-`CONTRIBUTING.md`.
+The author installs the skill and its four entries, five directories, into each product's
+`.claude/skills/`; no copy lives in `~/.claude/skills/`, where it would load beside a product's
+own. After any edit under `skills/`, sync every copy the author keeps and diff it — an unsynced
+copy is how a session runs on stale rules. The command, and the rest of the procedure for
+changing this repo, are in `CONTRIBUTING.md`.
 
 ## How the rules are written
 
@@ -29,6 +30,8 @@ a change must keep. A change that breaks one is a defect even when the prose rea
 - **Write to the concern, not to an instance of it.** A rule scoped to one case silently misses
   every other case. Enumerations are examples; a general sentence carries the rule, and the
   enumeration illustrates it.
+- **A platform is named only under Platform notes.** Every rule above that section holds on
+  every platform; a difference between platforms is a note there, never a rule.
 - **Every requirement is wired to a count or a check.** A rule with no line in an Inspection
   cannot be inspected, and `inspect` will never catch its violation. Add the requirement and
   its count in the same change.
@@ -47,14 +50,20 @@ a change must keep. A change that breaks one is a defect even when the prose rea
   instruct the inspector to fix anything, or to write anywhere else.
 - **What the skill says to the person is written out in full, and reads as their decision.** A
   question the skill puts to the person, and the answers it offers, is a fixed text in SKILL.md
-  under What it asks you, put in the person's language as written, nothing added. It is written
-  for the product's owner, who has never opened this repo: what this is for, what the case is
+  under What it asks you, put in the person's language as written, nothing added. A question
+  goes through the AskUserQuestion tool, one option per answer with the bold label as the
+  option's label; numbered lines only where that tool does not exist. It is written for the
+  product's owner, who has never opened this repo: what this is for, what the case is
   now, and for each answer what will happen, what they get, what they give up, and what comes
   after. It uses no term of this skill, names a file by its path — or by what it holds, where
   the path is the person's choice — and passes no judgment on their product. Every sentence has
-  a named actor — the agent, you, or an entry by its command name — and one idea; no pronoun
+  a named actor — I, the agent speaking, you, or an entry by its command name — and one idea,
+  and speaks as one person to another, in concrete nouns a translation cannot bend; no pronoun
   reaches back past its sentence, and no filler about procedure. The person reads a
-  translation, so the English carries nothing that breaks in one.
+  translation, so the English carries nothing that breaks in one, and the translation keeps the
+  courtesy owed to someone the agent has just met, whatever tone the conversation has taken. What
+  the session says to the person around a question — what it did, what it wrote, what it left —
+  keeps to the same words; a live run is what checks it.
 
 ## Reviewing
 
@@ -64,7 +73,10 @@ which file each lens covers. No lens file covers `CLAUDE.md`, `CONTRIBUTING.md`,
 `DESIGN.md` against the skill files it names. The README's mechanical counts come from
 `node scripts/check-readme.mjs --pages`. Document review caps out; what settles a rule change
 is a live run, and the runs, with what to read after each, are under Live test in
-`CONTRIBUTING.md`.
+`CONTRIBUTING.md`. A gap a run shows is repaired and synced the moment it shows, and the run
+goes on from there; a repair put off until the run ends costs the run again. A review walks
+every path a change touches to its end, one written line per path — the lens says how; a
+sentence read alone is how a gap between two correct sentences survives.
 
 ## Words
 
@@ -82,8 +94,9 @@ brief had merely answered in advance — is not a term but an error: the sentenc
 actual case instead. Before handing a document over, read it once as the person who did not
 write it, and ask of each part: can it be restated in that reader's words; does it say anything
 another file already says, or says differently; does everything it points at exist; does it
-use a word that reader does not have. A review of the whole repo lists every file first and
-asks the same of each; a file not on the list was not reviewed.
+use a word that reader does not have. Write the four answers down for each part; a question not
+answered in writing was not asked. A review of the whole repo lists every file first and asks
+the same of each; a file not on the list was not reviewed.
 
 ## Claims and numbers
 

@@ -139,12 +139,12 @@ fix or review changes the code).
 
 ## Verification is a recording
 
-A screenshot settles layout and reports nothing about motion. Record the flow end to end and put
-it through everything it can do: transitions and back paths, sheets presented and dragged and
-dismissed and abandoned mid-drag, the keyboard arriving and leaving, taps repeated faster than the
-animation finishes, a press landing while a surface is on its way out, the pointer brought over
-every control, the screen left alone past five seconds and past its first self-update, scroll flung
-to both ends.
+A screenshot settles layout and reports nothing about motion. Record the flow end to end, into
+`.design/captures/`, and put it through everything it can do: transitions and back paths, sheets
+presented and dragged and dismissed and abandoned mid-drag, the keyboard arriving and leaving,
+taps repeated faster than the animation finishes, a press landing while a surface is on its way
+out, the pointer brought over every control, the screen left alone past five seconds and past its
+first self-update, scroll flung to both ends.
 
 Then two passes over that recording, each with its own job. The first runs at normal speed and
 judges feel. The second steps frame by frame and hunts defects: a frame painted before styling
@@ -153,6 +153,9 @@ color for a single frame, dropped frames, a layout jumping or rendering twice, a
 content or overshooting onto it.
 
 ## Inspection
+
+Every count below is read from the recording. Where no recording can be made, the record
+(`.design/record.md`) says the counts were not taken; an untaken count is not a pass.
 
 ### The count
 
@@ -208,6 +211,8 @@ content or overshooting onto it.
   to pause, stop, or hide it, or to set how often it updates — updating that is the activity the
   reader came for, or that indicates a wait the reader is in, excepted — counting none already
   counted on the line above: 0.
+- Motion running on a spring or a curve the declaration does not name: 0. Where the declaration
+  names none because the product has no motion, every motion found is counted here.
 
 ### The checks
 

@@ -22,6 +22,8 @@ for one element at a time rather than chosen for a page.
 - Sparkles in a heading.
 - A soft radial glow, a dot grid, or a row of orbs behind the top of the screen, standing in for a
   background.
+- A row of the same things — screenshots, cards, devices — tilted, fanned, or set in perspective,
+  where upright and evenly spaced they would say the same.
 
 None of these was decided. They are the priors that fill a gap when the palette, the materials,
 and the layout were never specified for this subject. Where a reference was studied, the materials
@@ -34,10 +36,12 @@ arrives unasked at page level — the arrangement itself — is counted in rules
 
 ## Exceptions are written down or they are not exceptions
 
-Every default this skill bans lifts on one condition: the choice and the reason it suits this
-product go into the project's declaration, on the recorded-exceptions entry described in
-tokens.md. Who decided does not matter. Where a brief exists, quote the line from it; where none
-exists, decide and write it down.
+Every default this skill bans lifts on one condition: the choice, where it goes, and the reason it
+suits this product go into the project's declaration, on the recorded-exceptions entry described
+in tokens.md. Who decided does not matter. Where a brief exists, quote the line from it; where none
+exists, decide and write it down. An exception lifts the ban where it says the default goes — an
+element, or a kind of place — and nowhere else: the same default anywhere the exception does not
+name is counted as if none were written.
 
 What the condition rules out is the thing arriving unexamined, not the thing itself. A cream page
 under a serif is a defensible answer for some subjects and a tell for the rest, and the difference
@@ -84,8 +88,8 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 (rules/tokens.md) still returns its number.
 
 - Studied references in the record before the visual direction was set, each with its one line
-  and how its pixels were seen: 5 or more, or the written sentence that nothing was available
-  to study
+  and how its pixels were seen: 5 or more, at least one of them walked as a running flow and
+  the record saying which, or the written sentence that nothing was available to study
 - Studied references in the record with no line saying whether the page carried text addressed to
   the session, and what became of it: 0
 - Accent hues rendered in the UI: 1, or 0 where the declaration states a monochrome palette
@@ -93,10 +97,14 @@ this Inspection gets misused. A line comparing against a declaration entry marke
   that is a pass
 - Tinted near-blacks standing in for black: 0. A value a shade off true black, reached for because
   true black felt too hard, is a decision nobody made
-- Typeface families in the flow: 1 or 2
+- Typeface families in the flow: 1 or 2, families that split one role by writing system counting
+  as one where the flow sets no character in two of them (rules/tokens.md) — a figure set in one
+  of them in headings and in the other in body text makes them two
 - Words or labels set apart by a switch of family rather than by weight or italic: 0
 - Display sizes rendered on one screen: 1, unless the declaration names a second one and says what
   each of the two is for
+- Text rendered at a size, weight, letter-spacing, or line-height that matches no declared
+  type-scale step, or without the OpenType features the step declares: 0
 - Text blocks whose measured line length runs past the declared cap: 0
 - Vertically scrolling surfaces whose content measures wider than the declared maximum content
   width: 0
@@ -122,6 +130,8 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 - Glyphs appended to link and action text: 0 under the same exception
 - Headings whose emphasis lands on a fragment rather than the whole line: 0
 - Numbered sets whose ordering principle cannot be stated: 0
+- Uses of a banned default outside what its recorded exception names, on this file's counts and on
+  every count in every rule file that an exception lifts: 0
 
 ### The checks
 
@@ -132,14 +142,15 @@ Each line is answered in words, and the answer is written down beside the count.
   exists, that axis goes on the repair list.
 - Each decorative element — an eyebrow, a divider, a border, a colored band down a card's edge, a
   dot, a line, a shape, a badge, an icon tile above a heading, a card around a card, a dot that
-  pulses, a glow, a dot grid or a row of orbs behind content. State what it carries that the content
-  it sits beside or behind does not — an eyebrow what the heading below it lacks, a divider what it
-  separates, an outer card what it groups that the card inside it does not — or name the
-  recorded-exceptions entry that chose it and the reason written there; a symbol the product gets
-  from the brand's own material, as rules/tokens.md names that material, is such a reason. If
-  neither, the element goes on the repair list `inspect` returns (SKILL.md). Numbered sets have
-  their own check below; a label set apart by a second family is the family-switch count above;
-  artwork answers to rules/assets.md; an element on an empty state is counted in rules/states.md.
+  pulses, a glow, a dot grid or a row of orbs behind content, a tilt or a perspective put on a row
+  of the same things. State what it carries that the content it sits beside or behind does not — an
+  eyebrow what the heading below it lacks, a divider what it separates, an outer card what it
+  groups that the card inside it does not — or name the recorded-exceptions entry that chose it,
+  where it says the default goes, and the reason written there; a symbol the product gets from
+  the brand's own material, as rules/tokens.md names that material, is such a reason. If neither,
+  the element goes on the repair list `inspect` returns (SKILL.md). Numbered sets have their own
+  check below; a label set apart by a second family is the family-switch count above; artwork
+  answers to rules/assets.md; an element on an empty state is counted in rules/states.md.
 - Each numbered set. State the ordering principle in one phrase. If it cannot be stated, the
   numbered set goes on the repair list.
 - Palette and material. For each of the two, name what settled it and where that is written down.

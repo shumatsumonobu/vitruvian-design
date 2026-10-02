@@ -27,7 +27,7 @@ value.
 |---|---|
 | Language | What stays in English wherever it is written: the skill's own names, so a later session matches on them |
 | Ways in | The four entries — `init`, `review`, `inspect`, `fix` — and what each does |
-| What it asks you | The three questions the skill puts to the person, written out in full: a browser to drive, the declaration and where it lives, how far repairs may go |
+| What it asks you | Who the person is and the words for everything said to them; the three questions the skill puts to the person, written out in full: a browser to drive, the declaration and where it lives, how far repairs may go; and the lines said when the skill or its companion is missing, when screen work arrives with no declaration, and when `init` has nothing to do |
 | Before fix or review changes the code | The scope of change and its four answers; what makes a repair structural; what a repair never changes behind the screen |
 | What this skill writes, and where | The files under `.design/` and what each holds |
 | Before you draw | The reference study, and what a studied page is and is not |
@@ -44,9 +44,9 @@ the description Claude Code lists; the procedure lives in the Ways in table of `
 
 | Entry | Does |
 |---|---|
-| `init` | Derives the declaration from the subject, reads the code beside it without adopting a value, asks the second question, writes the declaration once |
-| `inspect` | Runs every applicable Inspection against the running screen, writes the results to the record, returns the repair list with each repair marked, changes nothing else |
-| `fix` | Works the repair list down within the scope of change, at most five repairs per pass, and ends with a run of every applicable Inspection |
+| `init` | Derives the declaration from the subject, reads the code beside it without adopting a value, asks the second question, writes the declaration once — at `.design/declaration.md`, or at the home the person names, which the record keeps; run again after a skipped study, studies the sites and puts the second question again |
+| `inspect` | Runs every applicable Inspection against the running screen, writes the results to the record, returns the repair list with each repair marked and names what it could not take, changes nothing else |
+| `fix` | Works the repair list down within the scope of change — running the Inspections first where the record holds no list — at most five repairs per pass, and ends with a run of every applicable Inspection whose new findings go to the record for the next `inspect` |
 | `review` | Improves a screen that exists: operates it, names the deficits, gathers references against them, rebuilds in small passes, compares |
 
 ### The eleven rule files
@@ -90,12 +90,14 @@ remaining files; each rule file that calls for one names it.
 `init` — the person answers the first two questions — the build loop under Before you call it
 done runs the Inspections the screen needs while it is built — `inspect` once before the screen
 closes. The build loop is not a repair pass and asks nothing: it builds against the declaration.
+`init` run again studies the sites a first run skipped and puts the second question again,
+keeping what the person wrote; with nothing left to do, it says so and stops.
 
 ### A product that already has screens
 
 `init` — `inspect` — `fix` — `inspect`, or `review` in place of `fix` when the task is to make an
 existing screen better rather than to close a list. Before the first change, `fix` or `review`
-asks the third question once and writes the answer into the declaration's scope of change entry;
+asks the third question once and writes the answer into the declaration's scope of change entry, or `init` writes the brief's answer there where the brief states one;
 later passes read it there.
 
 ### What inspect returns
@@ -141,7 +143,8 @@ repairs, changes tied to no repair, deficits left without a recorded reason — 
 The person edits the declaration: the scope of change entry to widen or narrow repairs, the
 recorded exceptions to keep a default the rules ban or to allow a change behind the screen, an
 entry's value to change a token. The skill asks nothing twice; the three questions it does ask
-are fixed texts under What it asks you, put to the person in their language.
+are fixed texts under What it asks you, put to the person in their language through the
+AskUserQuestion tool.
 
 ## 4. Vocabulary
 
@@ -157,7 +160,7 @@ first uses it; every other file uses the same word.
 | structural, surface | The two marks `inspect` puts on a repair | `SKILL.md`, same section |
 | provisional | The mark on a brand value whose material was not reached | `rules/tokens.md`, Deriving the declaration |
 | the accessibility floor | The counts no recorded exception lifts | `rules/a11y.md`, opening paragraph |
-| recorded exceptions | The declaration entry where a chosen default and its reason, or a granted change behind the screen, are written | `rules/anti-slop.md`, Exceptions are written down |
+| recorded exceptions | The declaration entry where a chosen default, where it goes, and its reason, or a granted change behind the screen, are written | `rules/anti-slop.md`, Exceptions are written down |
 | the repair list | What `inspect` returns | `SKILL.md`, Ways in |
 | a count, a check | An Inspection line returning a number; one answered in a sentence | `SKILL.md`, Ways in (`inspect` row) |
 | not taken | The record's word for a count the workspace could not drive | Each count that says it, with the record's path beside it |
@@ -173,7 +176,9 @@ first uses it; every other file uses the same word.
 | the dimmed surface | What lies behind a modal or a sheet | `rules/navigation.md` |
 | the control that summoned it | What opened a menu, a popover, a sheet | `rules/motion.md`, What drives it |
 | focusable elements | The places the keyboard lands | `rules/a11y.md`, The keyboard can do what the pointer can do |
-| the session, the agent | The same actor: the session in every rule; the agent only in the texts put to the person | `SKILL.md` |
+| the session, the agent | The same actor: the session in every rule; in the texts put to the person the agent speaks as I | `SKILL.md` |
+| the person | The product's owner, who has never opened the skill: the reader of everything the session says to them | `SKILL.md`, What it asks you |
+| families that split one role by writing system | Families of one classification, each setting the characters the others do not, where the product's text spans more than one writing system; one family wherever the skill counts families | `rules/tokens.md`, Declare the set first |
 
 Terms the skill does not use, and what it says instead: toast or notice → a transient message;
 helper line → a help or character-count line, described, not named; the active state → the
@@ -183,11 +188,12 @@ supported device; layout skeleton → the arrangement; mark, for a brand's symbo
 product gets from the brand's own material; protected contract → what the product relies on
 behind the screen, said in words; the scope → the scope of change.
 
-## 5. Concerns adopted from other design skills, and where they live
+## 5. Concerns adopted from outside, and where they live
 
 Nine published design skills were read for concerns this skill lacked — hallmark, emilkowalski's
 skills, ui-skills, MengTo's skills, garden-skills, huashu-design, baoyu-design, elayadesign's
-landing-page skill, open-design — beside WCAG 2.2. What was taken is the concern, never the
+landing-page skill, open-design — beside WCAG 2.2, and a designer's poster and landing page were
+read for the decisions a generated screen skips. What was taken is the concern, never the
 instance; each became a rule with a count or a check in the file that already owned its subject.
 
 | Concern | Lives in | Counted by | Taken from |
@@ -201,6 +207,15 @@ instance; each became a rule with a count or a check in the file that already ow
 | Taking focus zooms nothing and scrolls the field nowhere; the reader's own zoom is never taken | `rules/forms.md`, The input method does not cover the field; `rules/a11y.md`, Zoom is the reader's (floor) | Fields whose focus zooms the surface or scrolls it away; surfaces where the reader's zoom is disabled or capped under 200 percent | emilkowalski, ui-skills, WCAG 1.4.4 |
 | Paste is never blocked | `rules/forms.md`, What this skill adds | Fields that block paste | ui-skills |
 | Every type-scale step states its line-height | `rules/tokens.md`, Declare the set first | Type-scale steps missing a stated weight, letter-spacing, or line-height | this skill's own runs |
+| Rendered text matches a declared type-scale step | `rules/anti-slop.md`, The count | Text rendered at a size, weight, letter-spacing, or line-height matching no declared step, or without the step's OpenType features | this skill's own runs |
+| Text grows when the reader raises the platform's text size | `rules/states.md`, Long content | Text that stays the same size when the platform's text size is raised one step | this skill's own runs |
+| A tap target is read against the platform's minimum as the platform states it, exception included | `rules/states.md`, Platform notes | Tap targets below the platform's stated minimum | this skill's own runs |
+| A deep link gives a way into the product without writing into a history the product does not own | `rules/navigation.md`, the deep-link paragraph and Platform notes | Deep links with no way into the product; entries written into a history the product does not own | this skill's own runs |
+| Every run reads, before it ends, what it changed and wrote: code changes tied to a repair, files only under `.design/` or in the code | `rules/review.md`, the Inspection's preamble | Changes to the code tied to no repair; files written outside `.design/` and the code — read by every run, not only after a fix pass | this skill's own runs |
+| A value the person changes before saving is theirs; what was derived from it is derived again and marked, and the whole declaration is shown again before the question is put again | `rules/tokens.md`, Deriving the declaration, step 5; the second question's second answer in `SKILL.md` | None — the live run reads it | this skill's own runs |
+| The record names the declaration's home, and every entry reads the declaration from there | `SKILL.md`, What this skill writes; the init row of Ways in; the second question's third answer | Applicable entries left unfilled, in `rules/tokens.md` — a declaration absent from the named home counts as every entry unfilled | this skill's own runs |
+| Motion runs on the declared springs and curves | `rules/motion.md`, the count | Motion running on a spring or a curve the declaration does not name | this skill's own runs |
+| A family that loads after first draw declares what stands in until it does, on every platform | `rules/tokens.md`, Declare the set first and Platform notes | The check Each stand-in, where a family loads after the screen first draws | this skill's own runs |
 | Motion never takes the controls away: input lands mid-transition, animations reverse, nothing moves under the pointer | `rules/motion.md`, Motion never takes the controls away | Controls ignoring input while a transition plays, or animations restarting instead of reversing; controls that move as the pointer arrives | emilkowalski, MengTo |
 | Nothing the reader must read or press sits under the platform's own regions | `rules/layout.md`, The platform's own regions; the web, iOS, and Android allowances in Platform notes | Content anchored to an edge with no allowance; content under a region at either scroll end, or not taken | emilkowalski, hallmark, ui-skills |
 | More of what arrives unasked: a glow, a dot grid, orbs; drawn frames; images presented as the product's own | `rules/anti-slop.md`, What the model reaches for; `rules/assets.md`, When to reject | The gradient count and the decorative-element check; the reject-list check | hallmark, open-design, MengTo |
@@ -211,6 +226,12 @@ instance; each became a rule with a count or a check in the file that already ow
 | The label on a control drawn around it holds one line | `rules/copy.md`, A control's label holds one line | Labels on drawn controls set on more than one line at any supported width | hallmark |
 | A state change moves nothing else unless the reader opened something | `rules/states.md`, A state change moves nothing else | Elements that move because a neighbor changed state | hallmark, MengTo |
 | A claim names this product; a string that would hold for any product is empty | `rules/copy.md`, A claim names this product | Claims naming nothing of this product's; claims the brief did not supply that the record does not list as missing | elayadesign, MengTo, open-design |
+| A role set by two families because the text spans two writing systems is one choice, not two | `rules/tokens.md`, Declare the set first and What the declaration locks | Families sharing a classification, in `rules/tokens.md`, counting such families as one where the entry names the writing system each sets; families in the flow, in `rules/anti-slop.md`, counting them as one where the flow sets no character in two of them | this skill's own runs |
+| An exception lifts a default where it names, and nowhere else | `rules/anti-slop.md`, Exceptions are written down; the recorded exceptions entry in `rules/tokens.md` names where the default goes | Uses of a banned default outside what its exception names, in `rules/anti-slop.md`, governing every count an exception lifts | a designer's poster and landing page |
+| A row of the same things tilted, fanned, or set in perspective is a default that arrives unasked | `rules/anti-slop.md`, What the model reaches for | The check Each decorative element | a designer's poster and landing page |
+| A figure the brief or the product's data supplies is shown as the figure, not as a word for it | `rules/copy.md`, Banned strings, listed once | Words standing in for a supplied figure | a designer's poster and landing page |
+| A photograph the product ships is held to the declared palette | `rules/assets.md`, The style system, Palette | Photographs whose largest areas of color are neither declared values nor the named source of one | a designer's poster and landing page |
+| A fact, a claim, a title, or a section label is said once on a screen; a second language as texture is a recorded choice | `rules/copy.md`, Said once | Facts, claims, titles, and section labels stated twice | a designer's poster and landing page |
 
 The numbers these brought — five seconds, 200 percent, 16 CSS pixels, one line, two focusable
 elements — have their lines in `NOTICE`.
@@ -229,6 +250,7 @@ elements — have their lines in `NOTICE`.
 | Implementation rules — animate only transform and opacity, no `transition: all`, viewport units | Outside the skill's scope; their symptoms are caught by the frame-rate check and the long-content count |
 | Terms of service and privacy pages | Legal, not design |
 | Lorem ipsum and vague action labels; concentric nested radii; a specimen page drawn by `init` | Candidates, not yet designed |
+| A handwriting face and a drawn stroke never both on one screen | Two works by one designer as its provenance, and no run. Each kind is one already — a handwriting face is a family with a role, drawn strokes are the drawn-line style family in `rules/assets.md` — and an exception names where a default goes (`rules/anti-slop.md`), so a second handmade mark is counted |
 
 ## 6. Known limits and open designs
 

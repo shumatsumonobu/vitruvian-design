@@ -56,11 +56,15 @@ nothing here belongs in it. Nothing else is needed — a skill is a plain direct
 plugin to install, and edits to `SKILL.md` apply without restarting the session.
 
 The skill fires when Claude Code matches the work to its description; to make it fire every time,
-give the project's `CLAUDE.md` one line:
+and to keep a long run in your language, give the project's `CLAUDE.md` one line:
 
 ```markdown
-When building, restyling, auditing, or reviewing a screen, follow the design-discipline skill.
+When building, restyling, auditing, or reviewing a screen, follow the design-discipline skill, and speak to me in <your language>, in its polite form where it has one.
 ```
+
+The language and its form go in this line because `CLAUDE.md` is read on every turn. The
+skill's own rule on them is read once, when a run starts, and an hour of tool calls buries it:
+one long run drifted into English without the line, and another dropped the polite form.
 
 ## What it does
 
@@ -107,15 +111,15 @@ Three questions, each asked once. A brief can answer any of them in advance.
   not read from the brand's material is written as a stand-in, and `fix` leaves the code's value
   for it until the material arrives.
 - **How far the repairs may go**, on a product that already has screens, before `fix` or
-  `review` change anything: Keep the layout, Change anything, Report only, or Keep these —
-  recorded as structure kept, everything may change, report only, or kept: followed by what was
-  named. The answer is written into the declaration and read from there after; change it by
-  editing that line. Accessibility repairs are applied under every answer but report only. Under
-  every answer, the skill leaves alone what the product relies on behind the screen — a screen's
-  address, the name a form sends a value under, wording the brief marks as fixed by law or a
-  contract, anything else the product depends on that a reader never sees — and lists any repair
-  that would change one in `.design/record.md`; to allow it, write that into the declaration on
-  the line the note names. A fresh build is never asked.
+  `review` change anything: Keep the layout, Change anything, Change nothing, just list the
+  repairs, or Keep what you name — recorded as structure kept, everything may change, report
+  only, or kept: followed by what was named. The answer is written into the declaration and read
+  from there after; change it by editing that line. Accessibility repairs are applied under every
+  answer but report only. Under every answer, the skill leaves alone what the product relies on
+  behind the screen — a screen's address, the name a form sends a value under, wording the brief
+  marks as fixed by law or a contract, anything else the product depends on that a reader never
+  sees — and lists any repair that would change one in `.design/record.md`; to allow it, write
+  that into the declaration on the line the note names. A fresh build is never asked.
 
 `SKILL.md` carries the three questions as they are put, under What it asks you.
 

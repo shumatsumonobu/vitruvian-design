@@ -365,11 +365,15 @@ menu:
 ```
 
 The skill fires when Claude Code matches the work to its description; to make it fire every
-time, give the project's `CLAUDE.md` one line:
+time, and to keep a long run in your language, give the project's `CLAUDE.md` one line:
 
 ```markdown
-When building, restyling, auditing, or reviewing a screen, follow the design-discipline skill.
+When building, restyling, auditing, or reviewing a screen, follow the design-discipline skill, and speak to me in <your language>, in its polite form where it has one.
 ```
+
+The language and its form go in this line because `CLAUDE.md` is read on every turn. The
+skill's own rule on them is read once, when a run starts, and an hour of tool calls buries it:
+one long run drifted into English without the line, and another dropped the polite form.
 
 The skill directory follows the [Agent Skills](https://agentskills.io) format; the four
 entries are Claude Code commands, and Claude Code is the only agent its author has run any of
@@ -384,13 +388,13 @@ sentence:
 |---|---|
 | [tokens](skills/design-discipline/rules/tokens.md) | The declaration: 4 to 6 named colors with one accent, one grey family, one or two typefaces with stated roles, a type scale, one spacing unit, radius and elevation scales, springs and easing, formats, voice. Derived from the subject, a brand's own colors and typefaces read from its material instead; where code exists it is read beside the derivation and every difference reported, never adopted |
 | [layout](skills/design-discipline/rules/layout.md) | The arrangement, with what in the subject chose it — a centered hero over a row of equal cards counts when nothing did; shared edges shared exactly, the gap inside a group smaller than the gap around it, optical centering, at most one primary control per screen, every region declaring how it narrows, nothing to read or press under a status bar or home indicator |
-| [anti-slop](skills/design-discipline/rules/anti-slop.md) | The unprompted defaults — the purple gradient, glass on every card, mesh gradients, confetti — named and counted: color literals, off-scale radii, undeclared shadows, emoji in chrome, each at zero unless the declaration records why this product uses it |
+| [anti-slop](skills/design-discipline/rules/anti-slop.md) | The unprompted defaults — the purple gradient, glass on every card, mesh gradients, confetti — named and counted: color literals, off-scale radii, undeclared shadows, emoji in chrome, each at zero unless the declaration records why, and where, this product uses it |
 | [states](skills/design-discipline/rules/states.md) | Five states per screen, forced on the running screen and captured, never reasoned from the source; the response thresholds; long content well past the expected length; the four session interruptions |
-| [navigation](skills/design-discipline/rules/navigation.md) | Stack against replace, one-way doors past sign-in and checkout, a sheet that grows past one step re-presented as a modal, no rebuilt platform controls, deep links landing with history beneath them |
+| [navigation](skills/design-discipline/rules/navigation.md) | Stack against replace, one-way doors past sign-in and checkout, a sheet that grows past one step re-presented as a modal, no rebuilt platform controls, deep links landing with a way into the product |
 | [motion](skills/design-discipline/rules/motion.md) | How often a reader meets a moment decides whether it animates, before any curve; springs where a finger drives, ease-out curves where time does, overshoot for thrown things only; verified against a recording, frame rate measured rather than judged |
-| [copy](skills/design-discipline/rules/copy.md) | One label per intent, banned strings, numbers and dates out of a locale formatter, no layout hanging off a string's length, a claim that would hold for any product counted as empty |
+| [copy](skills/design-discipline/rules/copy.md) | One label per intent, banned strings, numbers and dates out of a locale formatter, no layout hanging off a string's length, a claim that would hold for any product counted as empty, a figure the brief supplies shown as a figure, nothing stated twice |
 | [forms](skills/design-discipline/rules/forms.md) | Labels above fields that stay, input method and autofill declared per field, validation that waits until the reader is done, the raised keyboard never covering the field being typed into |
-| [assets](skills/design-discipline/rules/assets.md) | A style system before the first asset, generated or drawn in code; every edge inspected enlarged, a product icon still legible at small size |
+| [assets](skills/design-discipline/rules/assets.md) | A style system before the first asset, generated, photographed, or drawn in code; every edge inspected enlarged, photographs held to the declared palette, a product icon still legible at small size |
 | [a11y](skills/design-discipline/rules/a11y.md) | The floor no exception lifts: names on everything operable, images described or hidden, color never the sole carrier, focus in and back out, keyboard parity and a way past controls repeated on every screen, results announced, zoom left to the reader; closed by two walks, one with a screen reader and one by keyboard alone |
 | [review](skills/design-discipline/rules/review.md) | What better means: deficits named before gathering, at most five repairs per pass, a comparison against the strongest shipped screen solving the same problem |
 
@@ -436,9 +440,9 @@ Three questions, each asked once.
    - Change anything, recorded as *everything may change* — the whole repair list and every
      change `review` makes, minus any repair that would change what the product relies on
      behind the screen (below)
-   - Report only, recorded as *report only* — nothing changes; the list is written to the
-     record
-   - Keep these, recorded as *kept: …* — name what must stay, as anyone would see it on the
+   - Change nothing, just list the repairs, recorded as *report only* — nothing changes; the list
+     is written to the record
+   - Keep what you name, recorded as *kept: …* — name what must stay, as anyone would see it on the
      screen; everything else may change, and a thing you named that moves or updates itself
      gets a control that pauses, stops, or hides it
 

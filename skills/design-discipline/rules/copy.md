@@ -34,9 +34,12 @@ Filler tokens, banned on the same terms: just, simply, easily, please, actually.
 Praise adjectives, which belong to a product page rather than to an interface: powerful, seamless,
 effortless, revolutionary, magical, blazing, unleash, supercharge, next-generation.
 
-The lists name the English instances. The bans sit on the intent — apology, filler, praise — and
-hold in every language the product ships; each shipped language's equivalents are recorded in the
-lexicon and counted the same way.
+Words standing in for a figure the brief or the product's data supplies: many, thousands,
+countless. The figure is the one thing a reader could check; the word hides it.
+
+The lists name the English instances. The bans sit on the intent — apology, filler, praise, a word
+for a supplied figure — and hold in every language the product ships; each shipped language's
+equivalents are recorded in the lexicon and counted the same way.
 
 ## A claim names this product
 
@@ -53,6 +56,14 @@ neither the brief nor the product's material supplies what a claim would say, th
 claim: the string names the job the claim would fill and the record lists it as missing from the
 brief, the same way Facts the brief did not supply, below, lists a missing fact.
 
+## Said once
+
+A fact, a claim, a title, or a section label is stated once on a screen. A second string carrying
+nothing the first did not — a caption restating the heading, a lead repeating the title, the same
+claim in a second language — is counted below. A second language shipped as texture rather than
+as translation is a choice: the recorded exceptions entry names it and where it goes, as
+rules/anti-slop.md asks of every exception.
+
 ## Numbers and dates are copy
 
 Counts are abbreviated, prices carry their currency, trailing zeros are cut, and every numeric and
@@ -61,9 +72,9 @@ rendered two ways in one product is the defect this catches.
 
 ## Facts the brief did not supply
 
-A fact a string needs — a time, a price, a name — that neither the brief nor the product's data
-supplies is not invented. The string names the job the fact would fill, and the record lists the
-fact as missing from the brief.
+A fact a string needs — a time, a price, a count, a name — that neither the brief nor the
+product's data supplies is not invented. The string names the job the fact would fill, and the
+record lists the fact as missing from the brief.
 
 ## Translation
 
@@ -96,6 +107,10 @@ text are counted in anti-slop.md, including the exception. Run that count in the
 - Actions whose verb changes anywhere between the control and the last record of it: 0.
 - Labels naming an internal mechanism: 0.
 - Praise adjectives in descriptive copy: 0.
+- Words — many, thousands, countless — standing in for a figure the brief or the product's data
+  supplies: 0.
+- Facts, claims, titles, and section labels stated twice on one screen — a second reader-visible
+  string carrying nothing the first did not: 0.
 - Claims — strings saying what this product is, does, has, or gives — that name nothing of this
   product's, titles and section labels and the brand's own wording excepted: 0.
 - Claims the brief did not supply that the record does not list as missing, counting none already
@@ -111,8 +126,8 @@ text are counted in anti-slop.md, including the exception. Run that count in the
   use: 0.
 - Numeric and date strings assembled by hand rather than produced by a locale formatter: 0.
 - Quantities of the same kind rendered in two different formats: 0.
-- Reader-visible facts — a time, a price, a name — with no source in the brief or the product's
-  data: 0. Facts the brief lacks that the record does not list as missing: 0.
+- Reader-visible facts — a time, a price, a count, a name — with no source in the brief or the
+  product's data: 0. Facts the brief lacks that the record does not list as missing: 0.
 - Layouts that break under the longest translation on hand, or under source strings padded by
   the states.md multiple: 0.
 - Labels of controls with a shape drawn around them — buttons, tabs, links in a navigation or a

@@ -47,8 +47,8 @@ rewritten or dropped.
 
 ## Rebuild in small passes
 
-Implement against the target, capture the result, put it beside the strongest reference, fix, and
-go again.
+Implement against the target, capture the result into `.design/captures/`, put it beside the
+strongest reference, fix, and go again.
 
 **Keep the passes small.** This skill's default is at most five repairs between one look and the
 next. Regressions hide inside batches, and a batch that improves four things and breaks a fifth
@@ -82,9 +82,12 @@ failure a screenshot cannot show.
 ## Inspection
 
 The first four lines of the count are `review`'s own. The lines from Repairs applied between one
-look and the next to the end are read against any run that applied repairs — `review`'s rebuild
-or `fix`'s passes — from the record's account of each pass and the changes to the code;
-`inspect` reads them whenever the record holds a fix pass.
+look and the next to Deficits from the original list are read against any run that applied
+repairs — `review`'s rebuild or `fix`'s passes — from the record's account of each pass and the
+changes to the code; `inspect` reads them whenever the record holds a fix pass. The last two
+lines are read by every run — `init`, `inspect`, `fix`, `review` — against what that run itself
+changed and wrote, before it ends: a rule a run reads once at its start is the rule a long run
+forgets, and these two are where that showed.
 
 ### The count
 
@@ -105,13 +108,16 @@ or `fix`'s passes — from the record's account of each pass and the changes to 
   provisional (rules/tokens.md), counting none the declaration's recorded exceptions allow: 0.
 - Repairs on the list with no structural or surface mark, or skipped with no reason beside
   them: 0.
-- Changes to the code that the record ties to no repair on the list: 0. A rule, a setting, or a
-  script that served only what a listed repair removed is tied to that repair when the record
-  says so.
 - Deficits from the original list still present at the end, those the scope of change forbids,
   those whose repair would change what the product relies on behind what the reader receives
   (SKILL.md, Before fix or review changes the code), and those whose repair `fix` leaves for an
   entry marked provisional (rules/tokens.md) excepted, each recorded as such: 0.
+- Changes to the code that the record ties to no repair on the list: 0. A rule, a setting, or a
+  script that served only what a listed repair removed is tied to that repair when the record
+  says so. Under `init` and `inspect`, which apply no repairs, every change is untied.
+- Files the run wrote outside `.design/` (SKILL.md, What this skill writes) and outside the
+  product's own code — a browser profile or a script in the system's temporary directory
+  included: 0. The run lists what it wrote, and the list is read against the file system.
 
 ### The checks
 

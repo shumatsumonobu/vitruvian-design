@@ -5,6 +5,273 @@ the defect that forced it — and where it now lives, so a later change starts f
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
 live in the files named, not here.
 
+## 2026-09-30 to 2026-10-02 — The third scaffold's runs, and the skill read whole twice
+
+Of the nine gaps the third scaffold's runs had shown by this point, seven could have been found by
+reading — the lens existed, and had been run over the day's diff rather than over the skill. So the
+whole skill was read once, as the session that executes it, for five things: a step named with no
+way to do it, a thing said to the person with no fixed text, a file written with no named home, an
+instruction that has `inspect` touch the product, and a name that differs between files. Sixteen
+showed. The lines said when frontend-design or the skill itself is missing, when screen work arrives
+with no declaration, and when `init` has nothing left to do are fixed texts now, and the marks on
+the repair list are said once in the person's words where the list begins. `init` run again keeps
+what the person wrote. A brief's agreement in advance is a line in the brief, in any words. The
+motion, navigation, and accessibility Inspections say what the record holds when nothing can be
+driven, as the others did. The rebuild's captures and the motion recording have their home under
+`.design/captures/`. Forcing a loading state no longer edits the product's code. Photographs are
+named wherever artwork's media are. Lives in the files named, and in `SKILL.md` under What it asks
+you, Ways in, and Before you call it done.
+
+The run that followed, `inspect` on the third scaffold, showed the flow side of the families rule
+unwritten. The scaffold's headings listed the Japanese family first, so headings set figures in
+it while body text set them in the Latin family — the same characters in two families, the case
+the rule says makes them two — and the families count in `rules/anti-slop.md` still read the pair
+as one, from the declaration alone, because the condition stood only on the declaration's count in
+`rules/tokens.md`. The count in the flow now carries the condition too: the pair is one while the
+flow sets no character in two of them. The same run put the marks' meaning once above the repair
+list rather than beside each of forty-eight rows, which reads better than the rule asked for, so
+the rule now says once, where the list begins.
+
+The second `inspect` on the same scaffold showed four more. `rules/tokens.md` sent rendered type
+values to `rules/anti-slop.md`, which had no count for them, so the session invented one; the
+count exists now. The first run had skipped the raised-text capture without the record showing a
+gap, because the long-content count did not name its captures; it names the four. Raising the
+text size changed nothing on the scaffold, every size being in pixels, and nothing counted it —
+a capture no count reads is not worth taking, so text that stays the same size is counted. The
+tap-target count had read the web minimum without the spacing exception its criterion carries,
+and repaired a navigation that passes the criterion; the Platform notes carry the exception, and
+NOTICE says the number is read with it. And the first run had counted a browser's validation
+messages as absent because a headless browser draws them only under focus emulation; the how is
+in `rules/forms.md` under Platform notes.
+
+The `fix` run put the third question through the AskUserQuestion tool, and the tool shows
+nothing after its options: the guarantees that hold under every answer went at the end of the
+question's text, the only place left. The rule had asked for them below the answers, a place the
+tool does not have; it now names both places.
+
+The same `fix` run repaired the deep-link count by writing an entry into the browser's history
+beneath the page, so that back stayed on the site — on the web a trap, since that history is the
+reader's and shared across sites. The rule had been written from the native stack, which the
+product owns and may synthesize. It now states the concern, a way into the product, names the
+mechanism each case takes, and counts entries written into a history the product does not own.
+Lives in `rules/navigation.md`, the deep-link paragraph, its count, and Platform notes.
+
+The second `fix` run spoke English from its second line to its final report, and two earlier runs in
+the same session had let an English line through. Not the context being summarized mid-run — the
+transcript holds no such boundary. The person had typed nothing but commands in that session, every
+file the run read between its lines was English or code, and the only words asking for the person's
+language sat at the run's start, under an hour of tool calls. The place that is read on every turn
+is the project's `CLAUDE.md`, so the one line the README asks for there now names the language as
+well as the skill; the rule in `SKILL.md` under Language is unchanged, being right. The fifth
+`inspect`, the first run with the line in place, kept Japanese but dropped the polite form the skill
+asks for — the author's own global instructions ask for plain speech, and they too are read on every
+turn — so the line names the form as well. Lives in both READMEs under Install and in
+`CONTRIBUTING.md` under Live test.
+
+The same shape — a rule read once at a run's start that a long run forgets, with nothing reading
+it after — was then looked for across the skill. Two more had it. The homes under What this
+skill writes, and the sentence that nothing is written outside the workspace, had no count: the
+first study's script went to the system's temporary directory and the first `fix` kept its
+browser profile there, and no run would ever have listed either. And the count on code changes
+tied to no repair was read only by a run holding a fix pass, so an `inspect` or `init` that
+edited the product read nothing against itself. Both lines now stand last in `rules/review.md`'s
+count and every run reads them against what it changed and wrote before it ends. The other rules
+of that shape — five repairs per pass, the scope of change, what the product relies on behind the
+screen — already had a count, and the first two caught a drift in the runs of this day; the
+courtesy and the words of what is said to the person have no count and cannot, since the record
+does not hold them, and the live run is what reads those, as CLAUDE.md says.
+
+On a second copy of the scaffold, the person answered the second question with Change some
+values first and gave one color. The run changed that color, re-derived the error color and a
+type step that had depended on it, named the three in one line, and put the question again —
+without showing the declaration. The answer's text had said "I'll show the revised decisions",
+and the run read naming as showing. The text now says the whole set is shown again, with the
+person's changes in and every re-derived value marked, and `rules/tokens.md` gains the step that
+says what happens to a value the person sets: it is theirs, its reason is that they set it with
+the derived value beside it, only entries whose reason named it are derived again, and the
+showing of step 4 is repeated. Lives in `SKILL.md`, What it asks you, and `rules/tokens.md`,
+Deriving the declaration.
+
+On the same copy, the person answered Save somewhere else with a file that did not exist, and
+the run asked a fourth question — whether it might create the file. The three questions are the
+only questions, and every other decision is the session's; the follow-up line now says the file
+is created if it does not exist, so the person knows and the session has nothing to ask. Lives
+in `SKILL.md`, What it asks you, the line put after Save somewhere else.
+
+After thirteen repairs found one at a time, the whole skill was read once more for the five
+shapes those repairs had: a branch no fixed text covers, so the session asks a fourth question;
+a count a file points at that the pointed-at file does not hold; a rule written from one
+platform's mechanism; a rule read once at a run's start that nothing reads after; a verb a
+session can satisfy with less than was meant. Six more showed. The largest: a declaration saved
+somewhere other than `.design/declaration.md` had no way to be found again — nothing said the
+record names the home or that an entry reads from it — so the record names it and every entry
+reads from there. The follow-up line creates the section as well as the file. `rules/motion.md`
+gains the count on rendered springs and curves that `rules/tokens.md` had pointed at; the
+reference count in `rules/anti-slop.md` now holds that one reference was walked; the typeface
+stand-in is stated without naming the web; and the harness row names a browser's working files.
+Lives in the files named.
+
+Then the author asked why none of this had been found before the runs, and the answer was one
+cause: the reviews had read sentences, and the defects lay between sentences — on the path from
+an answer the person gives to what the session writes to what the next run reads. So the skill
+was reviewed once more by walking every such path to its end, one written line each, forty-two
+of them. Five could not be written to the end: Save as shown named `.design/declaration.md`
+even where the person had chosen another home; a brief stating the scope of change left it
+unsaid that `init` writes the entry, so `fix` would have asked anyway; `fix` run with no repair
+list had no next step; what `fix`'s last inspection finds new had no stated fate; and nothing
+told `inspect` to name to the person what it could not take. All five are written now, and the
+lens's operator's view asks for the walk, one line per path, so the next change is read this
+way before a run. Lives in `SKILL.md` (Ways in, What it asks you, Before fix or review changes
+the code), `rules/tokens.md`, `.claude/rules/skill-review.md`, and `CLAUDE.md` under Reviewing.
+
+## 2026-09-29 — A run in Japanese, and a designer's poster and landing page
+
+Decided 2026-09-29, from two sources. A run of the skill on a product whose text is Japanese
+showed a hole in the typeface count. A poster and a landing page by a Japanese designer, read the
+same day for what makes them read as decided, gave five decisions a generated screen skips; what
+was taken is each decision, never the designer's look — a look belongs to a product's brief and
+its brand material, and the skill holds it there.
+
+### Families that split one role by writing system are one
+
+The product's figures and Latin words were set in a second family because the Japanese family
+sets only its own writing system. The count in `rules/tokens.md` on families sharing a
+classification read the two as two sans families — one choice made twice — and sent a
+construction that makes one choice to the recorded exceptions. The rule's concern is two families
+setting the same characters two ways; families of one classification that split one role by
+writing system set no character twice, so they are one family wherever the skill counts families,
+declared as one of the one or two with the writing system each sets; a family of another
+classification stays a second family. The poster sets Japanese in one sans and Latin in another
+the same way. Lives in `rules/tokens.md` under Declare the set first and What the declaration
+locks and in its count on classification, and in the families count of `rules/anti-slop.md`.
+
+### An exception names where the default goes
+
+The poster carries one handwritten line, and it reads as a decision because it is one. The
+exception rule could not say one: an exception named the choice and the reason, so a handwriting
+face recorded once was lifted everywhere on the screen. Now an exception also names where the
+default goes — an element, or a kind of place — and the same default anywhere it does not name is
+counted as if no exception were written. Lives in `rules/anti-slop.md` under Exceptions are
+written down and in its count, on the recorded exceptions entry in `rules/tokens.md`, and under
+Exceptions in `SKILL.md`.
+
+### A row of the same things tilted is a default that arrives unasked
+
+The landing page sets six screenshots upright and evenly spaced. The generated version of that row
+is tilted, fanned, or set in perspective, and nothing named it among the defaults that arrive
+unasked. Now it is on that list, and the decorative-element check asks what the tilt carries.
+Lives in `rules/anti-slop.md` under What the model reaches for and in the check Each decorative
+element.
+
+### A supplied figure is shown as the figure
+
+The poster's one number is set large, and the number is the claim. Praise adjectives were already
+counted; a word standing in for a figure the brief supplies — many, thousands, countless — was
+not. Now it is. Lives in `rules/copy.md` under Banned strings, listed once and in its count.
+
+### A photograph is held to the palette
+
+On the poster the subject wears the one ink. Artwork was already held to the style system's
+palette, but a photograph the product ships could carry its own colors onto a screen whose values
+were declared, and nothing counted it. Now a shipped photograph's largest areas of color are
+declared values, or the declaration names that photograph as the source of the value it took.
+Lives in `rules/assets.md` under The style system, Palette, and in its count.
+
+### Said once
+
+The poster's small Latin captions restate the Japanese beside them; on a poster that is texture,
+on a screen it is the eyebrow restating the heading. Nothing counted a string that says what
+another string on the screen already says. Now it is counted, and a second language shipped as
+texture is a recorded choice with a place. Lives in `rules/copy.md` under Said once and in its
+count.
+
+### The answers are choices the person picks from
+
+The fixed texts said what each question offers but not how it is offered: earlier runs put the
+answers through the tool's own choices, and the first run on the third scaffold printed them as
+prose and waited. Now the answers are put as choices the person picks from — offered to be
+picked where the session can, as numbered lines where it cannot — each under its bold label, and
+the pick is the answer. An answer that needs words from the person — Revise some values first,
+Save it elsewhere, Keep these — is followed by one fixed line that asks for them; the user's
+language is the one the person writes in, the brief's until then. A later run put the second
+question as numbered lines with the tool at hand, reading "where it can" as leave: the tool is
+named now — AskUserQuestion, one option per answer, the labels the skill's own — and numbered
+lines are for where that tool does not exist. The same run showed the placeholder note with no
+placeholder in the declaration, so the note is its own text, put only where a value is a
+placeholder. The run after that put the second question through the tool and dropped the polite
+form inside it, and narrated its study in English between Japanese sentences; the option's
+description now carries the answer in full in the question's register — a language's polite
+form where it has one — and everything said to the person, what the session is about to do
+included, is in the user's language. The same run wrote the study's captures and script under
+the system's temporary directory; their homes are named now — `.design/captures/refs/` and
+`.design/harness/` — and nothing is written outside the workspace. Lives in `SKILL.md` under
+What it asks you and under Language, in the four entry
+files, in `CLAUDE.md` under How the rules are written, and in `.claude/rules/skill-review.md`.
+
+### What the session says around the questions, and a study done later
+
+The first `init` on the third scaffold opened with the skill's own word for the declaration before
+the second question had explained it, and reported a connection check the person does nothing
+with. Two fixed texts carried "session", the skill's word for the agent. The browser answer
+promised that the sites could be studied later, and no entry did it: `init` ran once and stopped
+at an existing declaration. The second question assumed the product had code. The translation's
+register was left to the session, and a conversation in a familiar tone could pull it down. Now
+the words for everything said to the person — the questions and what is said around them — are
+one rule, the courtesy owed to someone just met among them; `init` runs again when the record
+says the sites were not studied, studies them with a browser, shows what changes, and puts the
+second question again; and the comparison against the code is said only where code exists. A
+second run, with the rule in place, still opened in the session's own words — the skill's word
+for the declaration, the subject, and three steps the person does nothing with — so `init`'s
+opening is a fixed text now, and the session says nothing before it. The same run asked for a
+browser having tried only the extension, though the gallery runs had started one themselves; the
+order is fixed — the extension, a browser the session starts, and only then the question — which
+now asks whether the agent may see the sites, not whether a browser gets connected. One run
+located the browser by searching the disk with the file tools and was stopped by the harness for
+reading outside the workspace, where the run before had asked the shell; the way to locate it is
+fixed now. Lives in `SKILL.md` under What it asks you, the `init` row of Ways in, and Before you
+draw, in `CLAUDE.md` under How the rules are written, and in `CONTRIBUTING.md` under Live test.
+
+### The answers read as what the person gets
+
+The second question's first two labels both said save — Write the declaration, Save it
+elsewhere — and the difference, the place, showed only in the text under them; the first answer
+opened with a caveat about brand values that holds under every answer. The third question put
+six sentences of guarantees between the person and the choices, and Report only did not say what
+the person gets. Now every label names what the person gets, the first sentence under it says
+what the agent does, and what holds under every answer — the stand-in for a brand value, what
+the product relies on behind the screen, the accessibility repairs — sits below the answers.
+Keep these stays the real fourth answer, labeled Keep what I name. Lives in `SKILL.md` under What
+it asks you.
+
+### The texts speak as one person to another
+
+The fixed texts were written in the voice of a specification — the agent in the third person,
+every case enumerated, nouns stacked — and the person read them as a manual: on the third
+scaffold the browser question drew "a browser? which sites?", and a follow-up line that said
+"just say so" read as evasion. Now the texts speak as one person to another — I for the agent,
+you for the person — and name things concretely: sites of services like yours, the Claude in
+Chrome extension, the design decisions file. Each answer's label names what the person gets, its
+first sentence what the agent does. The person reads a translation the session makes on each
+run, so the nouns are ones a translation cannot bend. Lives in `SKILL.md` under What it asks
+you, in `CLAUDE.md` under How the rules are written, and in `.claude/rules/skill-review.md`
+under The person's seat.
+
+### The review is written, not felt
+
+One change went through three reviews, and each found repairs the one before had missed: each
+review read the changed files for what stood out, under a different eye each time, and answered
+the lens by feel. The lens said each check is answered in a sentence, but asked for no written
+answer as the review's result, so a review could pass without one. Now the review is the written
+lines — one per count with its number, one per check with its sentence — and a line not written
+was not taken; the scaffold as built is read against its description before the first run. The
+lens was then read against the laws it enforces, one line per law: a rule restated in two files'
+prose, a file with no named default home, a concept invented to explain a rule, and the words
+owed to the person — one idea per sentence, nothing about procedure, a thing named by what it
+holds, courtesy — are counted now, and a platform named outside Platform notes, which only the
+lens had, is a law. Lives in `.claude/rules/skill-review.md` and `.claude/rules/readme-review.md`
+under their procedures and in the former's counts and checks, in `CLAUDE.md` under How the rules
+are written and Words, and in `CONTRIBUTING.md` under Live test.
+
 ## 2026-09-25 — Counts learned from other design skills
 
 Decided 2026-09-25, from a reading of nine published design skills — hallmark, emilkowalski's

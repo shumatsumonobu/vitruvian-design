@@ -156,3 +156,6 @@ passes.
   automatic, it is still tested, because containers that scroll or float defeat it.
 - Safari on iOS zooms into a field whose text is under 16 CSS pixels, and does not zoom back out on
   blur; give fields text at least that size.
+- Web: a headless browser draws its own validation messages only while it emulates focus
+  (Chromium: `Emulation.setFocusEmulationEnabled`); without that, their position and persistence
+  read as absent, and revalidation after a failed submit reads as not happening.

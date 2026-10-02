@@ -84,8 +84,10 @@ happens when the section already in view is selected again is a platform convent
 design decision, and the Platform notes below say which convention applies where.
 
 Screens demanding full attention — composing, playing, checking out — sit above the sections
-rather than inside one. A deep link arrives with history already beneath it, so back moves within
-the product instead of straight out of it.
+rather than inside one. A deep link arrives with a way into the product: history beneath it where
+the product owns the stack, a visible link to the parent where it does not. A history the product
+does not own is never written to — an entry put beneath a page so that back stays in the product
+is a trap, not a way in.
 
 A cold start never shows a signed-out screen to a reader who is signed in. That is the decision.
 How it gets satisfied is a timing question rather than a navigation one, and holding the first
@@ -100,7 +102,8 @@ overlay — beside the words that step showed. The record's default home is `.de
 ## Inspection
 
 Nothing in this file can be answered from the source. Walk the flow and press back at every step
-before counting anything.
+before counting anything. Where no flow can be driven, the record (`.design/record.md`) says the
+counts were not taken; an untaken count is not a pass.
 
 ### The count
 
@@ -116,7 +119,9 @@ before counting anything.
 - Sections that reopen at their first screen instead of where they were left: 0.
 - Screens returned to by back that lost the state they were left in — scroll position, loaded
   items, an applied filter: 0.
-- Deep links opened from a cold start where one press of back leaves the product: 0.
+- Deep links opened from a cold start with no way into the product — one press of back leaves it,
+  and nothing on the screen leads to the parent: 0.
+- Entries written into a history the product does not own: 0.
 - Top-level sections: 3 to 5, or a written reason for the number chosen.
 - Top-level section controls whose label is not visible without touching or hovering: 0.
 - Cold starts showing a signed-out screen to a signed-in reader: 0.
@@ -157,3 +162,8 @@ Back is a different gesture in each place and all of them have to arrive at the 
 header chevron, an edge swipe, a hardware or system gesture back, and the browser back button. The
 same route stack has to survive a reload, a pasted URL, and a restored session, which is why any
 linkable surface cannot live in component state.
+
+The product owns a native app's screen stack, and may synthesize the parent screens beneath a
+deep link. The browser's history is the reader's, shared across every site they visit, and the
+product does not own it: a web page opened directly writes no entry beneath itself, and its way
+into the product is a visible link to the parent.

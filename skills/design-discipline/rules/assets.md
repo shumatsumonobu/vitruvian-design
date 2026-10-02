@@ -5,12 +5,12 @@ imagery at the top of a screen, a product depicted on the page, an icon nobody h
 set assembled one image at a time reads as twelve stock images rather than one commission, and
 the difference is decided before any of them exists.
 
-The medium does not decide whether this file applies. Artwork generated as an image and artwork
-drawn in code — CSS, SVG, canvas — answer to the same system; a depiction built from gradients is
-still a depiction. An operable control stays with the declaration however pictorial its surface —
-this file governs artwork that presents, not controls that operate. A background wash that
-depicts nothing stays with the declaration and rules/anti-slop.md; this file takes imagery that
-depicts something.
+The medium does not decide whether this file applies. Artwork generated as an image, artwork
+photographed, and artwork drawn in code — CSS, SVG, canvas — answer to the same system; a
+depiction built from gradients is still a depiction. An operable control stays with the
+declaration however pictorial its surface — this file governs artwork that presents, not
+controls that operate. A background wash that depicts nothing stays with the declaration and
+rules/anti-slop.md; this file takes imagery that depicts something.
 
 This file covers what the artwork has to be. How it gets produced — how many attempts, at what
 size, exported how — is production work and is not settled here.
@@ -25,7 +25,10 @@ chose one.
   paper collage, drawn line, photographic. A set carrying two families is two sets.
 - **Palette.** Three to five values lifted from the token declaration, and among them the exact
   surface color the assets will sit on. Artwork composed against a surface it will never appear on
-  comes back wrong at integration.
+  comes back wrong at integration. A photograph the product ships as its own imagery is held to the
+  same palette: its largest areas of color, read by reducing the image to its few largest areas,
+  are declared values — the ground, the subject, the light, each brought to the set — or the
+  declaration names that photograph as the source of the value it took.
 - **Light and texture.** The words themselves, not the intent: where the light comes from, how
   hard it is, whether anything is glossy. The same words carry into every asset in the set.
 - **Subject grammar.** What the artwork is made of — a mascot, abstract forms, objects, people —
@@ -92,15 +95,17 @@ Any one of these sends the asset back. None of them is a matter of taste.
 
 ## Inspection
 
-This Inspection runs wherever the product carries artwork, generated or drawn in code. Anything
-drawn to stand in for a thing the page talks about counts as artwork the product carries,
-however little of the thing it shows. A product using none skips it rather than failing it, and
-the skip is recorded: one line in the record naming what was surveyed and why nothing on it
-depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
+This Inspection runs wherever the product carries artwork, generated, photographed, or drawn in
+code. Anything drawn to stand in for a thing the page talks about counts as artwork the product
+carries, however little of the thing it shows. A product using none skips it rather than failing
+it, and the skip is recorded: one line in the record naming what was surveyed and why nothing on
+it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
 
 ### The count
 
 - Style families across the product: 1.
+- Photographs the product ships as its own imagery whose largest areas of color, read by reducing
+  the image to its few largest areas, are neither declared values nor the named source of one: 0.
 - Assets made before the style system was written: 0.
 - Assets carrying baked-in text or a watermark: 0.
 - Assets not yet viewed in every theme the declaration names, on their real surface: 0.

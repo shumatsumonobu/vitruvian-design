@@ -89,7 +89,9 @@ the text by the reviewer.
 ## The procedure
 
 1. Run `node scripts/check-readme.mjs --pages`, then review yourself with the counts and checks
-   above — first as the stranger, then as the editor who cuts.
+   above — first as the stranger, then as the editor who cuts. Write the review as one line per
+   count and per check, each count with its number, each check with its sentence; a line not
+   written was not taken, and the review is not done.
 2. An agent pass is the author's call, not a default step. When the author asks for one after a
    large rewrite: one agent reviews the text against these lenses and proposes findings, a
    second agent tries to refute each finding, and only the findings that survive are

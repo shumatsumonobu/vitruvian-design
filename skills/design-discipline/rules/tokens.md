@@ -18,14 +18,19 @@ Write the declaration into the project, not into your head. It holds these entri
 - grey family: one, warm or cool
 - themes: one, or light and dark resolved from this one declaration — and which one the product
   ships where it ships one
-- scope of change: on a product that already has screens, one of structure kept, everything
-  may change, report only, or "kept:" followed by what is named — written by `fix` or `review`
-  when they first ask, or from the brief. Until they ask, init writes it as not yet asked, which
-  counts as filled. Not applicable on a fresh build — the code carried no values, everything may
-  change — and recorded as such. The answers are defined in SKILL.md under What it asks you
+- scope of change: on a product that already has screens, one of structure kept, everything may
+  change, report only, or "kept:" followed by what is named — written by `fix` or `review` when they
+  first ask, or by `init` at derivation where the brief states it. Until they ask, and where the
+  brief states none, init writes it as not yet asked, which counts as filled. Not applicable on a
+  fresh build — the code carried no values, everything may change — and recorded as such. The
+  answers are defined in SKILL.md under What it asks you
 - gradients: none, or each one with the reason it exists
-- typefaces: one or two, each with a stated role; on the web, each also names the fallback stack
-  that stands in before it loads — the stack's families count toward neither the one-or-two
+- typefaces: one or two, each with a stated role. Where the product's text spans more than one
+  writing system, a role may be set by families of one classification that split it, each
+  setting the characters the others do not; families that split a role this way are one family
+  wherever this skill counts families — one of the one or two, listed as one with the writing
+  system each of them sets. Where a family loads after the screen first draws, the entry names
+  what stands in until it does — the stand-in's families count toward neither the one-or-two
   ceiling nor the rule that two families differ in classification
 - type scale: every step with its weight, its letter-spacing, and its line-height, plus its width
   where the family has a width axis to state, and the OpenType features a step relies on where the
@@ -46,10 +51,10 @@ Write the declaration into the project, not into your head. It holds these entri
 - voice: the product's, in one phrase — what it sounds like and how far from plain it goes. The
   bans in anti-slop.md that turn on voice read this entry
 - recorded exceptions: anything this skill bans by default that this product uses on purpose, each
-  with the reason it suits this product, and any change to what the product relies on behind what
-  the reader receives (SKILL.md, Before fix or review changes the code) that the person allows,
-  named — a route, the name a field submits its value under. An exception nobody wrote here is not
-  an exception
+  naming where it goes and the reason it suits this product, and any change to what the product
+  relies on behind what the reader receives (SKILL.md, Before fix or review changes the code) that
+  the person allows, named — a route, the name a field submits its value under. An exception nobody
+  wrote here is not an exception
 
 Motion entries stay out of the declaration entirely where the product has no motion. A declaration
 is complete when every entry that applies to this product is filled, not when every line above has
@@ -75,7 +80,9 @@ structure of a surface belongs to layout.md.
 - A grey family is either warm or cool. One product uses one of them.
 - Two families differ in classification, not only in name — a serif paired with a sans, or a text
   face paired with a monospace. Two sans families, or two serifs, are one choice made twice: cut
-  to one.
+  to one. Families that split one role by writing system (Declare the set first) are one choice,
+  not two: no character is set in two of them. A family of another classification is a second
+  family whatever writing system it sets, and counts against the one-or-two ceiling.
 - A screen shows type at display size once. A second occurrence splits the attention the first one
   was there to collect, so a screen that genuinely needs two — a page heading and a figure the
   page exists to show, say — declares both and states what each is for. Undeclared, it is one.
@@ -133,9 +140,17 @@ left to the person, until the material is reached.
    belongs to no entry is not the comparison's to record; the Inspections find it.
 4. Show the declaration and the comparison before writing the declaration — its scope of change
    entry written as not yet asked where code exists, and as not applicable where none does.
+   Each entry is shown under its English name as the file will hold it, with a gloss in the
+   user's language beside it, so that what the person sees is what they will later edit.
    Nothing in the code changes here. Once the declaration is agreed, the code's values are what
    the counts in rules/anti-slop.md catch and `fix` replaces.
-5. A person who wants a value the code carries keeps it by amending the declaration, where
+5. Where the person changes a value before the declaration is written, the entry takes the
+   person's value, with the reason that the person set it and the derived value it replaced
+   beside it. Every entry whose reason named the changed value is derived again and marked as
+   derived again from the person's change; an entry whose reason did not name it is not touched.
+   The whole declaration is shown once more, as in step 4, and the question put again — a line
+   naming what changed is not the showing.
+6. A person who wants a value the code carries keeps it by amending the declaration, where
    decisions live — not by having init read it in.
 
 ## Inspection
@@ -148,14 +163,17 @@ artwork that a style system governs are counted in rules/assets.md.
 ### The count
 
 - Applicable entries left unfilled, counted against the list in Declare the set first: 0. A
-  declaration file that does not exist counts as every entry unfilled. An entry that does not
-  apply to this product is recorded as not applicable with one line saying why, and counts as
-  filled. An entry written under another name, or holding an answer or state in other words
-  than this file gives, counts as unfilled.
+  declaration absent from the home the record names — `.design/declaration.md` where it names
+  none — counts as every entry unfilled. An entry that does not apply to this product is
+  recorded as not applicable with one line saying why, and counts as filled. An entry written
+  under another name, or holding an answer or state in other words than this file gives, counts
+  as unfilled.
 - Type-scale steps missing a stated weight, letter-spacing, or line-height: 0. Steps missing a
   stated width, counting only families that carry a width axis: 0. Steps set over columns of numbers
   with no stated figure treatment, counting only families that carry tabular figures: 0.
-- Declared typeface families sharing a classification: 0.
+- Declared typeface families sharing a classification, families that split one role by writing
+  system counted as one where the entry names the writing system each sets: 0. Two of them
+  setting the same character is what makes them two.
 - Springs named, where any motion follows a finger: 2. Ease-out curves named, where any motion is
   driven by time: 1. Where the product has neither, both counts are 0.
 - Values this pass needed that were not written back into the declaration: 0.
@@ -187,9 +205,9 @@ artwork that a style system governs are counted in rules/assets.md.
 - The accent. State which of the three places it earns — the primary action, the selected state,
   progress — appear on this screen, and confirm nothing else took it.
 - The radius sentence. Read it back and point at one element per step it names.
-- Each fallback stack, on the web. Render the screen once with webfonts blocked, and record what
-  that first frame showed — on a slow connection it is the first frame of the product a reader
-  sees.
+- Each stand-in, where a family loads after the screen first draws. Render the screen once with
+  that loading blocked, and record what that first frame showed — on a slow connection it is the
+  first frame of the product a reader sees.
 - The map, where code exists. Point at each definition site it names and say how it was found;
   a site the search missed goes in.
 
@@ -198,6 +216,9 @@ artwork that a style system governs are counted in rules/assets.md.
 Where the declaration lives differs by platform. The rules above do not.
 
 - Web: custom properties on the root element, or the theme object of the styling layer in use.
+- Web: a family loaded over the network draws after the first frame; the stand-in is the
+  fallback stack in the font-family declaration, and the check blocks webfonts. Native: families
+  ship with the app, nothing stands in, and the entry says so.
 - iOS and Android native: the system semantic color roles plus an asset or resource catalog, so
   light and dark resolve from one declaration.
 - iOS: rounded rectangles take the platform's continuous corner curvature; a standard circular

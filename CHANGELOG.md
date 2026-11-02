@@ -24,6 +24,9 @@ how you could measure it on your own device, and the next command. `fix` repairs
 its own changes broke. Each entry speaks your language from its first line, said before it
 writes any file.
 
+Glowing type and a border around text that is only read are named among the defaults that
+arrive unasked, and `inspect` counts text set with a glow unless the declaration records why.
+
 ## 2026-10-02
 
 Two families of one classification that split one role by writing system — one setting the Latin

@@ -90,6 +90,18 @@ version of the scaffold named the author's window in its brief, which handed the
 size the new rule exists to find; that run was stopped and the brief rewritten. Lives in
 `CONTRIBUTING.md`, Live test, and `CLAUDE.md`, Reviewing.
 
+**Glowing type, and a border on text that is only read.** After the month's proposals, the same
+product rebuilt a reward screen three times, its words in glowing neon each time, before its owner
+named the look as generated; one bordered catalog number survived the rebuild. Both now stand on
+the reach-for list, and a count reads text set with a glow as its style. The proposal's count
+excused a shadow grounding an edge; that phrase was dropped, since `rules/tokens.md` gives a
+shadow one job, elevation. A glow that plays once as a beat stays with the count
+`rules/motion.md` points at, so one glow is not read by two counts. A border needed no new count:
+the decorative-element check already asks every border what it carries. One `inspect` on a
+one-screen workspace, twelve minutes, returned the glow count as 1 on the title, listed the
+border on the pose times, and flagged neither the bordered buttons nor the focus ring. Lives in
+`rules/anti-slop.md`.
+
 ## 2026-09-30 to 2026-10-02 — The third scaffold's runs, and the skill read whole twice
 
 Of the nine gaps the third scaffold's runs had shown by this point, seven could have been found by

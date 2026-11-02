@@ -26,6 +26,10 @@ for one element at a time rather than chosen for a page.
   where upright and evenly spaced they would say the same.
 - Text a step smaller, and secondary text a step dimmer, than the distance it is read from and
   what it carries call for.
+- Type set glowing — a luminous shadow or a neon halo on words, where flat ink on the surface
+  would carry them.
+- A border around text that is only read — a date, a number, a label — giving it a control's
+  face though nothing happens when it is pressed.
 
 None of these was decided. They are the priors that fill a gap when the palette, the materials,
 and the layout were never specified for this subject. Where a reference was studied, the materials
@@ -121,6 +125,8 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 - Surfaces using a translucent blurred material with no entry in the declaration: 0
 - Glows, sparkles, and celebration effects fired at anything other than a rare first-time moment:
   0. motion.md's frequency gate decides what counts as rare
+- Text set with a glow as its style — light spreading outward from the glyphs, however it is
+  drawn: 0. A glow that plays once as a beat on a change of state is the count above
 - Icons in chrome rendered from outside the declared symbol set: 0
 - Emoji in chrome: 0, and emoji in content: 0 unless the declaration states a playful or
   chat-native voice. Search the sources for every character carrying the Unicode

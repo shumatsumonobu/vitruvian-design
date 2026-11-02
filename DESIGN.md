@@ -274,6 +274,7 @@ instance; each became a rule with a count or a check in the file that already ow
 | A pass is read off a capture, a recording, or a walk of the run; the scripts that take counts are kept | `rules/review.md`, the Inspection's preamble; `SKILL.md`, What this skill writes | The passes and scripts lines in `rules/review.md` | a product's month under the skill |
 | `fix` repairs or undoes what its own changes caused | `SKILL.md`, Ways in | Defects tied to the run's own changes still in place | this skill's own runs |
 | How `inspect` and `fix` end, and a count the person takes on their own device | `SKILL.md`, What it asks you | None — the live run reads it | a product's month under the skill |
+| Glowing type and a border around text that is only read arrive unasked | `rules/anti-slop.md`, What the model reaches for | The count Text set with a glow as its style; the decorative-element check | a product's month under the skill |
 
 The numbers these brought — five seconds, 200 percent, 16 CSS pixels, one line, two focusable
 elements, one character — have their lines in `NOTICE`. The rows marked a product's month under

@@ -96,10 +96,20 @@ takes the determinate wait above instead of the immediate reflection.
   default is ten times — and every container that cannot scroll states what happens past its
   capacity: wrap to a stated count, collapse into a stated overflow, or scroll.
 
+## What the reader's own operation reaches
+
+The five states are what the data puts a screen in. The reader's operation puts it in more:
+partway through what the screen is for, at its end, after it was undone or abandoned, paused where
+something plays. Which of these a screen has is the screen's own. They are listed beside the
+capture set, one line each, reached by operating the screen — a state that arrives only after a
+wait may be reached sooner through the product's own controls, a seek or a skip, never by editing
+the code — and captured on the same terms as the five.
+
 ## Across a session
 
-The five states are what a screen renders. These four are what happens to it when the session is
-interrupted, and none of them shows up in a capture.
+The five states are what a screen renders. These five are what happens to it as the session goes
+on — sent away, closed, cut off, pressed twice, left stopped — and none of them shows up in a
+capture.
 
 - **Interruption and return.** Send the product away mid-flow and bring it back. Work in progress
   is still there. Half-entered forms are work in progress.
@@ -109,9 +119,17 @@ interrupted, and none of them shows up in a capture.
 - **No connection.** Act with the network unavailable. The action either queues and says so, or
   fails visibly. Failing silently — the tap registers, nothing happens, nothing is said — is the
   defect this exists to catch.
-- **Repeated presses.** Press a control twice, faster than the response. It navigates once and
-  submits once. Dimming the control after the first press does not settle it, because both presses
-  can land before anything dims.
+- **Repeated presses.** Press each control twice, faster than the response. It navigates once and
+  submits once, and the second press lands on nothing the first press put under the pointer or
+  uncovered — a dimmed surface that just arrived, the control behind a layer that just closed.
+  Dimming the control after the first press does not settle it, because both presses can land
+  before anything dims.
+- **Time that runs while nothing does.** Whatever the product grants, opens, closes, or moves on
+  once enough time has passed — a control that unlocks after a minimum, a countdown the reader
+  watches, a reward for time spent — counts the time of the thing it measures, not the clock on
+  the wall. Every state that stops that thing — paused, sent away, cut off, covered by a modal —
+  stops its count too, and the count resumes where it stood. Put the screen in each such state
+  past the time and bring it back: nothing opened, closed, or moved on while it was stopped.
 
 ## Forcing each state
 
@@ -119,9 +137,10 @@ Decide from the running screen, not from the code. Capture one screenshot per ap
 keep the set together — `.design/captures/` is this skill's default home for the set — with the
 exemptions written beside it.
 
-Capture the set in the primary theme. Where the declaration names a second theme, repeat in it
-only the states putting text over a colored or an elevated surface — those are the ones where
-contrast changes, and the rest render the same twice.
+Capture the set at the widest and the narrowest checked size (rules/layout.md), in the primary
+theme. Where the declaration names a second theme, repeat in it only the states putting text over
+a colored or an elevated surface — those are the ones where contrast changes, and the rest render
+the same twice.
 
 - Loading: throttle or suspend the network so the request stays in flight long enough to capture.
   If the tooling cannot hold it, hold the request from outside the product — a blocked host, a
@@ -154,6 +173,19 @@ hover, and on a device whose primary input cannot hover, what stands in for it d
 the tap. Neither of the hover lines below is the floor's; what must stay reachable without hover is
 rules/a11y.md's.
 
+## What a press lands on
+
+A control is reached where it is drawn. A press at the middle of what the reader sees as the
+control lands on that control — not on a box laid over it that draws nothing, a layer that stopped
+showing but still takes input, or a neighbor's area reaching across. Neither the eye nor the
+keyboard finds this: a box that draws nothing cannot be seen, and focus passes under it. So it is
+read by pressing, at every checked size (rules/layout.md).
+
+The target is the area that answers a press, not the shape drawn. A control drawn small may answer
+across a larger area that draws nothing, and the platform's minimum is read against the area that
+answers. Two targets' areas do not overlap: a press between two controls lands on one of them or
+on neither, never on whichever was laid last.
+
 ## A state change moves nothing else
 
 When one thing changes state — a field takes focus or fails, a transient message arrives, an
@@ -166,6 +198,16 @@ a list that reorders on a filter — these move what is below them because the r
 and rules/motion.md animates that move. The surface scrolling as a whole to bring a focused field
 into view is rules/forms.md's and is not counted here.
 
+## Text over what moves
+
+Contrast is read against the background at its worst. Where what sits behind text moves, plays,
+or changes on its own — video, an animated or generated background, a slideshow, artwork that
+follows sound — one frame is one sample of it. The ratio is read inside the text's box at the
+moment the background comes closest to the text's own lightness, across a whole cycle, or, where
+it follows sound or chance, across its fullest passage. The repair that keeps the motion is a
+scrim behind the text block alone, its edge feathered wide enough to read as shade rather than as
+a panel.
+
 ## Hierarchy holds across all of them
 
 Which element stays primary, and reading order against visual weight, are settled in layout.md.
@@ -177,7 +219,10 @@ shown a state of it.
 
 ### The count
 
-- Applicable states with no capture: 0. A state recorded as not applicable needs no capture.
+- Applicable states, the five and those the reader's operation reaches, with no capture at the
+  widest or the narrowest checked size: 0. A state recorded as not applicable needs no capture.
+- Screens with no list of the states the reader's operation reaches beside the capture set: 0. A
+  screen whose operation reaches none beyond the five says so in one line.
 - States with neither a capture nor a written exemption: 0.
 - Where the declaration names two themes, states putting text over a colored or an elevated
   surface with no capture in the second: 0.
@@ -205,10 +250,17 @@ shown a state of it.
   layout: 0.
 - Text that stays the same size when the platform's text size is raised one step: 0.
 - Text regions with no declared overflow behavior: 0.
-- Tap targets below the platform's stated minimum: 0.
+- Tap targets below the platform's stated minimum, measured as the area that answers a press: 0.
+- Controls where a press at the middle of the drawn control lands on something other than the
+  control or what it contains — at every checked size in the screen's resting state, and in each
+  captured state at the sizes it was captured at: 0. Where no screen can be driven, the record
+  says the count was not taken; an untaken count is not a pass.
+- Neighboring targets whose areas that answer a press overlap: 0.
 - Text contrast below 4.5 to 1 for body text and 3 to 1 for large text and non-text controls, in
-  every theme the declaration names: 0. Both ratios are the minimum level of the accessibility
-  guidelines.
+  every theme the declaration names, and, over a background that moves or changes on its own, at
+  its least favorable moment as Text over what moves reads it: 0. Both ratios are the minimum
+  level of the accessibility guidelines. Where such a background cannot be recorded, the record
+  says the count was not taken for the text over it; an untaken count is not a pass.
 - Focus indicators that animate in rather than appearing at once, read on the running screen as
   focus arrives: 0. Where no screen can be driven, the record says the count was not taken; an
   untaken count is not a pass.
@@ -224,20 +276,23 @@ shown a state of it.
 - Controls that stand for a current choice — tabs, filters, links in a navigation, rows — with no
   visible selected state, the environment's default selected treatment counting as one: 0.
 - Focusable controls with no visible keyboard focus: 0.
-- Elements that clip, overlap, or leave the layout as the display narrows to the narrowest
-  supported width: 0.
+- Elements that clip, overlap, or leave the layout at any checked size (rules/layout.md), the
+  narrowest width and the shortest height among them: 0.
 - Flows losing work in progress when the product is sent away and brought back: 0.
 - Values the interface reported as saved that are gone after a restart: 0.
 - Actions that fail with no connection and say nothing: 0.
-- Controls that navigate twice or submit twice on a fast double press: 0.
+- Controls that navigate twice or submit twice on a fast double press, and second presses that
+  land on what the first press put under the pointer or uncovered, every control pressed: 0.
+- Things the product grants, opens, closes, or moves on once enough time has passed that do so
+  while what that time measures is stopped: 0.
 - Measured cold starts over two seconds, or keystrokes over fifty milliseconds: 0.
 
 ### The checks
 
 - The capture set for this screen, listed, with any exemptions and the reason for each. Name any
   capture that came from a default rather than from a decision, since those count as missing.
-- The four session interruptions, each one performed rather than reasoned about, with what
-  happened written beside it.
+- The five across a session, each one performed rather than reasoned about, with what happened
+  written beside it; for time that runs, each timed thing beside each state that stops it.
 - The two response thresholds. Time a cold start to the first accepted input, and a keystroke to
   the character appearing. Write both numbers; an unmeasured threshold is a missing capture, not
   a pass.
@@ -289,6 +344,25 @@ Minimum tap target, as each platform states it:
   criterion's exception — a smaller target passes where a circle of that size centered on it
   crosses no other target's circle — and 44 by 44 at the enhanced level.
 - Desktop: the control metrics stated by the host operating system.
+
+What a press lands on:
+
+- Web: `document.elementFromPoint` at a point returns what a press there lands on, and the press
+  lands on the control where the control `contains()` the result; the control is scrolled into view
+  first, since a point outside the viewport returns nothing. A query that finds a control by
+  its text or role starts inside the layer under test, since a layer behind it can hold an element
+  of the same kind. An area larger than the drawn shape is a pseudo-element around the control
+  that draws nothing; `pointer-events: none` lets a press pass through a box that should never
+  take one. A rotated element's box measures larger than its shape; a round one is read as a
+  circle.
+- iOS and Android: the view hierarchy's hit test at a point, in the platform's UI test tools.
+
+Text over what moves:
+
+- Web: hide the text by its color or its visibility, keeping every layer laid in to protect it,
+  capture frames through the cycle, and find in each text box the pixel whose lightness comes
+  closest to the text's; the ratio is that pixel against the text's color, a translucent text
+  color blended over it first.
 
 Hover, and what stands in for it:
 

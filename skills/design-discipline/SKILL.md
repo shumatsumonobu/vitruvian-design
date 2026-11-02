@@ -36,7 +36,8 @@ entries, the marks structural and surface, and the mark provisional on a brand v
 material was not reached — so a later session matches on them; shown to the person, each such
 name carries a gloss in the user's language beside it. Values, reasons, and what is named as
 kept are in the user's language. The user's language is the one the person writes to the
-session in; before the person has written anything, it is the brief's.
+session in — a command the person types, an entry's name among them, is not writing in a
+language; before the person has written anything, it is the brief's.
 
 ## Ways in
 
@@ -48,8 +49,8 @@ routed to whichever fits. Building something new runs down this file in order, w
 |---|---|
 | `init` | Once per project, and again for a study the first run skipped. Looks for a declaration where the record says it lives, or at `.design/declaration.md`; with none, derives one from the subject by the procedure in rules/tokens.md, code or no code; where code exists, reads it beside the derivation and records where the two differ. Shows the declaration and the comparison, asks whether the values stand and where it should live — the question under What it asks you — and writes it only after both are agreed. Nothing in the code changes here. The declaration is born here and nowhere else. With a declaration whose record says the sites were not studied: with a browser it can drive, studies them, derives again — keeping the scope of change and the recorded exceptions as the person wrote them — shows what changes, and puts the second question again; with none, puts the first question again. With a declaration and the sites studied, says the text under What it asks you and stops. |
 | `review` | Improving a screen that already exists. Starts at [rules/review.md](rules/review.md): operate the screen, name the deficits, gather against them, rebuild in small passes, compare. Before the rebuild, reads the declaration's scope of change (Before fix or review changes the code, below), asking once if it has not been answered. That file routes back here for whichever decisions the deficits turn out to be about. |
-| `inspect` | Inspection only. Runs every applicable Inspection — the counts and checks at the end of each rule file — against the running screen, writes the results to the record, returns the repair list — one line per count that missed or check that failed, each marked structural or surface as Before fix or review changes the code defines them, the marks said once in the person's words where the list begins: a repair that moves, resizes, removes, or reorders something, or one that does not — and changes nothing else. It names to the person every count it could not take and why, beside the list: an untaken count is not a pass, and the person is not left to assume one. |
-| `fix` | Consumes a repair list, usually inspect's; with no list in the record, it runs every applicable Inspection first, as `inspect` does, and works the list that returns. Reads the declaration's scope of change (Before fix or review changes the code, below) first — asking once if it has not been answered — applies only what it allows, and writes the rest to `.design/record.md` with the reason. Each change it makes to the code belongs to a repair on the list, and the record says which; rules/review.md counts a change that belongs to none. At most five repairs per pass; after each pass the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. Done when the list is empty and a run of every applicable Inspection after the last pass finds nothing the record does not already hold with its reason. What that last run finds new is written to the record for the next `inspect`, not repaired in this run. |
+| `inspect` | Inspection only. Runs every applicable Inspection — the counts and checks at the end of each rule file — against every screen the product has, running, at the checked sizes rules/layout.md names, reading each count about the rendered screen off a capture, a recording, or a walk this run makes; writes the results to the record, returns the repair list — one line per count that missed or check that failed, each marked structural or surface as Before fix or review changes the code defines them, the marks said once in the person's words where the list begins: a repair that moves, resizes, removes, or reorders something, or one that does not — and changes nothing else. It ends as How `inspect` and `fix` end, under What it asks you, says; every count it could not take is named there with what would take it, since an untaken count is not a pass and the person is not left to assume one. |
+| `fix` | Consumes a repair list, usually inspect's; with no list in the record, it runs every applicable Inspection first, as `inspect` does, and works the list that returns. Reads the declaration's scope of change (Before fix or review changes the code, below) first — asking once if it has not been answered — applies only what it allows, and writes the rest to `.design/record.md` with the reason. Each change it makes to the code belongs to a repair on the list, and the record says which; rules/review.md counts a change that belongs to none. At most five repairs per pass; after each pass the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. Done when the list is empty and a run of every applicable Inspection after the last pass finds nothing the record does not already hold with its reason. What that last run finds new is written to the record for the next `inspect`, not repaired in this run — except a defect this run's own changes caused, which it repairs, or undoes the change behind, before it ends. It ends as How `inspect` and `fix` end, under What it asks you, says. |
 
 Screen work arriving with no declaration in the project does not create one in passing. It stops
 with the text under What it asks you. A brief that grants agreement in advance — a line in the
@@ -75,8 +76,9 @@ apart from them — below the answers where they are numbered lines, and in the 
 tool, which shows nothing after its options, at the end of the question's text, after the
 question's own sentences. That covers the three questions below and what the session
 says around them: what it is about to do, what it wrote and where, what it changed in the code,
-what it left for the person to decide and where that is written. What the rules say about the
-record and the counts is for the session, not for the person.
+what it left for the person to decide and where that is written. Every entry says the first of
+these — what it is about to do, in one line — before its first change to any file. What the rules
+say about the record and the counts is for the session, not for the person.
 
 The three questions are fixed texts, each put once — the second once more after Change some
 values first — every word translated, the bold labels included, nothing added. Only a file path
@@ -93,7 +95,8 @@ other decision a pass meets — a value the declaration lacks, the form a repair
 session makes under the declaration and writes down (Project tokens, below); the person changes
 a decision by editing the declaration.
 
-**When `init` starts and the product has no declaration yet:**
+**When `init` starts, the product has no declaration yet, and the brief has not agreed to the values
+in advance** — where it has, the first line to the person says what `init` is about to do instead:
 
 > This project has no design decisions written down yet. I'll draft a set from your description
 > and whatever the project already has, show you, and save only when you say so.
@@ -203,6 +206,26 @@ followed by what was named.
 > when I drafted them. To change a decision, edit the design decisions file. To see where the
 > code differs from the decisions, run `inspect`.
 
+**How `inspect` and `fix` end.** The last thing the session says in a run of either keeps this
+order, and leaves out a part with nothing in it. First, one sentence: what the run did, whether
+the code changed, and where the results are written; under `fix`, how many repairs it made. Then
+the repairs — under `fix`, those it left — in three groups, heaviest first: those without which a
+reader cannot use the screen, which are the accessibility floor's, one line each; those the reader
+sees, the structural ones one line each and the surface ones as one line with their number and
+where they are listed; and those that only write into a file this skill keeps, given the same way.
+A repair given a line of its own is said in the person's words, with its mark; the marks are said
+once where the list begins, and the full list stays in `.design/record.md`. Then what only the
+person can give — material, a fact to confirm, a decision — gathered in one place, each with what
+it lets the next run do. Then each count the run could not take, with what would take it; a count
+the run's own browser, recording, or scripts could take is taken in the run, and the next run is
+not what would take it. Where the person could take one on a device of their own, the steps
+follow, in a few lines, put as something they may do rather than as a question. Last, the one
+command to run next.
+
+A count the person takes on their own device and reports to the session is taken: the record says
+it was taken by the person, on which device, on which day, and what they found, and it stands until
+the code it was read on changes.
+
 ## Before fix or review changes the code
 
 On a product that already has screens, `fix` and `review` ask once, before changing anything,
@@ -251,11 +274,11 @@ root, `.design/`. Nothing lands loose at the root.
 |---|---|
 | `.design/declaration.md` | The token declaration, its scope of change included. Born in `init`, committed with the project |
 | `.design/record.md` | Named deficits, count results, the study record, init's map and comparison of the code, the repair list with its marks, and what each fix pass did |
-| `.design/structure.md` | The layout structure rules/layout.md calls for: one entry per surface — columns and their gap, or flow and what stops the width; the arrangement and what in the subject put it there — and what each region does as the display narrows |
+| `.design/structure.md` | The layout structure rules/layout.md calls for: one entry per surface — columns and their gap, or flow and what stops the width; the arrangement and what in the subject put it there — what each region does as the display narrows, and the checked sizes |
 | `.design/lexicon.md` | The string inventory rules/copy.md builds: each intent, its one phrasing, every place it appears |
 | `.design/style-system.md` | The artwork style system rules/assets.md calls for: family, palette, light and texture, subject grammar |
 | `.design/captures/` | The state captures rules/states.md calls for, and the study's captures of references under `refs/` |
-| `.design/harness/` | Inspection scripts, the study's capture script, their output, and a browser's working files while a pass runs, removed when it ends. Disposable once the pass is over |
+| `.design/harness/` | The scripts that take counts — inspection scripts, the study's capture script — kept so a later pass counts again by running them, and changed where the rule or the screen changed rather than written again. Their output and a browser's working files are removed when the pass ends |
 
 `.design/` is the default; the user's choice of home wins, a section inside an existing design
 document included. `.design/record.md` names the home; every entry reads the declaration from
@@ -347,15 +370,15 @@ second file.
 | File | Owns | Open when |
 |---|---|---|
 | [rules/tokens.md](rules/tokens.md) | The declaration, its entries, its derivation, and brand values read from the brand's material | Writing or amending the declaration: color, typeface, spacing, radius, elevation, symbol set, springs, easing, voice, recorded exceptions, number and date formats |
-| [rules/layout.md](rules/layout.md) | Structure and the arrangement, alignment, grouping by space, density, reflow, the platform's own regions, and the one primary job per screen | Arranging anything on a screen: structure, alignment, grouping, density, what the primary action is and where it sits, what happens as the display narrows, anything fixed to a display edge |
+| [rules/layout.md](rules/layout.md) | Structure and the arrangement, the checked sizes, alignment, grouping by space, density, reflow, the platform's own regions, and the one primary job per screen | Arranging anything on a screen: structure, alignment, grouping, density, what the primary action is and where it sits, what happens as the display narrows, anything fixed to a display edge |
 | [rules/anti-slop.md](rules/anti-slop.md) | The exception rule, and the master count for everything the declaration fixes, plus emoji, all-caps labels, and glyphs appended to action text | A visual direction has been picked, and again before any flow gets a visual review |
-| [rules/states.md](rules/states.md) | The five states, forcing each one, exemptions, the long-content test, session interruptions, reflecting an action before its answer arrives, the response thresholds, a control's own states, a state change moving nothing else | A screen loads data, can be empty, can be reached on a new account, can fail, can receive long content, has to answer a tap before the answer comes back, has a control that can be disabled or selected, or shows something new beside content already on the screen |
-| [rules/navigation.md](rules/navigation.md) | Advance against move on, container semantics, one-way doors, blocking back | Adding a screen, modal, sheet, or overlay; deciding back behavior; anything a link can open |
-| [rules/motion.md](rules/motion.md) | The frequency gate, purpose, springs against timing, motion that never takes the controls away, motion the reader can stop, the recorded verification and its frame-rate bar | Adding animation or a gesture, content that moves or updates itself, or a transition that feels wrong |
-| [rules/copy.md](rules/copy.md) | One label per intent, the string inventory and the lexicon, banned strings, translation, a claim naming this product, a figure shown as a figure, a string said once, a control's label on one line | Any screen carries a headline or a control's label, more than one screen carries action labels, or the product will be translated |
+| [rules/states.md](rules/states.md) | The five states and what the reader's operation reaches, forcing each one, exemptions, the long-content test, what happens across a session — time that runs while nothing does among it — reflecting an action before its answer arrives, the response thresholds, a control's own states, what a press lands on, a state change moving nothing else, text over what moves | A screen loads data, can be empty, can be reached on a new account, can fail, can receive long content, has to answer a tap before the answer comes back, has a control that can be disabled or selected, shows something new beside content already on the screen, puts text over something that moves on its own, or grants something once time has passed |
+| [rules/navigation.md](rules/navigation.md) | Advance against move on, container semantics, back closing what covers the screen, one-way doors, blocking back, the screen moving only when the reader moves it | Adding a screen, modal, sheet, or overlay; deciding back behavior; anything a link can open |
+| [rules/motion.md](rules/motion.md) | The frequency gate, purpose and a beat on a change of state, springs against timing, motion that never takes the controls away, motion the reader can stop, the recorded verification and its frame-rate bar | Adding animation or a gesture, content that moves or updates itself, or a transition that feels wrong |
+| [rules/copy.md](rules/copy.md) | One label per intent, the string inventory and the lexicon, banned strings, translation, a claim naming this product, a figure shown as a figure, a string said once, a control's label on one line, where a line breaks | Any screen carries a headline or a control's label, more than one screen carries action labels, titles or names come from real data, or the product will be translated |
 | [rules/forms.md](rules/forms.md) | Labels, what a field declares about itself, movement order, when to validate, where errors sit, the raised input method, submitting once, paste never blocked | The screen accepts typing: any field, any form, anything validated or submitted |
 | [rules/assets.md](rules/assets.md) | The style system for artwork, generated, photographed, or drawn in code; what it sits on, its edges, the photograph held to the palette, and the reject list | Artwork the declared symbol set cannot supply, generated as an image, photographed, or drawn in code: illustration, spot art, a photograph the product ships, a product depicted on the page |
-| [rules/a11y.md](rules/a11y.md) | Accessible names, image descriptions, color as sole carrier, focus in and back, keyboard parity, announcements, hover as a hint, the way past recurring blocks, the reader's own zoom | The screen has icon-only controls, images, modals, custom controls, meaning carried by color, outcomes that arrive after the action, a viewport declaration, or a block of controls that recurs across screens — and once more before done, since its two walks close the floor |
+| [rules/a11y.md](rules/a11y.md) | Accessible names, image descriptions, color as sole carrier, focus in and back, keyboard parity, announcements, hover as a hint, the way past recurring blocks, what the ear receives, the reader's own zoom | The screen has icon-only controls, images, modals, custom controls, meaning carried by color, outcomes that arrive after the action, a viewport declaration, a block of controls that recurs across screens, or text assembled from pieces or set apart by marks — and once more before done, since its two walks close the floor |
 | [rules/review.md](rules/review.md) | What better has to mean, naming deficits, gathering against them, and the comparison that ends the work | The task is improving a screen that already exists rather than building one, or `inspect` runs after `fix` applied repairs — that file names the lines read then |
 
 ## Project tokens
@@ -381,8 +404,8 @@ finds the fifth.
   declaration is complete; rules/anti-slop.md, which holds the master count for everything the
   declaration fixes; rules/copy.md, which holds the string inventory. When a count comes back
   wrong, fix it and rerun that count before going on.
-- Run the Inspection in rules/layout.md against the rendered screen at its widest and its
-  narrowest supported width.
+- Run the Inspection in rules/layout.md against the rendered screen at every checked size
+  rules/layout.md names.
 - Capture loading, empty, first run, error, and long content for every screen, forcing each state
   rather than reasoning about it. rules/states.md holds the forcing procedure, the exemption rule,
   and what each capture has to show.
@@ -391,8 +414,8 @@ finds the fifth.
 - Record the whole flow in one take and run the Inspection in rules/motion.md against that
   recording. A still frame cannot report how a transition behaved; the recording is the only
   evidence there is.
-- Run the Inspection in rules/states.md against the rendered screens, including the four session
-  interruptions. Where the declaration names two themes, light and dark resolving from the one
+- Run the Inspection in rules/states.md against the rendered screens, including the five across a
+  session. Where the declaration names two themes, light and dark resolving from the one
   declaration is the part of it inspected in rules/tokens.md.
 - Time a cold start to the first accepted input, and a keystroke to the character appearing. Both
   thresholds live in rules/states.md.

@@ -8,7 +8,7 @@ skill for the writing itself. **This file does not restate it.**
 
 What it adds is the part that cannot be done by writing well one string at a time: an inventory
 that catches the same intent wearing three labels, the constraints translation puts on a layout,
-what a control's label may not do, and what a claim has to name.
+what a control's label may not do, where a line may break, and what a claim has to name.
 
 ## One label per intent
 
@@ -96,6 +96,16 @@ reads as a broken control, not as a long one; the repair is a shorter label or a
 never the wrap. A row or a card that is itself the control carries a title, and a link with nothing
 drawn around it — in a column of links, in running text — wraps with its text.
 
+## Where a line breaks
+
+A line breaks where its language breaks it. No line opens with a mark that belongs to the line
+before — a closing bracket, a closing quotation mark, a comma, a full stop — and no title,
+heading, or name set over more than one line ends on a last line of one character. Both come more
+from the data than from the design: a name with a bracket in it can become one word no break may
+enter, and a narrow width then breaks it wherever it must. So both are read under the longest real
+values the product shows — its longest name, title, label — at the width of every checked size
+(rules/layout.md).
+
 ## Inspection
 
 Run this before a surface is called finished. All-caps label styles and glyphs appended to action
@@ -135,6 +145,9 @@ text are counted in anti-slop.md, including the exception. Run that count in the
   or, where none exists, the source label: 0. A link with nothing drawn around it, in a column of
   links or in running text, wraps with its text and is not counted here; the padded strings of the
   count above test the layout, not this line.
+- Lines opening with a closing bracket, a closing quotation mark, or punctuation that belongs to
+  the line before, under the longest real values at the width of every checked size: 0.
+- Titles, headings, and names whose last line holds one character, under the same values: 0.
 - Sentences assembled by joining fragments rather than built from whole strings and
   placeholders: 0.
 - Action strings absent from the lexicon: 0.
@@ -161,3 +174,10 @@ text are counted in anti-slop.md, including the exception. Run that count in the
   layer instead. The resulting table is the same either way.
 - Number and date rendering goes through the platform's locale formatter. Hand-built numeric and
   date formats are a defect.
+- Web: Unicode's line-breaking rules (UAX #14) allow no break between a letter and an opening
+  bracket, so `Name(Live)` is one word, and an emergency break — `overflow-wrap: anywhere` — can
+  set the closing bracket alone. A zero-width space before the opening bracket, added where the
+  value is rendered, gives the break a place. `text-wrap: balance` evens a title's lines and falls
+  back to the ordinary break where unsupported; `line-break: strict` keeps closing marks off a
+  line's start in Japanese. Lines are read by measuring each character's box with a Range and
+  grouping the boxes by their top.

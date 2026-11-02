@@ -5,6 +5,91 @@ the defect that forced it — and where it now lives, so a later change starts f
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
 live in the files named, not here.
 
+## 2026-10-25 to 2026-11-02 — A month of one product under the skill
+
+One product, a music app, ran the skill for a month and sent fifteen proposals from its own
+record, each with the defect behind it. Each was weighed against one question — would it make the
+skill better on every product, or only on that one — and against two ways a new rule makes a
+skill worse: it flags what is fine elsewhere, or it lengthens every run. Ten went in as proposed,
+three went in narrowed, five were left out (`DESIGN.md`, Read and left out).
+
+**The checked sizes.** The product's two worst misses came from checking at a device's listed
+size: a laptop scaled by the system, a phone with the browser's bars showing, each left a height
+no check had used. A screen is now checked at the widest and narrowest supported width, each at
+the shortest height a reader is left there, with each size's reason in the structure. Only the
+layout counts, the press count, and the overlap count read every checked size; state captures
+stay at the widest and the narrowest, so the reads do not multiply. A first draft read every
+count at every size; it was narrowed for that reason. Lives in `rules/layout.md`, The sizes a
+screen is checked at.
+
+**What a press lands on.** A full-width box that drew nothing covered the product's main button
+on short windows; neither the eye nor the keyboard finds that. A press at the middle of each
+control is now read at every checked size, the target is the area that answers, and two areas do
+not overlap. It is a piece of the accessibility floor: a control nobody can press is unusable
+whatever the scope of change. Lives in `rules/states.md`, What a press lands on.
+
+**Time that runs while nothing does; text over what moves; the states the reader's operation
+reaches.** A gate that opens after a minimum listening time opened while the music was paused;
+text over an animated background passed a still frame and failed at its brightest moment, four
+measurements in four; the product's own review captures — playing, finished, after pass — were
+none of the five states. Each became a rule and a count. Lives in `rules/states.md`, Across a
+session, Text over what moves, What the reader's own operation reaches.
+
+**Back closes what covers the screen; nothing moves on by itself.** The product's full-screen
+player had no history entry, so back left the site; a result layer closed itself. Writing that
+rule exposed a contradiction already in the file: "a history the product does not own is never
+written to" forbade the web's own Advance. The trap is an entry beneath the page the reader
+arrived on, and the sentence now says so. Lives in `rules/navigation.md`.
+
+**What the ear receives.** On an iPhone the product's separators were read aloud one by one, a
+figure split into three stops, and stops followed position rather than markup. A mark for the
+eye only is hidden from the tree whatever screen reader the reader uses — tracking which reader
+reads which mark was considered and dropped, since readers and versions differ — and punctuation
+inside a sentence is the sentence's own. The first count over-counted a title's dash for want of
+that sentence. Lives in `rules/a11y.md`, What the ear receives.
+
+**Line breaks, small and dim, a beat on a change of state, decisions on every screen.** A name
+with a bracket left `)` alone on a line; the product's author corrected type size or dimming four
+times; a glow at an unlock was too brief to be seen; a font decided on one screen was not carried
+to the others. Each became a rule with a count or a check; the derivation now takes the larger
+step and the brighter tone where the reading distance leaves a choice, and the next `init` on the
+same study set its smallest step 1rem against 0.875rem and its secondary text 7.09 to 1 against
+5.08. Lives in `rules/copy.md`, `rules/tokens.md`, `rules/motion.md`.
+
+**The runs' own discipline.** A pass about the rendered screen names the capture, recording, or
+walk behind it; every screen the product has is listed; the scripts that take counts are kept
+rather than thrown away, so the next pass counts again; a count the run's own tools could take is
+not passed to the next run; and `fix` repairs or undoes what its own changes caused. Lives in
+`rules/review.md`, the last lines of the count, and `SKILL.md`, Ways in.
+
+**How `inspect` and `fix` end.** Two runs' closing messages were walls: forty-nine repairs in no
+order, with the material only the person could supply buried among them. The end now has a fixed
+order — what was done; the repairs heaviest first, only the floor's and the reader-visible
+structural ones a line each; what only the person can give; what was not taken and what would
+take it, with steps on the person's own device; the next command. A count the person takes on
+their device is taken. Lives in `SKILL.md`, What it asks you.
+
+**The first line, the language, and the full closing run — in the entry files.** `fix` spoke English
+in both of its long runs, from its first line, while writing the record in Japanese. Two sentences
+in `SKILL.md` — a typed command is not writing in a language; say one line before the first file is
+written — did not reach it; the same line in the entry file did, in the next run, four minutes long.
+The same short run showed `fix` checking only the counts its one repair touched; that too moved into
+the entry file; no `fix` has run since to show it holds. `init`'s opening text went unsaid in three
+runs of three: it promises to save only when the person says so, which is false where the brief
+agrees in advance, and the session skipped it rather than say it. The text is now said where the
+person will be asked, and the first line says what `init` is about to do where the brief has agreed.
+Lives in the four entry files and `SKILL.md`, What it asks you; the lessons, in `CLAUDE.md`.
+
+**The runs that settled it.** One scaffold carried the planted defects; the old skill and the new
+inspected the same state. The old found five of ten, the new nine — the tenth was planted at a
+width neither run checked — and neither flagged a decoy. Two real defects the old run found the
+new one did not try; their rules had not changed, and one run each is not a rate. The language,
+the first line, the derivation, and the opening text were then settled on one-screen workspaces
+in runs of four to six minutes, after the full scaffold had taken twenty-five to ninety. A first
+version of the scaffold named the author's window in its brief, which handed the old skill the
+size the new rule exists to find; that run was stopped and the brief rewritten. Lives in
+`CONTRIBUTING.md`, Live test, and `CLAUDE.md`, Reviewing.
+
 ## 2026-09-30 to 2026-10-02 — The third scaffold's runs, and the skill read whole twice
 
 Of the nine gaps the third scaffold's runs had shown by this point, seven could have been found by

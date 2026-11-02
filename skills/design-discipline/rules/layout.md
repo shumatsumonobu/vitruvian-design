@@ -11,7 +11,7 @@ when nobody said otherwise, which differs from one environment to the next.
 
 One entry per surface, written into `.design/structure.md` beside the token declaration — that
 is the default home, and the declaration's own home wins where the project chose one. The
-reflow declarations below live in the same file.
+reflow declarations and the checked sizes below live in the same file.
 
 - **Columns and the gap between them**, where the surface uses a column structure, or
 - **Flow**, where content stacks in reading order and width is capped rather than divided.
@@ -61,6 +61,18 @@ container itself, or a wider region that keeps the text block narrow inside it �
 surface as a whole, the container that stops the width. Text running the full width of a large
 display because nothing stopped it is the most common version of this failure.
 
+## The sizes a screen is checked at
+
+A screen is checked at the sizes its readers are left with, not at the sizes a device is sold at.
+These are the checked sizes: the widest and the narrowest supported width, and at each the
+shortest height a reader meets there — where a browser or the system keeps bars of its own on the
+display, the height with them showing; where the operating system scales the display, the window
+that scaling leaves. A window the brief, the product's data, or the person names joins the set.
+The set goes into the structure, each size with its reason; where the structure holds none yet, a
+run reads at the set this paragraph gives, writes the set it used into the record, and the entry
+goes on the repair list. This file's counts on a rendered surface are read at every checked size;
+every other rule that reads one at a size says which.
+
 ## The platform's own regions
 
 A device's display has regions the platform keeps for itself. A background may run under them;
@@ -108,6 +120,10 @@ are counted in anti-slop.md. Run that count in the same pass.
 - Surfaces whose rendering differs from their declared structure — the columns and their gap or
   what stops the width, the arrangement, what each region does as the display narrows: 0.
 - Regions with no declared reflow behavior: 0.
+- Structures with no checked sizes, or with a checked size that has no height or no reason beside
+  it: 0.
+- Checked sizes taken from a device's full display where readers are left less of it — a
+  browser's or the system's own bars showing, the operating system's scaling applied: 0.
 - Distinct left edges within one column, counting only those with no stated reason: 1.
 - Edges the structure means to share that differ, on any axis: 0.
 - Groups whose internal gap is equal to or larger than the gap separating them from their
@@ -156,3 +172,8 @@ are counted in anti-slop.md. Run that count in the same pass.
   `env(safe-area-inset-*)` is the allowance; without the first, the page does not run under them. On
   iOS the allowance is the safe area the view reports; on Android, the window insets. A desktop
   display has none, and both counts report 0.
+- A phone's browser shows its bars when a page first loads and hides them as the page scrolls;
+  the shortest height is the viewport with them showing — the `svh` unit, or the window's inner
+  height read on load. A desktop the operating system scales has fewer CSS pixels than the display
+  has pixels, and the browser's toolbar takes more from the height. A scripted browser opened at a
+  device's listed size skips both, so a checked size is set as the reader is left it.

@@ -51,13 +51,14 @@ only be inherited where a platform is assumed, so the layout file states its
 own. frontend-design names the accessibility floor in a single line — visible
 keyboard focus, reduced motion respected, visually accessible — and carries no
 procedure for reaching it, so the walks, the counts, and the rules on names,
-images, color, focus, the keyboard, announcements, what stays reachable
-without hover, and the reader's own zoom are written out here. The pieces of
-the floor that live with their subjects — contrast, tap targets, focus
-visibility, enlarged text, reduce motion, a channel that is never touch or
-sound alone, moving or self-updating content the reader can stop, a label
-never replaced by a placeholder — stayed in rules/states.md, rules/motion.md,
-and rules/forms.md, and rules/a11y.md names them rather than moving them.
+images, what the ear receives, color, focus, the keyboard, announcements,
+what stays reachable without hover, and the reader's own zoom are written out
+here. The pieces of the floor that live with their subjects — contrast, tap
+targets and what a press lands on, focus visibility, enlarged text, reduce
+motion, a channel that is never touch or sound alone, moving or self-updating
+content the reader can stop, a label never replaced by a placeholder — stayed
+in rules/states.md, rules/motion.md, and rules/forms.md, and rules/a11y.md
+names them rather than moving them.
 
 The keyboard's way past repeated blocks, in rules/a11y.md, follows SC 2.4.1
 Bypass Blocks, level A, taken here for blocks of controls.
@@ -132,4 +133,5 @@ everywhere.
   five studied references before a visual direction SKILL.md
   one studied reference walked as a running flow    SKILL.md
   one line, a control's label at every supported width         rules/copy.md
+  one character, a title's last line                rules/copy.md
   two focusable elements, the smallest recurring block         rules/a11y.md

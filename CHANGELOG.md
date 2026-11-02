@@ -3,6 +3,27 @@
 What a fresh copy of `skills/` gets you, newest first. Install is the same at every entry:
 copy the five directories in, replacing the ones you have.
 
+## 2026-11-02
+
+Screens are checked at the sizes their readers are left with: the widest and narrowest width,
+each at the shortest height a reader meets there — a phone with the browser's bars showing, a
+laptop the system scales — each written into the structure with its reason. At those sizes a
+press on each control is read for whether it lands on the control, and two controls' press
+areas may not overlap. Text over a background that moves is measured at its worst moment, and a
+timer that unlocks or moves on stops when what it measures is paused.
+
+Back closes whatever covers the screen, and nothing closes or moves on without the reader. A
+mark meant for the eye is hidden from the screen reader, a phrase reaches it as one, and no
+line opens with a closing bracket or ends a title on one character. Type sizes and dimming are
+derived from the distance the text is read at, the larger step taken where it leaves a choice.
+
+`inspect` reads every screen the product has, names the capture behind each pass, keeps the
+scripts that take counts, and takes every count its own tools can. `inspect` and `fix` end in a
+fixed order: the repairs heaviest first, then what only you can give, what was not measured and
+how you could measure it on your own device, and the next command. `fix` repairs or undoes what
+its own changes broke. Each entry speaks your language from its first line, said before it
+writes any file.
+
 ## 2026-10-02
 
 Two families of one classification that split one role by writing system — one setting the Latin

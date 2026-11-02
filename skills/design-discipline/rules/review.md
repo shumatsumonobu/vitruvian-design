@@ -84,10 +84,10 @@ failure a screenshot cannot show.
 The first four lines of the count are `review`'s own. The lines from Repairs applied between one
 look and the next to Deficits from the original list are read against any run that applied
 repairs — `review`'s rebuild or `fix`'s passes — from the record's account of each pass and the
-changes to the code; `inspect` reads them whenever the record holds a fix pass. The last two
+changes to the code; `inspect` reads them whenever the record holds a fix pass. The last six
 lines are read by every run — `init`, `inspect`, `fix`, `review` — against what that run itself
-changed and wrote, before it ends: a rule a run reads once at its start is the rule a long run
-forgets, and these two are where that showed.
+changed, wrote, and read, before it ends: a rule a run reads once at its start is the rule a long
+run forgets, and these are where that showed.
 
 ### The count
 
@@ -108,6 +108,7 @@ forgets, and these two are where that showed.
   provisional (rules/tokens.md), counting none the declaration's recorded exceptions allow: 0.
 - Repairs on the list with no structural or surface mark, or skipped with no reason beside
   them: 0.
+- Defects the record ties to the run's own changes that are still in place when it ends: 0.
 - Deficits from the original list still present at the end, those the scope of change forbids,
   those whose repair would change what the product relies on behind what the reader receives
   (SKILL.md, Before fix or review changes the code), and those whose repair `fix` leaves for an
@@ -118,6 +119,15 @@ forgets, and these two are where that showed.
 - Files the run wrote outside `.design/` (SKILL.md, What this skill writes) and outside the
   product's own code — a browser profile or a script in the system's temporary directory
   included: 0. The run lists what it wrote, and the list is read against the file system.
+- Passes the record reports for counts about the rendered screen, its motion, or a walk, with no
+  capture, recording, or walk this run made named beside them: 0.
+- Where this run read any count on a rendered screen, screens the product has missing from the
+  record's list — each screen with the checked sizes (rules/layout.md) and states it was read at,
+  or the reason it was not read: 0.
+- Counts the record says a script took with no script named beside them that is still under
+  `.design/harness/`, and two scripts there taking the same count: 0.
+- Counts the record gives as not taken that the run's own browser, recording, or scripts could
+  have taken — the next run named as what would take one among them: 0.
 
 ### The checks
 

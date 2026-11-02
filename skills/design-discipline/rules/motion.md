@@ -28,6 +28,12 @@ delight. A purpose needing a sentence is not a purpose, and the animation does n
 Figures and text a reader is partway through hold still, because style is not a reason to move
 something a person is trying to read.
 
+A beat on a real change of state — a control unlocking, a task completing — is state change, not
+decoration. It plays once per change, does not stay lit, does not loop, and keeps to its band like
+any animation. Its peak sits where the eye can catch it, past the first frames, at a strength that
+can be seen; a beat that leaves nothing in the recording is an animation nobody received. A beat
+that glows is still counted with the glows in rules/anti-slop.md, and lifts as any exception does.
+
 ## What drives it
 
 A finger on the surface means a spring. Nothing touching it means a duration and a curve. Getting
@@ -213,6 +219,7 @@ Every count below is read from the recording. Where no recording can be made, th
   counted on the line above: 0.
 - Motion running on a spring or a curve the declaration does not name: 0. Where the declaration
   names none because the product has no motion, every motion found is counted here.
+- Beats on a change of state that stay lit, loop, or show no peak in the recording: 0.
 
 ### The checks
 

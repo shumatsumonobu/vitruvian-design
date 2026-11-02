@@ -64,6 +64,8 @@ Entry names are the words each line above opens with, as given; the scope of cha
 one of the answers or states above, as given. Values, reasons, and what is named as kept are in
 the user's language — the rule is under Language in SKILL.md.
 
+Every entry holds on every screen of the product. An entry meant for some screens names them.
+
 A screen needing a value the declaration lacks is a request to amend the declaration. The
 session answers it: decides the value from the declaration's reasons and the rules here, writes
 the value and its reason into the entry before building the screen, and says what it added. The
@@ -153,6 +155,10 @@ left to the person, until the material is reached.
 6. A person who wants a value the code carries keeps it by amending the declaration, where
    decisions live — not by having init read it in.
 
+Sizes and dimming derived with nothing in the subject deciding them lean small and dim. A step
+that sets text the reader must read is derived from the distance the screen is read from and what
+that text carries; where the two leave a choice, the larger step and the brighter tone are taken.
+
 ## Inspection
 
 This file checks the declaration itself. Color, radius, shadow, spacing, and type values rendered
@@ -210,6 +216,11 @@ artwork that a style system governs are counted in rules/assets.md.
   first frame of the product a reader sees.
 - The map, where code exists. Point at each definition site it names and say how it was found;
   a site the search missed goes in.
+- The smallest step and the dimmest text. For the smallest type-scale step that sets text the
+  reader must read, and the dimmest color such text is set in, name what the reader does with
+  that text and from how far, and what in the subject set the size and the dimming. That the text
+  is secondary is its rank, not a reason for its size; an answer that gives only the rank puts the
+  entry on the repair list `inspect` returns (SKILL.md).
 
 ## Platform notes
 

@@ -63,7 +63,13 @@ a change must keep. A change that breaks one is a defect even when the prose rea
   translation, so the English carries nothing that breaks in one, and the translation keeps the
   courtesy owed to someone the agent has just met, whatever tone the conversation has taken. What
   the session says to the person around a question — what it did, what it wrote, what it left —
-  keeps to the same words; a live run is what checks it.
+  keeps to the same words; a live run is what checks it. A fixed text is read against every case
+  it can be said in; a text that would be false in one — a promise to ask, where the brief has
+  answered in advance — is skipped by the session, and that case needs its own line.
+- **What a session must do from its first step stands in the entry file.** The entry's few
+  lines are what a session reads first and keeps. A rule placed deep in `SKILL.md` — the first
+  line to the person, the language, the run of every Inspection before `fix` ends — was skipped
+  in runs until the entry file carried it.
 
 ## Reviewing
 
@@ -77,6 +83,15 @@ is a live run, and the runs, with what to read after each, are under Live test i
 goes on from there; a repair put off until the run ends costs the run again. A review walks
 every path a change touches to its end, one written line per path — the lens says how; a
 sentence read alone is how a gap between two correct sentences survives.
+
+A run costs the author's time, so a run is asked for only once the test itself has been
+checked: every planted defect measured at every size a session might choose, the brief read for
+anything that answers what the run measures, the model and effort fixed, and the check written
+in the workspace's test plan. A run settles one or two rules on the smallest workspace that
+carries them — one screen, its declaration and record already in place — and a whole scaffold is
+kept for the run that walks the full sequence. Within a run a gap is repaired the moment it
+shows; across runs, the gaps are collected and repaired together before the next run is asked
+for, not one run per repair.
 
 ## Words
 

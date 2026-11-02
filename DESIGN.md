@@ -45,8 +45,8 @@ the description Claude Code lists; the procedure lives in the Ways in table of `
 | Entry | Does |
 |---|---|
 | `init` | Derives the declaration from the subject, reads the code beside it without adopting a value, asks the second question, writes the declaration once — at `.design/declaration.md`, or at the home the person names, which the record keeps; run again after a skipped study, studies the sites and puts the second question again |
-| `inspect` | Runs every applicable Inspection against the running screen, writes the results to the record, returns the repair list with each repair marked and names what it could not take, changes nothing else |
-| `fix` | Works the repair list down within the scope of change — running the Inspections first where the record holds no list — at most five repairs per pass, and ends with a run of every applicable Inspection whose new findings go to the record for the next `inspect` |
+| `inspect` | Runs every applicable Inspection against every screen the product has, at the checked sizes, writes the results to the record, returns the repair list with each repair marked, and ends with the report How `inspect` and `fix` end describes; changes nothing else |
+| `fix` | Works the repair list down within the scope of change — running the Inspections first where the record holds no list — at most five repairs per pass, and ends with a run of every applicable Inspection whose new findings go to the record for the next `inspect`, except a defect its own changes caused, which it repairs or undoes; ends with the same report |
 | `review` | Improves a screen that exists: operates it, names the deficits, gathers references against them, rebuilds in small passes, compares |
 
 ### The eleven rule files
@@ -81,7 +81,15 @@ and where in `SKILL.md` is the list. The two that carry the design:
   and `.design/harness/`, and changes nothing in the product.
 
 The structure declaration, the lexicon, the style system, the captures, and the harness are the
-remaining files; each rule file that calls for one names it.
+remaining files; each rule file that calls for one names it. The structure declaration holds the
+checked sizes. The harness keeps the scripts that take counts, so a later pass counts again by
+running them; their output and a browser's working files go when the pass ends.
+
+Each entry file carries, besides the pointer to `SKILL.md`, what a session must do from its first
+step: speak in the user's language, say one line on what it is about to do before it writes any
+file — `init` its opening text, or that line where the brief agrees in advance — and, for `fix`,
+run every rule file's Inspection after the last pass. Placed only in `SKILL.md`, these were
+skipped in runs.
 
 ## 3. How a run moves
 
@@ -111,7 +119,21 @@ system, included. The definition is in `SKILL.md` under Before fix or review cha
 
 A count that the workspace cannot drive — a device with the platform's own regions, a touch
 screen, a screen reader, a frame-rate capture — is written in the record as not taken. An
-untaken count is not a pass.
+untaken count is not a pass. A count the run's own tools could take is taken in the run, never
+passed to the next one. A count the person takes on a device of their own and reports is taken
+by the person, until the code it was read on changes.
+
+`inspect` reads every screen the product has, at the checked sizes `rules/layout.md` defines —
+the widest and the narrowest supported width, each at the shortest height a reader is left
+there, and any window the brief, the data, or the person names — and reads each count about the
+rendered screen off a capture, a recording, or a walk of that run.
+
+The run ends with the report under How `inspect` and `fix` end in `SKILL.md`: one sentence on
+what it did; the repairs heaviest first — those without which a reader cannot use the screen,
+one line each; those the reader sees, the structural ones one line each and the surface ones as
+a number; those that only write into a file, as a number; what only the person can give; what
+was not taken and what would take it, with steps on the person's own device where that would;
+and the next command.
 
 ### What fix may apply
 
@@ -178,13 +200,18 @@ first uses it; every other file uses the same word.
 | focusable elements | The places the keyboard lands | `rules/a11y.md`, The keyboard can do what the pointer can do |
 | the session, the agent | The same actor: the session in every rule; in the texts put to the person the agent speaks as I | `SKILL.md` |
 | the person | The product's owner, who has never opened the skill: the reader of everything the session says to them | `SKILL.md`, What it asks you |
+| the checked sizes | The widest and the narrowest supported width, each at the shortest height a reader is left there, and any window the brief, the data, or the person names | `rules/layout.md`, The sizes a screen is checked at |
+| the area that answers a press | A control's target, measured where a press lands rather than where the control is drawn | `rules/states.md`, What a press lands on |
+| a stop | Each place a screen reader halts and reads | `rules/a11y.md`, What the ear receives |
+| taken by the person | A count the person took on their own device and reported; it stands until the code changes | `SKILL.md`, How `inspect` and `fix` end |
 | families that split one role by writing system | Families of one classification, each setting the characters the others do not, where the product's text spans more than one writing system; one family wherever the skill counts families | `rules/tokens.md`, Declare the set first |
 
 Terms the skill does not use, and what it says instead: toast or notice → a transient message;
 helper line → a help or character-count line, described, not named; the active state → the
 selected state; navigation item → a link in a navigation; headline → a claim or a title; trigger
 → the control that summoned it; overlay → the dimmed surface; supported size → supported width,
-supported device; layout skeleton → the arrangement; mark, for a brand's symbol → a symbol the
+supported device, or the checked sizes where a height counts too; hit area → the area that
+answers a press; layout skeleton → the arrangement; mark, for a brand's symbol → a symbol the
 product gets from the brand's own material; protected contract → what the product relies on
 behind the screen, said in words; the scope → the scope of change.
 
@@ -210,7 +237,7 @@ instance; each became a rule with a count or a check in the file that already ow
 | Rendered text matches a declared type-scale step | `rules/anti-slop.md`, The count | Text rendered at a size, weight, letter-spacing, or line-height matching no declared step, or without the step's OpenType features | this skill's own runs |
 | Text grows when the reader raises the platform's text size | `rules/states.md`, Long content | Text that stays the same size when the platform's text size is raised one step | this skill's own runs |
 | A tap target is read against the platform's minimum as the platform states it, exception included | `rules/states.md`, Platform notes | Tap targets below the platform's stated minimum | this skill's own runs |
-| A deep link gives a way into the product without writing into a history the product does not own | `rules/navigation.md`, the deep-link paragraph and Platform notes | Deep links with no way into the product; entries written into a history the product does not own | this skill's own runs |
+| A deep link gives a way into the product without writing beneath the page into a history the product does not own | `rules/navigation.md`, the deep-link paragraph and Platform notes | Deep links with no way into the product; entries written beneath the page the reader arrived on | this skill's own runs |
 | Every run reads, before it ends, what it changed and wrote: code changes tied to a repair, files only under `.design/` or in the code | `rules/review.md`, the Inspection's preamble | Changes to the code tied to no repair; files written outside `.design/` and the code — read by every run, not only after a fix pass | this skill's own runs |
 | A value the person changes before saving is theirs; what was derived from it is derived again and marked, and the whole declaration is shown again before the question is put again | `rules/tokens.md`, Deriving the declaration, step 5; the second question's second answer in `SKILL.md` | None — the live run reads it | this skill's own runs |
 | The record names the declaration's home, and every entry reads the declaration from there | `SKILL.md`, What this skill writes; the init row of Ways in; the second question's third answer | Applicable entries left unfilled, in `rules/tokens.md` — a declaration absent from the named home counts as every entry unfilled | this skill's own runs |
@@ -232,9 +259,26 @@ instance; each became a rule with a count or a check in the file that already ow
 | A figure the brief or the product's data supplies is shown as the figure, not as a word for it | `rules/copy.md`, Banned strings, listed once | Words standing in for a supplied figure | a designer's poster and landing page |
 | A photograph the product ships is held to the declared palette | `rules/assets.md`, The style system, Palette | Photographs whose largest areas of color are neither declared values nor the named source of one | a designer's poster and landing page |
 | A fact, a claim, a title, or a section label is said once on a screen; a second language as texture is a recorded choice | `rules/copy.md`, Said once | Facts, claims, titles, and section labels stated twice | a designer's poster and landing page |
+| A screen is checked at the sizes its readers are left with: heights the browser's bars or the system's scaling cut | `rules/layout.md`, The sizes a screen is checked at | Structures with no checked sizes; checked sizes taken from a full display | a product's month under the skill |
+| A press lands on the control drawn, and the areas that answer two presses do not overlap | `rules/states.md`, What a press lands on (floor) | Controls where a press at the middle lands elsewhere; targets measured as the area that answers; overlapping areas | a product's month under the skill |
+| What the reader's own operation reaches is listed and captured like the five states | `rules/states.md`, What the reader's own operation reaches | States with no capture at the widest or narrowest checked size; screens with no list | a product's month under the skill |
+| Time that grants or moves on stops when what it measures stops | `rules/states.md`, Across a session | Things moved by elapsed time while what it measures is stopped | a product's month under the skill |
+| Contrast over a background that moves is read at its worst moment | `rules/states.md`, Text over what moves (floor) | The contrast count | a product's month under the skill |
+| A second fast press lands on nothing the first put under the pointer | `rules/states.md`, Across a session | Second presses landing on what the first press put there, every control pressed | this skill's own runs |
+| Nothing moves on without the reader; what covers the screen closes on back | `rules/navigation.md`, The screen moves when the reader moves it; Choosing the container | Screens and layers moving on without the reader; modals, sheets, full screens back does not close | a product's month under the skill |
+| A mark for the eye only is hidden from the tree; a phrase is one stop; stops follow the eye | `rules/a11y.md`, What the ear receives (floor) | Eye-only marks left in the tree; phrases read as more than one stop; stops out of visual order | a product's month under the skill |
+| No line opens with a closing mark; no title ends on one character | `rules/copy.md`, Where a line breaks | The two counts | a product's month under the skill |
+| Sizes and dimming lean small and dim when nothing decides them | `rules/tokens.md`, Deriving the declaration; `rules/anti-slop.md`, What the model reaches for | The check The smallest step and the dimmest text | a product's month under the skill |
+| A beat on a change of state plays once, does not stay lit, and shows its peak | `rules/motion.md`, What for | Beats that stay lit, loop, or show no peak | a product's month under the skill |
+| Every entry holds on every screen; a run lists every screen it read | `rules/tokens.md`; `SKILL.md`, Ways in | The screens line in `rules/review.md` | a product's month under the skill |
+| A pass is read off a capture, a recording, or a walk of the run; the scripts that take counts are kept | `rules/review.md`, the Inspection's preamble; `SKILL.md`, What this skill writes | The passes and scripts lines in `rules/review.md` | a product's month under the skill |
+| `fix` repairs or undoes what its own changes caused | `SKILL.md`, Ways in | Defects tied to the run's own changes still in place | this skill's own runs |
+| How `inspect` and `fix` end, and a count the person takes on their own device | `SKILL.md`, What it asks you | None — the live run reads it | a product's month under the skill |
 
 The numbers these brought — five seconds, 200 percent, 16 CSS pixels, one line, two focusable
-elements — have their lines in `NOTICE`.
+elements, one character — have their lines in `NOTICE`. The rows marked a product's month under
+the skill came from one product's own record, read for what its runs had missed; each was
+written to the concern and run on a scaffold built to carry it.
 
 ### Read and left out
 
@@ -250,6 +294,12 @@ elements — have their lines in `NOTICE`.
 | Implementation rules — animate only transform and opacity, no `transition: all`, viewport units | Outside the skill's scope; their symptoms are caught by the frame-rate check and the long-content count |
 | Terms of service and privacy pages | Legal, not design |
 | Lorem ipsum and vague action labels; concentric nested radii; a specimen page drawn by `init` | Candidates, not yet designed |
+| The primary control set apart by size as well as fill | One screen's case; a filled and an outlined control of one size is a standard pair, and a count would flag it on every product |
+| An exception for a glow marking a change of state | Every change can be named a change of state; the recorded exceptions entry already lifts a glow where it says |
+| An undo only where the action happened, never in a transient message | One product's taste; an undo in a transient message is a widely used pattern |
+| A heading's last line of one word, in a language that separates words | No run showed it; the one-character line is counted |
+| A control or group joining no edge or axis of the structure | One case, a judgment on every control, overlapping the alignment counts |
+| Which marks each screen reader reads by name | Software and versions differ; a mark for the eye only is hidden whatever reads it, and punctuation inside a sentence stays |
 | A handwriting face and a drawn stroke never both on one screen | Two works by one designer as its provenance, and no run. Each kind is one already — a handwriting face is a family with a role, drawn strokes are the drawn-line style family in `rules/assets.md` — and an exception names where a default goes (`rules/anti-slop.md`), so a second handmade mark is counted |
 
 ## 6. Known limits and open designs
@@ -263,7 +313,13 @@ elements — have their lines in `NOTICE`.
   the definition.
 - **Counts that need a device.** The platform's own regions, hover after a tap, focus zoom, a
   screen reader's walk, the frame rate: without the device or its simulator they are recorded as
-  not taken, and a run that cannot drive one closes with those counts open.
+  not taken, and a run that cannot drive one closes with those counts open, unless the person
+  takes them on a device of their own.
+- **Shown in short runs only.** The language holding through a long `fix`, and `fix` running
+  every rule file's Inspection after its last pass, were repaired by lines in the entry files and
+  seen to hold in runs of four to six minutes; a run of an hour or more has not been seen since.
+- **The cost of every screen at every checked size.** A product with many screens multiplies the
+  reads; no run has measured one.
 - **The summaries drift.** The Owns column of While you build and the table in `README.md` are
   the two summaries of the rule files, not lists of every count; the Open when column and the
   rule files are the source.

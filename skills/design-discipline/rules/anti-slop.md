@@ -24,6 +24,8 @@ for one element at a time rather than chosen for a page.
   background.
 - A row of the same things — screenshots, cards, devices — tilted, fanned, or set in perspective,
   where upright and evenly spaced they would say the same.
+- Text a step smaller, and secondary text a step dimmer, than the distance it is read from and
+  what it carries call for.
 
 None of these was decided. They are the priors that fill a gap when the palette, the materials,
 and the layout were never specified for this subject. Where a reference was studied, the materials

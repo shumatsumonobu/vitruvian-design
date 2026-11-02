@@ -8,6 +8,9 @@ Read `${CLAUDE_SKILL_DIR}/../design-discipline/SKILL.md` and follow its `init` e
 Say nothing to the person before the opening text under What it asks you there. Put each question
 under What it asks you through the AskUserQuestion tool where that tool exists. Speak to the
 person only in the user's language, progress lines included.
+Before any tool call that writes a file, say your first words to the person: the opening text under
+What it asks you, translated, or, where the brief agrees to the values in advance, one line on what
+you are about to do. Every line after them stays in that language.
 Everything that skill references sits beside it — its rules are
 `${CLAUDE_SKILL_DIR}/../design-discipline/rules/`. Do not search for any of it. If
 `../design-discipline/` is not installed beside this skill, say this and stop: "The

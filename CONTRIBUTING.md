@@ -71,7 +71,7 @@ file that defines it.
 
 The workspace lives outside this repo — one directory per copy of a scaffold, a starter project
 built to carry the defects a run should find; its own git repo, nothing from it committed here.
-Three scaffolds. The first: one page whose `:root` carries a template's defaults (a near-black
+Four scaffolds, and small workspaces cut from them. The first: one page whose `:root` carries a template's defaults (a near-black
 background, a blue accent, `system-ui`, one radius), a logo drawn in CSS with a spin animation, one
 button, two cards, one email field; a `README.md` holding the brief in one paragraph; a `CLAUDE.md`
 with the one line that routes screen work to the skill and names the language the person reads, its
@@ -92,7 +92,20 @@ planted: font stacks whose order differs between headings and body, so Latin let
 families; the handwriting face on the hero line and on one card's title; three cards of the same
 kind rotated and set in perspective; a lead that says thousands where the brief says the count; a
 photograph whose largest areas are a blue no declared value holds; an English eyebrow restating the
-title under it, and a lead repeating the heading. You run the entries in Claude Code inside the
+title under it, and a lead repeating the heading. The fourth, in Japanese: one screen and a
+full-screen layer over it, a brief that names the readers' devices but no window size, and,
+planted: a box that draws nothing over the main button, growing only on windows whose height the
+browser's bars or the system's scaling cut; a skip that unlocks on the wall clock while the pause
+stops the countdown; white text over a background that sweeps a bright light past it; a name in
+brackets that leaves `)` alone on a line; separators exposed to the screen reader, and a line of
+text built from pieces; a layer back does not close, and a result layer that closes itself;
+two buttons whose press areas overlap — and, as decoys a run must not flag, a countdown the reader
+started, a sheet that closes on back, a hidden separator with a pause in its place, a dash inside
+a sentence. A small workspace is one screen cut from a scaffold with its declaration, record,
+structure, and lexicon already in place, and the code already at the declaration but for what the
+run is to settle; a repair list of one in the record lets `fix` start without a full inspection.
+It settles one or two rules in minutes where a whole scaffold takes most of an hour. You run the
+entries in Claude Code inside the
 workspace; a session opened in this repo reads `.design/` and the diff and judges against the tables
 below. Keep a copy of the scaffold's code as it stood before the first run, and a script in the
 workspace that prints the diff against it, the declaration, and the record; the judging session runs
@@ -140,9 +153,21 @@ On every run, whatever the scaffold:
   the fixed texts, repaired by saying in them what happens.
 - The repair list says once, where it begins, what structural and surface mean, and `inspect`
   names what it could not take and why.
+- The first line to the person comes before any file is written, and the run ends in the order
+  How `inspect` and `fix` end gives: what was done, the repairs heaviest first, what only the
+  person can give, what was not taken and what would take it, the next command.
 - After each run: the diff holds only what the run's record ties to a repair; `.design/` holds
   every file the run wrote, and the system's temporary directory nothing of the run's; the
-  record shows the run read the last two lines of `rules/review.md`'s count against itself.
+  record shows the run read the last lines of `rules/review.md`'s count against itself — the
+  screens it read, the capture behind each pass, the scripts it kept.
+
+Before asking for a run, check the test, and write the check in the workspace's test plan:
+measure every planted defect at every size a session might choose — full displays, a scripted
+browser's default, and windows the browser's bars or the system's scaling cut — and say which
+show it; read the brief for anything that answers what the run is to find; fix the model and
+effort every compared run uses. To compare two versions of the skill, run both on copies of one
+state, then set the two records side by side: what each found of the planted defects, any decoy
+flagged, the counts not taken, the minutes, the language of every line to the person.
 
 Then, with a declaration in place, on any scaffold:
 

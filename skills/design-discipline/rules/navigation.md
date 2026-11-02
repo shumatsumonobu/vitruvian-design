@@ -45,6 +45,11 @@ Anything addressable from outside the running session belongs to navigation hist
 component state. If a pasted link, a notification, or a share can land there, the surface is a
 route, and routes survive a reload and a cold start.
 
+Whatever covers the screen — a modal, a sheet, a full screen — closes on back, on every gesture
+that counts as back, and leaves the reader where they were beneath it; a modal holding unsaved
+work asks first, as Blocking back allows. Back that leaves the product, or the screen beneath,
+while it is open is the defect, whether or not the container has an address of its own.
+
 ## One-way doors
 
 Sending the reader to the home screen after they signed in, finished onboarding, or paid is a
@@ -70,6 +75,16 @@ Blocking proper is justified twice and no more. An irreversible request is still
 seconds, showing its progress. Or a modal holds unsaved work and asks before discarding it.
 Holding a reader inside a rating prompt, a funnel, or an upsell by taking back away is a defect.
 
+## The screen moves when the reader moves it
+
+Nothing navigates, closes, or moves on without an action of the reader's. A layer that closes
+itself on a timer, a step that advances when a countdown nobody started runs out, a screen that
+leaves after showing its result for a while — each takes the next move from a reader who may
+still be reading. A timer the reader started and can see is theirs, and a timeout the product must
+enforce says so before it acts. A transient message leaving on its own is not counted here — an
+error that waits for the reader is rules/states.md's — and content that advances inside a screen
+is rules/motion.md's.
+
 ## Sections are siblings, not steps
 
 Three to five of them, and each control carries a written label alongside whatever mark stands for
@@ -85,9 +100,10 @@ design decision, and the Platform notes below say which convention applies where
 
 Screens demanding full attention — composing, playing, checking out — sit above the sections
 rather than inside one. A deep link arrives with a way into the product: history beneath it where
-the product owns the stack, a visible link to the parent where it does not. A history the product
-does not own is never written to — an entry put beneath a page so that back stays in the product
-is a trap, not a way in.
+the product owns the stack, a visible link to the parent where it does not. Into a history the
+product does not own, nothing is written beneath the page the reader arrived on — an entry put
+there so that back stays in the product is a trap, not a way in. An entry the reader's own move
+puts above where they are is the history working.
 
 A cold start never shows a signed-out screen to a reader who is signed in. That is the decision.
 How it gets satisfied is a timing question rather than a navigation one, and holding the first
@@ -116,12 +132,18 @@ counts were not taken; an untaken count is not a pass.
   it with the work completed: 0.
 - Screens where back does nothing while no irreversible request is running and no modal holds
   unsaved work: 0.
+- Modals, sheets, and full screens that back does not close, back leaving the product or the
+  screen beneath instead: 0.
+- Screens and layers that navigate, close, or move on without an action of the reader's — a timer
+  the reader started and can see, a timeout the product must enforce that says so before it acts,
+  and a transient message excepted: 0.
 - Sections that reopen at their first screen instead of where they were left: 0.
 - Screens returned to by back that lost the state they were left in — scroll position, loaded
   items, an applied filter: 0.
 - Deep links opened from a cold start with no way into the product — one press of back leaves it,
   and nothing on the screen leads to the parent: 0.
-- Entries written into a history the product does not own: 0.
+- Entries written beneath the page the reader arrived on, into a history the product does not
+  own: 0.
 - Top-level sections: 3 to 5, or a written reason for the number chosen.
 - Top-level section controls whose label is not visible without touching or hovering: 0.
 - Cold starts showing a signed-out screen to a signed-in reader: 0.
@@ -137,7 +159,8 @@ counts were not taken; an untaken count is not a pass.
 - Every surface in the feature, listed beside its container.
 - Back from every one-way door. Press back once at each door and write down where you landed.
 - Section history and deep links. Switch sections, drill in, switch away, switch back, then open a
-  deep link from a cold start and press back once. Write down what each produced.
+  deep link from a cold start and press back once. Then open each layer, reload, and press back
+  once. Write down what each produced.
 - Presentation entries in the study record. If the record does not hold one entry per step of the
   studied flow, it captured layout alone and carries nothing that transfers to a different subject.
 
@@ -167,3 +190,8 @@ The product owns a native app's screen stack, and may synthesize the parent scre
 deep link. The browser's history is the reader's, shared across every site they visit, and the
 product does not own it: a web page opened directly writes no entry beneath itself, and its way
 into the product is a visible link to the parent.
+
+A layer with no address of its own, on the web, pushes one history entry as it opens — the same
+URL, a state marking the layer — closes on `popstate`, and has its own close control call
+`history.back()`, so one press never leaves two entries. That entry sits above the page, put there
+by the reader's own move.

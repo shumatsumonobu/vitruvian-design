@@ -1,0 +1,295 @@
+/* Values from .design/declaration.md */
+:root {
+  --ai: #1F3461;
+  --shu: #C23A22;
+  --kami: #FFFFFF;
+  --daishi: #EEF2F7;
+  --ai-70: #46587C;
+  --ai-rule: #7486A8;
+  --ai-10: #E2E8F1;
+  --space: 8px;
+  --radius-card: 8px;
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+  --overlay-shadow: 0 -8px 32px rgba(31, 52, 97, 0.20);
+  --overlay-scrim: rgba(31, 52, 97, 0.48);
+  --sheet-in: 280ms;
+  --sheet-out: 200ms;
+  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --font: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--daishi);
+  color: var(--ai);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+p { margin: 0; }
+
+.site-header, .hero, .routine, .log {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-left: calc(var(--space) * 3);
+  padding-right: calc(var(--space) * 3);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: calc(var(--space) * 2);
+  padding-bottom: calc(var(--space) * 2);
+}
+
+.logo {
+  color: var(--ai);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  transition: opacity 120ms var(--ease-out);
+}
+
+.logo:active { opacity: 0.6; }
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  border-radius: var(--radius-pill);
+  padding: var(--space) calc(var(--space) * 3);
+  transition: transform 120ms var(--ease-out);
+}
+
+button:active { transform: scale(0.97); }
+
+.help-open, .help-close, .start-again {
+  background: var(--kami);
+  border: 1px solid var(--ai-rule);
+  color: var(--ai);
+}
+
+.help-open:active, .help-close:active, .start-again:active { background: var(--ai-10); }
+
+.hero { padding-top: calc(var(--space) * 8); padding-bottom: calc(var(--space) * 6); }
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  margin: 0 0 calc(var(--space) * 3);
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  max-width: 36em;
+  margin: 0 0 calc(var(--space) * 4);
+}
+
+.start {
+  color: var(--kami);
+  background: var(--shu);
+  border: 1px solid var(--shu);
+  padding: calc(var(--space) * 2) calc(var(--space) * 5);
+}
+
+.routine, .log { padding-top: calc(var(--space) * 4); padding-bottom: calc(var(--space) * 4); }
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  margin: 0 0 calc(var(--space) * 2);
+}
+
+/* The menu card: one row per pose, in the order the guide plays them; seconds right-aligned in a
+   column, since BIZ UDPGothic has no tabular figures (.design/declaration.md, figures). */
+.poses {
+  list-style: none;
+  margin: 0 0 calc(var(--space) * 2);
+  padding: 0 calc(var(--space) * 2);
+  background: var(--kami);
+  border: 1px solid var(--ai-rule);
+  border-radius: var(--radius-card);
+}
+
+.pose {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--space) * 2);
+  padding: calc(var(--space) * 2) 0;
+}
+
+.pose + .pose { border-top: 1px solid var(--ai-rule); }
+
+.pose-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.pose-time { flex: none; white-space: nowrap; text-align: right; }
+
+.pose-time, .tags {
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--ai-70);
+}
+
+.tags + .tags { margin-top: var(--space); }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* The record card: this week's participation card (.design/declaration.md, signature) */
+.log-card {
+  background: var(--kami);
+  border: 1px solid var(--ai-rule);
+  border-radius: var(--radius-card);
+  padding: calc(var(--space) * 2);
+}
+
+.week-range, .day-label {
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--ai-70);
+}
+
+.week-range { max-width: 36em; margin: 0 0 var(--space); }
+
+.week {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 48px));
+}
+
+.week[hidden] { display: none; }
+
+.day {
+  border-top: 1px solid var(--ai-rule);
+  border-right: 1px solid var(--ai-rule);
+  border-bottom: 1px solid var(--ai-rule);
+}
+
+.day:first-child { border-left: 1px solid var(--ai-rule); }
+
+.day-label {
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid var(--ai-rule);
+}
+
+.day-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  background: var(--ai-10);
+}
+
+.day.is-stamped .day-cell { background: var(--kami); }
+
+/* The stamp, drawn per .design/style-system.md */
+.stamp {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--shu);
+  border-radius: var(--radius-circle);
+  color: var(--shu);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  transform: rotate(-8deg);
+}
+
+.log-note {
+  max-width: 36em;
+  margin: calc(var(--space) * 2) 0 0;
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+.week[hidden] + .log-note { margin-top: 0; }
+
+.log-total {
+  margin: calc(var(--space) * 2) 0 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.log-note:not([hidden]) + .log-total { margin-top: var(--space); }
+
+.start-again { margin-top: calc(var(--space) * 2); }
+
+.help {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: var(--overlay-scrim);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--sheet-in) var(--ease-out);
+}
+
+.help[hidden] { display: none; }
+.help.is-open { opacity: 1; }
+
+.help-sheet {
+  background: var(--kami);
+  width: 100%;
+  max-width: 40rem;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  box-shadow: var(--overlay-shadow);
+  padding: calc(var(--space) * 3);
+  transform: scale(0.95);
+  transform-origin: 50% 100%;
+  transition: transform var(--sheet-in) var(--ease-out);
+}
+
+.help.is-open .help-sheet { transform: none; }
+
+/* On its way out the dimmed surface lets presses through to the page; the sheet itself still
+   takes them, so a second press on 閉じる lands on nothing. */
+.help.is-closing { pointer-events: none; transition-duration: var(--sheet-out); }
+.help.is-closing .help-sheet { pointer-events: auto; transition-duration: var(--sheet-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .help-sheet, .help.is-open .help-sheet { transform: none; transition: none; }
+}
+
+.help-sheet p { max-width: 36em; margin: 0 0 calc(var(--space) * 3); }
+
+button:focus-visible, .logo:focus-visible, #routine-title:focus-visible { outline: 3px solid var(--ai); outline-offset: 2px; }
+
+@media (max-width: 599.98px) {
+  .hero-title { font-size: 2rem; }
+}

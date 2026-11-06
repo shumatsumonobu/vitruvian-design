@@ -54,6 +54,23 @@ strongest reference, fix, and go again.
 next. Regressions hide inside batches, and a batch that improves four things and breaks a fifth
 reads as an improvement right up until someone finds the fifth.
 
+**The session decides; a helper writes.** Naming the deficits, writing the target lines,
+choosing each repair and how far it may go, and every verdict on a count or a check stay with the
+session. Where the session can start a helper — a second agent on a smaller, faster model — every
+script under `.design/harness/` is written, and changed, by the helper, and a pass's repairs may
+be; where this skill carries a runner for the platform (SKILL.md, What this skill writes), the
+scripts are the runner's configuration and the flows only this product has. The helper has not
+read this skill, so the session hands it everything the work needs: each repair with its target
+line; or, for a script, the rule files whose counts it takes, by path, and the screens, sizes, and
+states it reads them at — for a runner's configuration, the runner's README by path in their
+place; the declaration entries the work touches; the record's lines naming methods that hung or
+returned nothing; and the files — the helper writes nowhere but `.design/` and the files it is
+given. A helper that wrote or
+changed a script runs it once before it returns, and returns its output with the change. When the
+helper returns, the session reads every change back against the repair or the count it serves
+before any count from it is used, and the record names what a helper wrote. Where no helper can be
+started, the session writes the code itself.
+
 Where the declaration's scope of change — the answers SKILL.md defines under What it asks
 you — keeps the structure, or names kept elements, the rebuild leaves them as they are and the
 target lines are written around them; a deficit that would need them changed is recorded as one
@@ -84,7 +101,7 @@ failure a screenshot cannot show.
 The first four lines of the count are `review`'s own. The lines from Repairs applied between one
 look and the next to Deficits from the original list are read against any run that applied
 repairs — `review`'s rebuild or `fix`'s passes — from the record's account of each pass and the
-changes to the code; `inspect` reads them whenever the record holds a fix pass. The last six
+changes to the code; `inspect` reads them whenever the record holds a fix pass. The last eleven
 lines are read by every run — `init`, `inspect`, `fix`, `review` — against what that run itself
 changed, wrote, and read, before it ends: a rule a run reads once at its start is the rule a long
 run forgets, and these are where that showed.
@@ -98,6 +115,8 @@ run forgets, and these are where that showed.
 - Target lines that cannot be confirmed against a screenshot: 0.
 - Repairs applied between one look and the next: 5 or fewer, which is this skill's default. Count
   them per pass and write the number down.
+- Passes after which every rule file's counts ran — the run after the last pass excepted — with
+  no line in the record naming the change that reached them all: 0.
 - Repairs applied against the declaration's scope of change — a structural repair under
   structure kept, any repair under report only, any repair while the entry still reads not yet
   asked, a change to a kept element: 0.
@@ -125,9 +144,21 @@ run forgets, and these are where that showed.
   record's list — each screen with the checked sizes (rules/layout.md) and states it was read at,
   or the reason it was not read: 0.
 - Counts the record says a script took with no script named beside them that is still under
-  `.design/harness/`, and two scripts there taking the same count: 0.
+  `.design/harness/`, and two scripts there taking the same count — a runner this skill carries for
+  the platform and a script a run wrote or an earlier run left among them: 0.
+- Inspection scripts under `.design/harness/` that cannot run one rule file's counts without the
+  others: 0.
+- Scripts under `.design/harness/` that this run wrote or changed itself where it could start a
+  helper: 0.
+- Values in a runner's configuration that differ from the declaration or the structure entry its
+  comment names, and values with no entry named: 0.
+- Steps in scripts under `.design/harness/` that wait with no time limit, methods that hung or
+  returned nothing in this run that the record does not name, and steps using a method the record
+  names: 0.
 - Counts the record gives as not taken that the run's own browser, recording, or scripts could
   have taken — the next run named as what would take one among them: 0.
+- Code or scripts a helper wrote whose counts the session used before reading them back against
+  the repair or the count they serve, and helper work the record does not name: 0.
 
 ### The checks
 
@@ -145,3 +176,15 @@ run forgets, and these are where that showed.
   stopped moving, so a later change can be checked against it without walking the flow by hand.
 - Repeat the comparison at the narrowest supported width before calling the work done, since
   hierarchy that holds at a comfortable size often collapses at the tight one.
+- Claude Code: a helper is a subagent started with the Agent tool and `model: "sonnet"`, its
+  effort set in the same call, since a subagent on another model does not take the session's.
+  A skill's own `model` setting switches the whole turn and is no way to split the work: each
+  model has its own prompt cache, so that turn reads the whole conversation again with nothing
+  cached. A subagent starts a conversation of its own and leaves the session's cache as it was
+  (Claude Code's prompt caching page). Where the organization's available models exclude the one
+  named, the call runs on another.
+- Web: this skill carries a runner, `runner/web/run.mjs` in this skill's own directory, the one
+  that holds `rules/`. Its README — `runner/web/README.md` there — says how to run it, how to
+  write the product's configuration and flows, which count lines it takes, its time limits, and
+  what a headless browser does differently, a touch-emitting mouse press that never answers among
+  it.

@@ -91,6 +91,15 @@ is decided per screen and the reason is the screen's job.
 Every region states what it does as the display narrows: wraps, stacks, hides, or scrolls
 sideways. Undeclared is the defect, the same way an undeclared overflow behavior is in states.md.
 
+The structure also states what the surface does with the width a wide display gives past one
+column: a region set beside another, the content or the signature grown into the room, or a flood
+or artwork the declaration names carried across it. Text still keeps its line length; the width
+goes to regions, not to longer lines. The maximum content width and the maximum line length stop
+text; neither is a reason to leave the rest of the display bare. A column in the middle of a wide
+display with bare background either side is a default that arrives unasked, counted in
+rules/anti-slop.md, and a sentence in the structure does not lift it; the recorded exceptions
+entry does, as for every default.
+
 Hiding is a real option and the one most often taken by accident. A region declared as hiding says
 what a reader on the narrow display loses and where they can still reach it.
 
@@ -118,8 +127,12 @@ are counted in anti-slop.md. Run that count in the same pass.
   and a footer of link columns, a bento grid, three tiers, alternating image-and-text sections,
   every block in a card — since those are the ones that arrive unasked.
 - Surfaces whose rendering differs from their declared structure — the columns and their gap or
-  what stops the width, the arrangement, what each region does as the display narrows: 0.
+  what stops the width, the arrangement, what each region does as the display narrows, what the
+  surface does as it widens: 0.
 - Regions with no declared reflow behavior: 0.
+- Surfaces whose structure does not say what the width past one column carries at the widest
+  checked size — a region beside another, the content or the signature grown into it, or a flood
+  or artwork the declaration names across it: 0.
 - Structures with no checked sizes, or with a checked size that has no height or no reason beside
   it: 0.
 - Checked sizes taken from a device's full display where readers are left less of it — a

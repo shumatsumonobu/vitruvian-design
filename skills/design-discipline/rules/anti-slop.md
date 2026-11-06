@@ -30,6 +30,9 @@ for one element at a time rather than chosen for a page.
   would carry them.
 - A border around text that is only read — a date, a number, a label — giving it a control's
   face though nothing happens when it is pressed.
+- A type scale climbing in small even steps, so that nothing on the screen is much larger than
+  anything else.
+- A phone's single column set in the middle of a wide display, the width around it left empty.
 
 None of these was decided. They are the priors that fill a gap when the palette, the materials,
 and the layout were never specified for this subject. Where a reference was studied, the materials
@@ -95,10 +98,12 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 
 - Studied references in the record before the visual direction was set, each with its one line
   and how its pixels were seen: 5 or more, at least one of them walked as a running flow and
-  the record saying which, or the written sentence that nothing was available to study
+  at least one from outside the product's category, the record saying which, or the written
+  sentence that nothing was available to study
 - Studied references in the record with no line saying whether the page carried text addressed to
   the session, and what became of it: 0
-- Accent hues rendered in the UI: 1, or 0 where the declaration states a monochrome palette
+- Accent hues rendered in the UI: 1, or 0 where the declaration states a monochrome palette; a
+  flood the declaration names is not an accent
 - Grey families: at most 1. A product built on colored neutrals rather than greys reports 0, and
   that is a pass
 - Tinted near-blacks standing in for black: 0. A value a shade off true black, reached for because
@@ -140,6 +145,11 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 - Numbered sets whose ordering principle cannot be stated: 0
 - Uses of a banned default outside what its recorded exception names, on this file's counts and on
   every count in every rule file that an exception lifts: 0
+- Where the declaration names a signature, checked sizes at which it sits outside what shows
+  before any scroll on every screen its entry names: 0
+- Surfaces at the widest checked size where what draws — text, a border, a fill other than the
+  page's own background, an image — spans less than half the view's width, counting none the
+  recorded exceptions name: 0
 
 ### The checks
 
@@ -165,6 +175,15 @@ Each line is answered in words, and the answer is written down beside the count.
   The arrangement is asked in rules/layout.md.
 - The one element the screen is built around. Name it. If two get named, the screen has no focal
   point, and the screen goes on the repair list.
+- The signature, on each screen its entry in the declaration names, at every checked size. Point
+  at it; say whether it renders as the entry describes, and what makes it the element the eye
+  reaches after the primary action — its size, its color, its weight — against what surrounds it.
+  One that does not render as described, that fills only part of the room it is given, or that
+  reads as quiet as its neighbors goes on the repair list.
+- The visual concept on the screen. On each screen, name what the reader sees that comes from the
+  world the visual concept entry names (rules/tokens.md), beyond its colors — a material, a
+  typeface or a way of setting type, a rule or a grid, a mark. A concept the screens carry in color
+  alone goes on the repair list.
 
 
 ## Platform notes

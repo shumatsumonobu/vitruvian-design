@@ -41,9 +41,11 @@ in the `/` menu and defer to the skill beside them:
 
 ```text
 ~/.claude/skills/   or   .claude/skills/
-    design-discipline/           SKILL.md, README.md, NOTICE, and rules/ —
+    design-discipline/           SKILL.md, README.md, NOTICE, rules/ —
                                  tokens, layout, anti-slop, states, navigation,
-                                 motion, copy, forms, assets, a11y, review
+                                 motion, copy, forms, assets, a11y, review —
+                                 and runner/web/, the script that takes a web
+                                 product's counts on the rendered screen
     design-discipline-init/      the declaration: derive, agree, write — once per project
     design-discipline-review/    improve an existing screen, from named deficits
     design-discipline-inspect/   run every applicable count and check, return the repair list
@@ -52,8 +54,9 @@ in the `/` menu and defer to the skill beside them:
 ```
 
 `rules/` stays inside the skill. A project's `.claude/rules/` is a different mechanism, and
-nothing here belongs in it. Nothing else is needed — a skill is a plain directory, there is no
-plugin to install, and edits to `SKILL.md` apply without restarting the session.
+nothing here belongs in it. On a web product, `inspect` and `fix` also need Node 22 or later and
+Chrome on the machine, for the runner. Nothing else is needed — a skill is a plain directory,
+there is no plugin to install, and edits to `SKILL.md` apply without restarting the session.
 
 The skill fires when Claude Code matches the work to its description; to make it fire every time,
 and to keep a long run in your language, give the project's `CLAUDE.md` one line:

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>あさのび — 朝 10 分のストレッチ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="./">あさのび</a>
+    <button class="help-open" type="button">使い方</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 class="hero-title">からだをのばして、きょうをはじめる</h1>
+      <p class="hero-lead">在宅の朝に、10 分だけ。ポーズを 1 つずつ、残りの秒数を数えながら案内します。</p>
+      <button class="start" type="button">はじめる</button>
+    </section>
+
+    <section class="routine" aria-labelledby="routine-title">
+      <h2 id="routine-title">きょうのメニュー</h2>
+      <ol class="poses"></ol>
+      <p class="tags">ほぐす所 肩<span class="sep">・</span>首<span class="sep">・</span>背中<span class="sep">・</span>腰</p>
+      <p class="tags">道具 ヨガマット<span class="sep" aria-hidden="true">・</span><span class="vh">、</span>タオル</p>
+    </section>
+
+    <section class="log" aria-labelledby="log-title">
+      <h2 id="log-title">あなたの記録</h2>
+      <p class="log-empty">まだ記録はありません。「はじめる」から 1 回終えると、ここに回数と時間が出ます。</p>
+      <p class="log-line" id="log-line"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>あさのび — 朝の 10 分を、からだのために。</p>
+  </footer>
+
+  <div class="help" hidden>
+    <div class="help-sheet" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <h2 id="help-title">使い方</h2>
+      <p>「はじめる」を押すと、きょうのメニューまで進みます。案内の画面はこれから作ります。</p>
+      <button class="help-close" type="button">閉じる</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

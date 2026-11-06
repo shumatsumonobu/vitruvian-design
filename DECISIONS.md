@@ -5,6 +5,171 @@ the defect that forced it — and where it now lives, so a later change starts f
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
 live in the files named, not here.
 
+## 2026-11-05 — Round 6, the last run of this batch
+
+Round 6 ran `inspect` (30 minutes, 112k output tokens of the larger model) and `fix` (52k) on
+Round 5's cover. The signature's squares now fill their card at the wide size, the stamps grew
+from 32 to 48 px, and the lead no longer ends on 「す。」. The visual concept was not listed as
+carried in color alone: the session named the ruled squares, the stamp, the spaced headings, and
+the flat paper as the card's, and that reading holds — the plant was the judge's misreading.
+
+**Bare sides are a default, not a choice a sentence makes.** The session kept the 640 px column at
+1920 wide and wrote its reason in the structure: the declared maximum content width. The rule had
+allowed one column with a reason, and the value under question became the reason. The author asked
+for the screen to be used. A column with bare background either side is now counted, by the width
+what draws spans against the view, and only the recorded exceptions entry lifts it, as every
+default; the content width and the line length stop text and are not a reason. This form has not
+been run. Lives in `rules/layout.md` and `rules/anti-slop.md`; the half is this skill's default.
+
+**Switching models costs the cache; a helper does not.** The author asked whether moving between
+models is a poor trade, having measured that a conversation switched from one model to another
+reads its whole history again uncached. Claude Code's prompt caching page says the same — each
+model has its own cache, a skill's own `model` setting is such a switch — and that a subagent
+starts its own conversation and leaves the parent's cache as it was. The helper is a subagent, and
+the session stays on its model; the platform note now gives that as the reason a skill's `model`
+setting is not the way to split the work. Lives in `rules/review.md`, Platform notes.
+
+**The runner.** Opening its debugging socket had no limit, and a product's flows could not tell
+which rule files were selected; both were repaired.
+
+## 2026-11-05 — Round 5, and what a wide screen is for
+
+Round 5 ran `inspect` and `fix` on the cover Round 4 left, with the web runner and a helper: 55
+minutes and 79k output tokens of the larger model, against Round 4's 95 minutes and 249k. The
+signature moved above the menu and shows before any scroll at both checked sizes; the title breaks
+between phrases. The author judged the new cover clearly better, and asked for the screen to be
+used in full.
+
+**What a wide display's width is for.** At 1920 wide the cover kept a 640 px column in the middle,
+1280 px of the width empty. The rules made that the easy answer: tokens.md asks for a maximum
+content width and a line length, anti-slop.md counts what runs past them, and layout.md asks what
+each region does as the display narrows — nothing asked what the width past one column carries.
+The structure now says it — a region beside another, the content or the signature grown, or one
+column kept for a reason — and a phone's column centered on a wide display is named among what
+arrives unasked. Lives in `rules/layout.md`, Reflow is declared; `rules/anti-slop.md`.
+
+**The signature and the concept on the screen.** The signature rendered as its entry said, and
+still read quiet: small stamps, thin rules, its squares filling part of its card at the wide size.
+The visual concept — a Showa radio-exercise card — reached the screen as two colors and nothing
+else. Both checks read the declaration and not the screen; each now names what on the screen
+carries it. Lives in `rules/anti-slop.md`, The checks.
+
+**A one-character last line, in short text too.** The cover's lead ended on 「す。」 at every size.
+The count read titles, headings, and names, and counted the full stop as a character. Short text
+standing on its own — three lines or fewer — is read too, punctuation not counted. Lives in
+`rules/copy.md`.
+
+**Cut.** The web's measuring steps in the rule files' Platform notes — forcing states, raising the
+text size, what a press lands on, contrast over what moves, reading lines, listing the tree — are
+what the runner does, and each was a second statement of it; they were removed, and the headless
+browser's validation behaviour moved to the runner's README. The runner line in `rules/review.md`
+that counted a second script taking a runner's count said what the two-scripts line already said,
+and the two became one. CONTRIBUTING's tables for scaffolds no longer kept were removed. The runner
+itself read two counts wrong in Round 5 — the history it writes between loads, and the load event
+taken for the point a page accepts input — and both were repaired.
+
+**Found late.** The empty sides and the quiet signature were already in Round 4's captures. A run is
+now asked for only after the last run's screens have been looked at, at every checked size, against
+what the author asked for.
+
+## 2026-11-04 — Where a product is bold, and who writes the scripts
+
+A designer's published poster prompt was read against the skill. Every rule in the skill
+subtracts: it counts what nobody chose and removes it. Nothing decided where a product is bold,
+and a screen held to one accent in three places, neutrals everywhere else, and references from its
+own category comes out quiet and like its neighbours. The author wanted products that are not
+ordinary and that catch the eye. Asked whether the person should be asked more, the author said
+no: much of this the person cannot judge, and more questions make the skill worse. So the session
+decides and shows; no question was added.
+
+**The visual concept and the signature.** The plan the frontend-design skill writes holds a
+concept, but a session that never saw the plan builds the next screen, so the two decisions that
+make a product recognisable are entries in the declaration: the world outside its category whose
+look it borrows, and the one element it is remembered by, where the boldness is spent and around
+which everything stays quiet. `init` shows them first, in a sentence or two at the top of the text
+before it writes. On Round 4's cover (`live-test/TESTPLAN.md`) the derivation chose a Showa-era
+radio-exercise attendance card, and `fix` rebuilt the cover's log as this week's card with a
+vermilion stamp on each day done; the author, shown the old and new covers side by side, judged
+the new one clearly better. Lives in `rules/tokens.md`; the checks in `rules/tokens.md` and
+`rules/anti-slop.md`.
+
+**One reference from outside the category.** The skeleton and the conventions readers carry come
+from products of the same kind; the look comes from somewhere they have not been. The number of
+references stays five, one of them from outside. A product whose declaration was written before
+this had no way to add one, so `init` run on it studies one and derives only the two entries.
+Lives in `SKILL.md`, Before you draw and the `init` row; counted in `rules/anti-slop.md`.
+
+**A flood, the display step's jump, artwork and text, people.** A color may fill a large surface
+as a flood without becoming a second accent. The display step states its multiple of the body
+step and the reason, and a scale climbing in small even steps is named among what arrives unasked;
+a floor on the jump was left out, a number with no source that a long title at the narrowest width
+could not meet. Artwork and text decide which sits in front before the artwork is made, where the
+rule had kept text off the artwork's upper third. People drawn as a generator's default — one
+evened face, a sales smile, crossed arms — are rejected. Each screen captured shrunk was left out:
+what is shrunk, and to what size, would each need a source. Lives in `rules/tokens.md`,
+`rules/anti-slop.md`, `rules/assets.md`.
+
+**The session decides; a helper writes the scripts.** The author asked that judgment stay on the
+larger model and the writing of decided code go to a smaller one. A skill's own `model` setting
+switches the rest of the turn (Claude Code's skills page), so the split is a second agent. It was
+written first as something the session may do. In Round 4's `fix`, 95 minutes, no helper was
+started, and 108k of the run's 249k output tokens went to an 880-line inspection script in its
+first 18 minutes. Every script under `.design/harness/` now goes to a helper where one can be
+started; a pass's repairs may. What it saves is not yet measured. Lives in `rules/review.md`,
+Rebuild in small passes and its Platform notes.
+
+**An inspection script runs one rule file alone.** `fix` has always rerun only the failed counts
+and the counts on what a pass changed, but the script the run wrote took one argument, a label, so
+every recount ran every count — eight runs of 2.5 to 3 minutes — and no count read it. The harness
+entry now says a script runs one rule file's counts without the others, and two counts read the
+script and the passes. Lives in `SKILL.md`, What this skill writes; counted in `rules/review.md`.
+
+**A step waits only so long; a method that hung is named.** Round 5's `inspect` handed a helper
+nine new measurements, one of them a press sent with touch emitted for the mouse — the method
+Round 4's `fix` had found hanging and dropped, though its record said only that a synthesized tap
+gave no click. The helper wrote what it was told; the script waited on that press with no limit,
+and Claude Code stopped it half an hour later when the machine ran low on memory. Its own memory
+stayed near 950 MB while it waited, so it was the wait, not a leak. Every step a script waits on
+now has a time limit, a method that hung is named in the record, the session hands those names to
+the helper, and the helper runs a script once before it returns. Lives in `SKILL.md`, What this
+skill writes, and `rules/review.md`; the press is listed in the web runner's README, under
+What a headless browser does differently.
+
+**A runner the skill carries, instead of one each run writes.** The author asked for a design that
+runs lighter and faster at the same quality. Of the 221 count lines, 118 need only the source or the
+record; the rest need a rendered screen, an interaction, or a recording. The two scripts runs had
+written were about half the same parts — the browser's plumbing, contrast, press targets, line
+reading, the comparison against the declaration — written again for each product and tested by
+nobody. The web runner holds those parts once, tested on three scaffolds, a hang, and a frozen
+tab, and a run writes only its configuration and the flows only its product has. Measured once
+each against the old script: a full reading of one screen in 1 to 3 minutes against 2.5 to 3, the
+browser at 1.1 to 1.5 GB with the GPU off against 1.6 GB. The larger saving is the script no run
+writes — 880 lines and 108k output tokens in Round 4 — and Round 5 measures it. Two counts first
+read wrong and were repaired before any run: line breaks were read on strings padded three times,
+which no product shows, and a comma inside a sentence was counted as a mark for the eye.
+[Playwright](https://playwright.dev/), axe-core, and a CSS analyzer were read and left out: each is
+an npm dependency in the product, and axe-core's rules differ from these counts. Lives in
+`runner/web/`; named in `rules/review.md`'s Platform notes; tested by `scripts/live-test/test-runner.mjs`.
+
+**A title breaks between phrases; the signature sits before any scroll.** Round 4's cover title
+broke 「きょうをはじ / める」 at 600 wide and above; the run saw it and wrote it down, but no
+count read it. The signature was built where its entry put it, at the log's place, below what
+shows before any scroll at both checked sizes; an element nobody sees on arrival is not the one
+they remember. Each became a rule with a count. The web notes — `word-break: auto-phrase` from
+Chrome 119 under `lang="ja"`, `keep-all` with `<wbr>` elsewhere — were read in Chrome's developer
+blog and MDN. Lives in `rules/copy.md`, `rules/tokens.md`, `rules/anti-slop.md`.
+
+**One name each: a flood, the product's category.** The batch had used field for a color filling a
+surface and for the kind of product, beside a form's input field. A field is a form's input and
+nothing else.
+
+**The first line before any tool call; every line in the person's language.** Round 4's `init`
+wrote a script ten minutes before its first line to the person and left one note to itself in
+English; the entry files said "before any tool call that writes a file" and "speak to the person".
+They now say before the first tool call of any kind, and that every line written is read by the
+person. The 95-minute `fix` that followed kept every line Japanese and polite, the first before
+any tool call — the first run over an hour seen to hold since the entry files carried the rule.
+
 ## 2026-10-25 to 2026-11-02 — A month of one product under the skill
 
 One product, a music app, ran the skill for a month and sent fifteen proposals from its own

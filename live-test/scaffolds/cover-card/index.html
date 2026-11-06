@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>あさのび — 朝10分のストレッチ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="./">あさのび</a>
+    <button class="help-open" type="button">使い方</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 class="hero-title"><span class="phrase">からだを<wbr>のばして、</span><span class="phrase">きょうを<wbr>はじめる</span></h1>
+      <p class="hero-lead">在宅の朝に、10分。ポーズを1つずつ、残りの秒数を数えながら案内します。</p>
+      <button class="start" type="button">はじめる</button>
+
+      <section class="log-card" aria-labelledby="week-range">
+        <h2 class="week-range" id="week-range"></h2>
+        <ol class="week" aria-label="今週の参加票"></ol>
+        <p class="log-note" id="log-note" hidden></p>
+        <p class="log-total" id="log-total" hidden></p>
+      </section>
+    </section>
+
+    <section class="routine" aria-labelledby="routine-title">
+      <h2 id="routine-title" tabindex="-1">きょうのメニュー</h2>
+      <ol class="poses"></ol>
+      <p class="tags">ほぐす所 肩<span class="sep" aria-hidden="true">・</span><span class="vh">、</span>首<span class="sep" aria-hidden="true">・</span><span class="vh">、</span>背中<span class="sep" aria-hidden="true">・</span><span class="vh">、</span>腰</p>
+      <p class="tags">道具 ヨガマット<span class="sep" aria-hidden="true">・</span><span class="vh">、</span>タオル</p>
+    </section>
+  </main>
+
+  <div class="help" hidden>
+    <div class="help-sheet" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <h2 id="help-title">使い方</h2>
+      <p>「はじめる」を押すと、きょうのメニューまで進みます。案内の画面はこれから作ります。</p>
+      <button class="help-close" type="button">閉じる</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

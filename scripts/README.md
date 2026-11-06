@@ -74,3 +74,56 @@ repo).
 | `social-preview.mjs`, `social-preview.png` | The GitHub social preview: five gallery pages loaded live in iframes, fanned and overlapping, rendered to the PNG at 1280×640. The layout is the `TILES` list in the script — change a tile's left, top, scale, or rotate and re-run. Not a gallery image — a composition of the pages, not a capture of one — so capture.mjs and check-readme.mjs leave it alone |
 | `package.json` | The one dependency, puppeteer-core |
 | `.tmp/` | Capture intermediates (raw PNG, frames, palettes). Exists only during a capture; removed once the image is written, kept after a failure for inspection. Git-ignored |
+
+## Live test
+
+Workspaces for live runs of the skill, made from the scaffolds in `live-test/scaffolds/`. Set
+`VITRUVIAN_LIVE_TEST_DIR` to the directory the workspaces go in (outside this repo); it also holds
+`.live-test.json`, which records each workspace's scaffold, skill version and creation date.
+
+```bash
+export VITRUVIAN_LIVE_TEST_DIR=...            # any directory outside the repo
+node scripts/live-test.mjs new cover-glow-border t1       # prints: cd <workspace> && claude
+node scripts/live-test.mjs new full t2 --skill <git-ref>  # skill copy from that commit, kept old
+node scripts/live-test.mjs sync t1                        # skill copy from the working tree; lists differences
+node scripts/live-test.mjs stats t1 --last                # the run's transcripts: time, tools, questions, tokens
+node scripts/live-test.mjs judge t1                       # code diff against the scaffold, declaration, record
+node scripts/live-test.mjs verify t1                      # checks the scaffold's planted defects show
+```
+
+- `new` — copies the scaffold (its `fixture.json` `extends` chain, base first), installs the five
+  skill directories into `.claude/skills/`, runs `git init`
+- `sync` — refuses a workspace made with `--skill`
+- `verify` — runs `scripts/live-test/verify-<scaffold>.mjs`; a scaffold without one has no check
+
+## Runner
+
+The web inspection runner, `skills/design-discipline/runner/web/run.mjs` (its contract is in
+`skills/design-discipline/runner/web/README.md`), is tested on three scaffolds, a hang, and a
+frozen tab, and its list of count lines is checked against the rule files.
+
+```bash
+node scripts/live-test/test-runner.mjs                      # every check; about six minutes
+node scripts/live-test/test-runner.mjs --only=full --keep   # one check, copies left in scripts/.tmp/runner-test/
+node scripts/live-test/test-runner.mjs --rules=states,copy  # the runner's --rules=, for a shorter run
+node scripts/check-runner.mjs                               # runner lines not in a rule file; lines it does not take
+```
+
+- `test-runner.mjs` — copies each scaffold (its `fixture.json` `extends` chain, base first, no
+  `fixture.json`) to `scripts/.tmp/runner-test/<scaffold>/`, puts the configuration of the same
+  name from `scripts/live-test/runner-configs/` at `.design/harness/product.mjs`, runs the runner
+  with the label `test`, and prints one line per expectation, `ok` or `MISSED`, with the minutes
+  and seconds of each run
+- the expectations are the planted defects TESTPLAN.md lists for the scaffold, plus, for every
+  scaffold: the run finishes, no step is left waiting past its limit, nothing is written outside
+  `.design/`
+- `hang` — runs the cover-stamped copy with a flow that waits on a promise that never settles; its
+  line must come back `not taken`, naming the step and the method, within the 15 s limit for one
+  message
+- `freeze` — runs the cover-stamped copy with a layer whose opening locks the page in an endless
+  loop; the runner must open a new tab, take the steps after it there, and finish within 5 minutes
+- the output of each run stays in `scripts/.tmp/runner-test/<scaffold>.out.txt`; the copies are
+  removed unless `--keep` is given
+- `check-runner.mjs` — prints each runner line not found in its rule file (the target is 0), then
+  the count lines of layout, states, navigation, motion, copy, a11y, and anti-slop that the runner
+  does not take

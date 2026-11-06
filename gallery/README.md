@@ -8,6 +8,10 @@ their webfonts by link, so they need a network connection for the type. The imag
 the file its run wrote, unedited; the captures, declaration, and scripts it names under
 `.design/` stayed in the run's workspace and are not here.
 
+`how-it-works.html` and `how-it-works.png` are not a run's page: they are the poster at the top of
+the repository README, written directly as HTML, not built by a run of the skill, with no
+prompt and no record. Its figures come from the live-test rounds in `live-test/TESTPLAN.md`.
+
 This file is the source of truth for the prompts. Each block below is the whole text that was
 pasted into one `/goal` — Claude Code's built-in goal loop — in a fresh directory with the
 design-discipline and frontend-design skills installed (the repository [README](../README.md)

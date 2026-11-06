@@ -299,10 +299,12 @@ shown a state of it.
 
 ## Platform notes
 
+- Web: the runner takes the counts here that a rendered page answers — the states forced, the
+  raised text, what a press lands on, contrast over what moves (rules/review.md, Platform notes).
+  The lines below are for the other platforms, and for what the runner does not take.
+
 Forcing the states:
 
-- Web: network throttling and request blocking in the browser developer tools; a fresh profile or
-  cleared site data for first run.
 - iOS: airplane mode or the network link conditioner in the simulator; erase all content on the
   simulator for first run.
 - Android: emulator network profiles and airplane mode; clear app storage for first run.
@@ -328,8 +330,6 @@ Switching themes:
 
 Enlarged text and the narrowest supported width:
 
-- Web: the browser's minimum font size or page zoom; the device toolbar or a resized window for
-  width.
 - iOS: Dynamic Type in the simulator's settings, one step or more above the default; the smallest
   supported device for width.
 - Android: Font size in system settings; Display size or a small-screen emulator profile for width.
@@ -347,22 +347,10 @@ Minimum tap target, as each platform states it:
 
 What a press lands on:
 
-- Web: `document.elementFromPoint` at a point returns what a press there lands on, and the press
-  lands on the control where the control `contains()` the result; the control is scrolled into view
-  first, since a point outside the viewport returns nothing. A query that finds a control by
-  its text or role starts inside the layer under test, since a layer behind it can hold an element
-  of the same kind. An area larger than the drawn shape is a pseudo-element around the control
-  that draws nothing; `pointer-events: none` lets a press pass through a box that should never
-  take one. A rotated element's box measures larger than its shape; a round one is read as a
-  circle.
+- Web: an area answering beyond the drawn shape is usually a pseudo-element around the control
+  that draws nothing, and `pointer-events: none` lets a press pass through a box that should never
+  take one.
 - iOS and Android: the view hierarchy's hit test at a point, in the platform's UI test tools.
-
-Text over what moves:
-
-- Web: hide the text by its color or its visibility, keeping every layer laid in to protect it,
-  capture frames through the cycle, and find in each text box the pixel whose lightness comes
-  closest to the text's; the ratio is that pixel against the text's color, a translucent text
-  color blended over it first.
 
 Hover, and what stands in for it:
 

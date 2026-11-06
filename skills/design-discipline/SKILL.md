@@ -47,10 +47,15 @@ routed to whichever fits. Building something new runs down this file in order, w
 
 | Entry | What it does |
 |---|---|
-| `init` | Once per project, and again for a study the first run skipped. Looks for a declaration where the record says it lives, or at `.design/declaration.md`; with none, derives one from the subject by the procedure in rules/tokens.md, code or no code; where code exists, reads it beside the derivation and records where the two differ. Shows the declaration and the comparison, asks whether the values stand and where it should live — the question under What it asks you — and writes it only after both are agreed. Nothing in the code changes here. The declaration is born here and nowhere else. With a declaration whose record says the sites were not studied: with a browser it can drive, studies them, derives again — keeping the scope of change and the recorded exceptions as the person wrote them — shows what changes, and puts the second question again; with none, puts the first question again. With a declaration and the sites studied, says the text under What it asks you and stops. |
+| `init` | Once per project, and again for a study the first run skipped. Looks for a declaration where the record says it lives, or at `.design/declaration.md`; with none, derives one from the subject by the procedure in rules/tokens.md, code or no code; where code exists, reads it beside the derivation and records where the two differ. Shows the declaration and the comparison, asks whether the values stand and where it should live — the question under What it asks you — and writes it only after both are agreed. Nothing in the code changes here. The declaration is born here and nowhere else. With a declaration whose record says the sites were not studied: with a browser it can drive, studies them, derives again — keeping the scope of change and the recorded exceptions as the person wrote them — shows what changes, and puts the second question again; with none, puts the first question again. With a declaration whose record holds studied sites but none from outside the product's category: with a browser it can drive, studies one, derives the visual concept and the signature (rules/tokens.md) and nothing else, shows them, and puts the second question again; with none, puts the first question again. With a declaration and the sites studied, one of them from outside the product's category, says the text under What it asks you and stops. |
 | `review` | Improving a screen that already exists. Starts at [rules/review.md](rules/review.md): operate the screen, name the deficits, gather against them, rebuild in small passes, compare. Before the rebuild, reads the declaration's scope of change (Before fix or review changes the code, below), asking once if it has not been answered. That file routes back here for whichever decisions the deficits turn out to be about. |
 | `inspect` | Inspection only. Runs every applicable Inspection — the counts and checks at the end of each rule file — against every screen the product has, running, at the checked sizes rules/layout.md names, reading each count about the rendered screen off a capture, a recording, or a walk this run makes; writes the results to the record, returns the repair list — one line per count that missed or check that failed, each marked structural or surface as Before fix or review changes the code defines them, the marks said once in the person's words where the list begins: a repair that moves, resizes, removes, or reorders something, or one that does not — and changes nothing else. It ends as How `inspect` and `fix` end, under What it asks you, says; every count it could not take is named there with what would take it, since an untaken count is not a pass and the person is not left to assume one. |
 | `fix` | Consumes a repair list, usually inspect's; with no list in the record, it runs every applicable Inspection first, as `inspect` does, and works the list that returns. Reads the declaration's scope of change (Before fix or review changes the code, below) first — asking once if it has not been answered — applies only what it allows, and writes the rest to `.design/record.md` with the reason. Each change it makes to the code belongs to a repair on the list, and the record says which; rules/review.md counts a change that belongs to none. At most five repairs per pass; after each pass the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. Done when the list is empty and a run of every applicable Inspection after the last pass finds nothing the record does not already hold with its reason. What that last run finds new is written to the record for the next `inspect`, not repaired in this run — except a defect this run's own changes caused, which it repairs, or undoes the change behind, before it ends. It ends as How `inspect` and `fix` end, under What it asks you, says. |
+
+In every entry, rules/review.md, Rebuild in small passes, says who writes each script under
+`.design/harness/` and each pass's repairs — the session itself, or a helper, a second agent on a
+smaller, faster model that the session starts. The session reads it before the first script is
+written.
 
 Screen work arriving with no declaration in the project does not create one in passing. It stops
 with the text under What it asks you. A brief that grants agreement in advance — a line in the
@@ -77,7 +82,7 @@ tool, which shows nothing after its options, at the end of the question's text, 
 question's own sentences. That covers the three questions below and what the session
 says around them: what it is about to do, what it wrote and where, what it changed in the code,
 what it left for the person to decide and where that is written. Every entry says the first of
-these — what it is about to do, in one line — before its first change to any file. What the rules
+these — what it is about to do, in one line — before its first tool call of any kind. What the rules
 say about the record and the counts is for the session, not for the person.
 
 The three questions are fixed texts, each put once — the second once more after Change some
@@ -104,14 +109,16 @@ in advance** — where it has, the first line to the person says what `init` is 
 **Before a visual direction, when the session has no browser it can drive** (the rule is under
 Before you draw):
 
-> Before I decide how this should look, I'd like to study five sites of services like yours as
-> references — how they lay out the page, what buttons they use, how they show progress. That way
-> the design follows what already works, not a template. To open web pages myself I need the
+> Before I decide how this should look, I'd like to study five references — sites of services
+> like yours, for how they lay out the page, what buttons they use, and how they show progress,
+> and at least one that isn't a service like yours at all — a poster, a magazine, a shop sign —
+> for how your product could look. That way the design follows what already works, not a
+> template. To open web pages myself I need the
 > Claude in Chrome extension, and it isn't available right now.
 >
-> - **Study sites of services like yours first, as references.** Install Claude in Chrome
->   (claude.ai/chrome) if you haven't, open Chrome, and tell me when it's ready. I'll study five
->   such sites and design from those and your description.
+> - **Study reference sites first.** Install Claude in Chrome
+>   (claude.ai/chrome) if you haven't, open Chrome, and tell me when it's ready. I'll study those
+>   five and design from them and your description.
 > - **Design from your description only, no reference sites.** I'll design from your description
 >   alone, with nothing real to check against. I'll note in `.design/record.md` that I studied no
 >   reference sites, and every `inspect` will list that until I have studied some. To have me
@@ -120,9 +127,11 @@ Before you draw):
 **Before `init` writes the declaration:**
 
 > Here are the design decisions I'll follow from now on — each value, with why I chose it from
-> your description. Where your product already has code, next to each value is what the code
-> has today, for comparison only. Template defaults aren't decisions, so I didn't adopt any. I
-> save none of these decisions and change nothing in the code until you choose.
+> your description. At the top, in a sentence or two, is how the product will look as a whole:
+> whose look I borrowed and from where, and the one thing people will remember it by. Where your
+> product already has code, next to each value is what the code has today, for comparison only.
+> Template defaults aren't decisions, so I didn't adopt any. I save none of these decisions and
+> change nothing in the code until you choose.
 >
 > - **Save as shown.** I save these decisions to `.design/declaration.md` — or, where you chose
 >   another place before, there. From then on `inspect` reports where the code differs from the
@@ -278,7 +287,7 @@ root, `.design/`. Nothing lands loose at the root.
 | `.design/lexicon.md` | The string inventory rules/copy.md builds: each intent, its one phrasing, every place it appears |
 | `.design/style-system.md` | The artwork style system rules/assets.md calls for: family, palette, light and texture, subject grammar |
 | `.design/captures/` | The state captures rules/states.md calls for, and the study's captures of references under `refs/` |
-| `.design/harness/` | The scripts that take counts — inspection scripts, the study's capture script — kept so a later pass counts again by running them, and changed where the rule or the screen changed rather than written again. Their output and a browser's working files are removed when the pass ends |
+| `.design/harness/` | The scripts that take counts — inspection scripts, the study's capture script — kept so a later pass counts again by running them, and changed where the rule or the screen changed rather than written again. Where this skill carries a runner for the product's platform — a tested script that takes the counts any product on that platform needs from a rendered screen, an interaction, or a recording (rules/review.md, Platform notes) — that runner is the inspection script: what the session writes is its configuration and the flows only this product has, and the runner is not written again. An inspection script runs any one rule file's counts without the others, so a pass reruns only what it must — `fix`'s row under Ways in says what for `fix`, rules/review.md for `review`. Every step a script waits on — a page loading, an answer from the browser — has a time limit; a step that runs past it is written to the record as not taken, naming the method that stopped, and the script goes on to the next. A method that hung or returned nothing is named in the record, so no later script is written with it. Their output and a browser's working files are removed when the pass ends |
 
 `.design/` is the default; the user's choice of home wins, a section inside an existing design
 document included. `.design/record.md` names the home; every entry reads the declaration from
@@ -294,6 +303,13 @@ that division puts first, which control got picked for which job and what the sp
 does, what each step of a flow is presented as — a stacked screen, a modal, a sheet, an
 overlay — what earns artwork and what stays plain text, and how progress is shown. Take the
 answers and leave the surface they came wrapped in.
+
+The skeleton comes from products in the same category — the kind of product this is, a timer
+among timers; the look need not. Of the references, at least one comes from outside the product's
+category — a poster, a magazine, signage, packaging, the subject's own physical world — studied for
+how it looks, and the visual concept entry (rules/tokens.md) names which. The same category
+supplies the conventions readers carry; what they remember comes from somewhere the category has
+not already been.
 
 First on the shelf sit the platform vendors' own materials. For anything meant to feel like
 Apple's work: the Human Interface Guidelines, the official Apple Design Resources kits, the WWDC
@@ -342,9 +358,10 @@ This is a gate, not advice. Before a visual direction is set, the record holds t
 references — this skill's default is five or more, each with one line on what it settled — or the
 written sentence that nothing was available to study. A visual direction reached with neither is
 a defect. Of the references studied, at least one is a product walked as a running flow rather
-than read as a sheet, and the record says which. A reference studied without its pixels —
-fetched as text, never rendered — does not count toward the five, and the record says for each
-reference how its pixels were seen: a capture, a recording, or a walk.
+than read as a sheet, and at least one comes from outside the product's category; the record says
+which. A reference studied without its pixels — fetched as text, never rendered — does not count
+toward the five, and the record says for each reference how its pixels were seen: a capture, a
+recording, or a walk.
 
 Keep the record of what you rejected while planning. A later pass with no memory of it reaches for
 the same defaults the earlier one argued its way out of.
@@ -369,7 +386,7 @@ second file.
 
 | File | Owns | Open when |
 |---|---|---|
-| [rules/tokens.md](rules/tokens.md) | The declaration, its entries, its derivation, and brand values read from the brand's material | Writing or amending the declaration: color, typeface, spacing, radius, elevation, symbol set, springs, easing, voice, recorded exceptions, number and date formats |
+| [rules/tokens.md](rules/tokens.md) | The declaration, its entries, its derivation, and brand values read from the brand's material | Writing or amending the declaration: the visual concept and the signature, color, a color filling a large surface among them, typeface and the display step's jump, spacing, radius, elevation, symbol set, springs, easing, voice, recorded exceptions, number and date formats |
 | [rules/layout.md](rules/layout.md) | Structure and the arrangement, the checked sizes, alignment, grouping by space, density, reflow, the platform's own regions, and the one primary job per screen | Arranging anything on a screen: structure, alignment, grouping, density, what the primary action is and where it sits, what happens as the display narrows, anything fixed to a display edge |
 | [rules/anti-slop.md](rules/anti-slop.md) | The exception rule, and the master count for everything the declaration fixes, plus emoji, all-caps labels, and glyphs appended to action text | A visual direction has been picked, and again before any flow gets a visual review |
 | [rules/states.md](rules/states.md) | The five states and what the reader's operation reaches, forcing each one, exemptions, the long-content test, what happens across a session — time that runs while nothing does among it — reflecting an action before its answer arrives, the response thresholds, a control's own states, what a press lands on, a state change moving nothing else, text over what moves | A screen loads data, can be empty, can be reached on a new account, can fail, can receive long content, has to answer a tap before the answer comes back, has a control that can be disabled or selected, shows something new beside content already on the screen, puts text over something that moves on its own, or grants something once time has passed |
@@ -379,7 +396,7 @@ second file.
 | [rules/forms.md](rules/forms.md) | Labels, what a field declares about itself, movement order, when to validate, where errors sit, the raised input method, submitting once, paste never blocked | The screen accepts typing: any field, any form, anything validated or submitted |
 | [rules/assets.md](rules/assets.md) | The style system for artwork, generated, photographed, or drawn in code; what it sits on, its edges, the photograph held to the palette, and the reject list | Artwork the declared symbol set cannot supply, generated as an image, photographed, or drawn in code: illustration, spot art, a photograph the product ships, a product depicted on the page |
 | [rules/a11y.md](rules/a11y.md) | Accessible names, image descriptions, color as sole carrier, focus in and back, keyboard parity, announcements, hover as a hint, the way past recurring blocks, what the ear receives, the reader's own zoom | The screen has icon-only controls, images, modals, custom controls, meaning carried by color, outcomes that arrive after the action, a viewport declaration, a block of controls that recurs across screens, or text assembled from pieces or set apart by marks — and once more before done, since its two walks close the floor |
-| [rules/review.md](rules/review.md) | What better has to mean, naming deficits, gathering against them, and the comparison that ends the work | The task is improving a screen that already exists rather than building one, or `inspect` runs after `fix` applied repairs — that file names the lines read then |
+| [rules/review.md](rules/review.md) | What better has to mean, naming deficits, gathering against them, the passes and what a helper writes in them, and the comparison that ends the work | The task is improving a screen that already exists rather than building one, or `inspect` runs after `fix` applied repairs — that file names the lines read then |
 
 ## Project tokens
 

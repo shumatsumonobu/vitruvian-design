@@ -102,6 +102,31 @@
     },
     "capturedAt": "2026-09-16T14:46:49.222Z"
   },
+  "how-it-works.png": {
+    "sha256": "b1d465a0c071117824c64aaa6b6d19cac9337c0912c32ab37a84c5a960318f50",
+    "mode": "still",
+    "theme": "light",
+    "source": "gallery/how-it-works.html",
+    "options": {
+      "settleMs": 1500,
+      "colors": 128
+    },
+    "spec": {
+      "width": 1440,
+      "height": 900,
+      "still": {
+        "settleMs": 1500,
+        "colors": 64
+      },
+      "motion": {
+        "frames": 45,
+        "stepMs": 120,
+        "colors": 128,
+        "dither": "bayer:bayer_scale=5"
+      }
+    },
+    "capturedAt": "2026-11-05T08:38:05.297Z"
+  },
   "lamplight.png": {
     "sha256": "0e5fb4a0d9050492d97a686ec1172a74d998526d39ce0a06a170727d2f473eeb",
     "mode": "still",

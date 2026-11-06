@@ -1,0 +1,182 @@
+:root {
+  --asagao: #3E62AD;
+  --ground: #F2F4F5;
+  --surface: #FFFFFF;
+  --ink: #2B3136;
+  --grey-100: #E6EAED;
+  --grey-500: #7C868F;
+  --grey-600: #5F6971;
+  --space: 8px;
+  --radius-large: 16px;
+  --radius-pill: 9999px;
+  --overlay-shadow: 0 8px 24px rgba(43, 49, 54, 0.16);
+  --overlay-scrim: rgba(43, 49, 54, 0.48);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --font: "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+p { margin: 0; }
+
+.site-header, .hero, .routine, .log, .site-footer {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-left: calc(var(--space) * 3);
+  padding-right: calc(var(--space) * 3);
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: calc(var(--space) * 2);
+  padding-bottom: calc(var(--space) * 2);
+}
+
+.logo {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  transition: opacity 120ms var(--ease-out);
+}
+
+.logo:active { opacity: 0.6; }
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  border-radius: var(--radius-pill);
+  padding: var(--space) calc(var(--space) * 3);
+  transition: transform 120ms var(--ease-out);
+}
+
+button:active { transform: scale(0.97); }
+
+.help-open, .help-close {
+  background: var(--surface);
+  border: 1px solid var(--grey-500);
+  color: var(--ink);
+}
+
+.hero { padding-top: calc(var(--space) * 8); padding-bottom: calc(var(--space) * 6); }
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  margin: 0 0 calc(var(--space) * 3);
+}
+
+.hero-lead {
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+  color: var(--grey-600);
+  max-width: 36em;
+  margin: 0 0 calc(var(--space) * 4);
+}
+
+.start {
+  color: #FFFFFF;
+  background: var(--asagao);
+  border: 1px solid var(--asagao);
+  padding: calc(var(--space) * 2) calc(var(--space) * 5);
+}
+
+.routine, .log { padding-top: calc(var(--space) * 4); padding-bottom: calc(var(--space) * 4); }
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: 0 0 calc(var(--space) * 2);
+}
+
+.poses {
+  list-style: none;
+  margin: 0 0 calc(var(--space) * 2);
+  padding: calc(var(--space) * 2);
+  background: var(--surface);
+  border-radius: var(--radius-large);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: calc(var(--space) * 2);
+}
+
+.pose-name {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.pose-time, .tags {
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  color: var(--grey-600);
+}
+
+.tags + .tags { margin-top: var(--space); }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.log-empty, .log-line {
+  font-size: 1.125rem;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+.site-footer {
+  padding-top: calc(var(--space) * 4);
+  padding-bottom: calc(var(--space) * 4);
+  color: var(--grey-600);
+}
+
+.help {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: var(--overlay-scrim);
+  display: flex;
+  align-items: flex-end;
+}
+
+.help[hidden] { display: none; }
+
+.help-sheet {
+  background: var(--surface);
+  width: 100%;
+  border-radius: var(--radius-large) var(--radius-large) 0 0;
+  box-shadow: var(--overlay-shadow);
+  padding: calc(var(--space) * 3);
+}
+
+.help-sheet p { max-width: 36em; margin: 0 0 calc(var(--space) * 3); }
+
+button:focus-visible, .logo:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+@media (hover: hover) {
+  .start:hover { filter: brightness(1.08); }
+}

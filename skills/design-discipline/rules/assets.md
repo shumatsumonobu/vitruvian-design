@@ -48,8 +48,9 @@ change between them.
 
 ## Composition answers to the layout
 
-Artwork under a headline leaves the headline's third of the frame empty, and which third is
-decided before the artwork is made rather than discovered afterwards.
+Where artwork and text share a frame, which sits in front and where the two cross is decided
+before the artwork is made rather than discovered afterwards. Text may cross artwork; its contrast
+is then read at the worst point under the text, as the contrast count in rules/states.md reads it.
 
 Subject matter follows the state it serves. Art for an empty surface is quiet — something at rest,
 not a scene in progress. Celebration reads through composition, an arc or a tilt, rather than
@@ -90,6 +91,9 @@ Any one of these sends the asset back. None of them is a matter of taste.
 - It is loaded from a placeholder image service outside the project, or it is a depiction presented
   as this product's own — its premises, its people, its product, photographed or drawn — that
   neither the brief nor the product's own material supplied.
+- People rendered as the generator's default: one evened face, skin smoothed past texture, hands
+  or limbs that do not hold together, a body standing square in the middle of the frame, a sales
+  smile, crossed arms, a pointing finger, a laptop held up with a grin.
 - Stripped of the text around it, the depiction stops saying what it is. A device whose screen
   shows nothing and a product with no material is a placeholder wearing the subject's spot.
 
@@ -107,6 +111,8 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
 - Photographs the product ships as its own imagery whose largest areas of color, read by reducing
   the image to its few largest areas, are neither declared values nor the named source of one: 0.
 - Assets made before the style system was written: 0.
+- Artwork sharing a frame with text, with no line in the record or the style system saying which
+  sits in front and where the two cross: 0.
 - Assets carrying baked-in text or a watermark: 0.
 - Assets not yet viewed in every theme the declaration names, on their real surface: 0.
 - Assets whose focal point sits under a control or whose subject sits under one of the platform's

@@ -132,6 +132,12 @@ everywhere.
   five repairs between one look and the next        rules/review.md
   five studied references before a visual direction SKILL.md
   one studied reference walked as a running flow    SKILL.md
+  one studied reference from outside the category   SKILL.md
+  one half, the view's width what draws must span   rules/anti-slop.md
+  15 seconds, one message to the browser            runner/web/README.md
+  30 seconds, a page load                           runner/web/README.md
+  5 seconds, webfonts settling after a load         runner/web/README.md
+  10 minutes, the whole run                         runner/web/README.md
   one line, a control's label at every supported width         rules/copy.md
   one character, a title's last line                rules/copy.md
   two focusable elements, the smallest recurring block         rules/a11y.md

@@ -87,11 +87,18 @@ sentence read alone is how a gap between two correct sentences survives.
 A run costs the author's time, so a run is asked for only once the test itself has been
 checked: every planted defect measured at every size a session might choose, the brief read for
 anything that answers what the run measures, the model and effort fixed, and the check written
-in the workspace's test plan. A run settles one or two rules on the smallest workspace that
+in `live-test/TESTPLAN.md`. A run settles one or two rules on the smallest workspace that
 carries them — one screen, its declaration and record already in place — and a whole scaffold is
 kept for the run that walks the full sequence. Within a run a gap is repaired the moment it
 shows; across runs, the gaps are collected and repaired together before the next run is asked
 for, not one run per repair.
+
+The work here splits by what it needs. Drafting a rule, weighing it against the others, a review,
+and a run's verdict stay with the session's own model. Work that only carries out what was
+decided — building a workspace, writing a measuring script — may go to a subagent on a smaller
+model, handed everything it needs, since it sees none of this conversation; what it returns is
+read back before it is used. A fact a subagent looked up is read in its source before it goes
+into a skill file.
 
 ## Words
 
@@ -113,10 +120,16 @@ use a word that reader does not have. Write the four answers down for each part;
 answered in writing was not asked. A review of the whole repo lists every file first and asks
 the same of each; a file not on the list was not reviewed.
 
+A person whose published work led to a change is named nowhere in this repo — not in a source
+column, a decision, a changelog entry, or a commit message. The source is described by what it
+is: a designer's published prompt, a product's month of use.
+
 ## Claims and numbers
 
-Numbers in README and CHANGELOG were measured on the gallery builds; each run's
-`.design/record.md` is in `gallery/` under the page's name, and a claim is read against it,
+Numbers in README and CHANGELOG were measured on the gallery builds, or, for what a run costs —
+README's How a run works and the poster above it — on the live-test rounds, read against the
+round's lines in `live-test/TESTPLAN.md`; each gallery run's `.design/record.md` is in `gallery/`
+under the page's name, and a claim is read against its source,
 never restated, rounded, or strengthened from memory — a claim rewritten from memory drifts
 stronger than its measurement, and "all closed" with one repair open is a defect, not rounding.
 

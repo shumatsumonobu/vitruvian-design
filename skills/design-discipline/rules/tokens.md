@@ -14,7 +14,9 @@ Write the declaration into the project, not into your head. It holds these entri
 
 - colors: 4 to 6 named values, one of them the accent, each with its job stated — a color whose
   job nobody can name does not go in. The grey family is declared on its own line below and does
-  not count against this number
+  not count against this number. A color may be declared as a flood: a surface the color fills,
+  taking a large share of the screens it names. The entry says which screens, roughly what share,
+  and the reason; a flood is not the accent, and the accent's three places do not change
 - grey family: one, warm or cool
 - themes: one, or light and dark resolved from this one declaration — and which one the product
   ships where it ships one
@@ -35,8 +37,9 @@ Write the declaration into the project, not into your head. It holds these entri
 - type scale: every step with its weight, its letter-spacing, and its line-height, plus its width
   where the family has a width axis to state, and the OpenType features a step relies on where the
   family carries them — a step set over columns of numbers states its figure treatment. The step
-  used at display size is marked as such; where a screen needs a second display size, both are
-  marked and each says what it is for
+  used at display size is marked as such, with its size as a multiple of the body step and what in
+  the subject chose that jump; where a screen needs a second display size, both are marked and
+  each says what it is for
 - maximum line length: one; a second for serif body text where a serif is declared
 - maximum content width: one, where the surface scrolls vertically and the platform does not
   impose one
@@ -48,6 +51,13 @@ Write the declaration into the project, not into your head. It holds these entri
   for surfaces carrying momentum
 - ease-out curve: one where any motion is driven by time rather than by a finger
 - formats: number and date
+- visual concept: one sentence — the world outside the product's own category whose look the
+  product borrows, and what in the subject chose it: a studied reference from outside the category
+  (SKILL.md, Before you draw), or the subject's own physical world
+- signature: the one element the product is remembered by — what it carries, and on which screens
+  it appears and where; on at least one of them it sits in what shows before any scroll, at every
+  checked size (rules/layout.md). The product's boldness is spent here; what surrounds it stays
+  quiet
 - voice: the product's, in one phrase — what it sounds like and how far from plain it goes. The
   bans in anti-slop.md that turn on voice read this entry
 - recorded exceptions: anything this skill bans by default that this product uses on purpose, each
@@ -71,14 +81,15 @@ session answers it: decides the value from the declaration's reasons and the rul
 the value and its reason into the entry before building the screen, and says what it added. The
 choice is not put to the person as a question; the person changes it by editing the declaration.
 
-The layout concept and the product principles belong to the plan, not to this declaration. The
-structure of a surface belongs to layout.md.
+The layout concept and the product principles belong to the plan, not to this declaration; the
+visual concept and the signature are entries because a session that never saw the plan builds
+the next screen. The structure of a surface belongs to layout.md.
 
 ## What the declaration locks that a plan does not
 
 - The accent is one value, decided before the first screen and unchanged after it. Three places
   earn it: whatever the screen most wants pressed, whatever is currently selected, and progress.
-  Everywhere else the neutrals do the work.
+  Everywhere else the neutrals do the work, and the flood where the declaration names one.
 - A grey family is either warm or cool. One product uses one of them.
 - Two families differ in classification, not only in name — a serif paired with a sans, or a text
   face paired with a monospace. Two sans families, or two serifs, are one choice made twice: cut
@@ -143,7 +154,8 @@ left to the person, until the material is reached.
 4. Show the declaration and the comparison before writing the declaration — its scope of change
    entry written as not yet asked where code exists, and as not applicable where none does.
    Each entry is shown under its English name as the file will hold it, with a gloss in the
-   user's language beside it, so that what the person sees is what they will later edit.
+   user's language beside it, so that what the person sees is what they will later edit. The
+   visual concept and the signature are shown first, ahead of the other entries.
    Nothing in the code changes here. Once the declaration is agreed, the code's values are what
    the counts in rules/anti-slop.md catch and `fix` replaces.
 5. Where the person changes a value before the declaration is written, the entry takes the
@@ -210,6 +222,9 @@ artwork that a style system governs are counted in rules/assets.md.
   does not.
 - The accent. State which of the three places it earns — the primary action, the selected state,
   progress — appear on this screen, and confirm nothing else took it.
+- The visual concept. Name the world it borrows from and what showed it. A concept that names the
+  product's own category — a timer that looks like timers — is not a concept, and the entry goes on
+  the repair list `inspect` returns (SKILL.md).
 - The radius sentence. Read it back and point at one element per step it names.
 - Each stand-in, where a family loads after the screen first draws. Render the screen once with
   that loading blocked, and record what that first frame showed — on a slow connection it is the

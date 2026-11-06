@@ -3,6 +3,32 @@
 What a fresh copy of `skills/` gets you, newest first. Install is the same at every entry:
 copy the five directories in, replacing the ones you have.
 
+## 2026-11-05
+
+The declaration names where your product is bold: the world outside its category whose look it
+borrows, and the one element it is remembered by, which sits where a reader sees it before
+scrolling on at least one screen. At least one of the references studied comes from outside the
+product's category. A color may fill a large surface without becoming a second accent, the
+display size states how far it jumps from body text and why, and text may cross artwork once which
+sits in front is decided. People drawn as a generator's default are rejected. `init` shows the
+look as a whole first. On a product whose declaration was written before this, run `init` once
+with a browser to add the two entries.
+
+A title, a heading, or a name breaks between words, and in Japanese between phrases; neither it nor
+a short text standing on its own ends on a last line of one character, punctuation not counted. The
+structure says what a wide display's width past one column is for, and a column centered with bare
+background either side is counted as a default, lifted only where the declaration's recorded
+exceptions name it. The signature is read for whether it is what the eye reaches after the primary
+action, and the visual concept for whether it reaches the screen in more than its colors.
+
+Where the session can start a second agent on a smaller model, that agent writes the scripts that
+take counts and the session reads them back; an inspection script runs one rule file's counts
+alone, so a `fix` pass rechecks only what it changed; every step a script waits on has a time
+limit, and a method that hung is written down so no later script uses it. On the web, the skill
+now carries a tested runner, `runner/web/run.mjs`, which needs Node 22 or later and Chrome: a run
+writes the product's configuration for it instead of a script of its own. Each entry says its first
+line before any tool call, and writes every line in your language.
+
 ## 2026-11-02
 
 Screens are checked at the sizes their readers are left with: the widest and narrowest width,

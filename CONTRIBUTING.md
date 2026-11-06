@@ -20,8 +20,9 @@ decides what the skill says.
 | `DESIGN.md` | The design of the skill as it stands: its parts, how a run moves, the shared vocabulary, where each concern lives, the known limits. Kept current with the skill, no history |
 | `DECISIONS.md` | Why the rules read as they do: one section per decision — what, why, and where it lives |
 | `.claude/rules/` | The review lenses, loaded by path (Review, below, says which file each covers), and `gallery-images.md`, the rule every gallery image is made by |
-| `scripts/` | `check-readme.mjs` (the README's mechanical counts), `capture.mjs` (every gallery image comes through it), and their README |
-| `gallery/` | The seven pages, their captures, and each run's `.design/record.md`, one name per page, and `README.md`, the source of truth for the prompt each page was built from |
+| `scripts/` | `check-readme.mjs` (the README's mechanical counts), `capture.mjs` (every gallery image comes through it), `live-test.mjs` (copies a scaffold out to a workspace and reads the run back), `live-test/test-runner.mjs` and `check-runner.mjs` (test the web runner, and read its count names against the rule files), and their README |
+| `live-test/` | The scaffolds live tests run on, the test plan with each round's pass conditions, and the results of the runs that compared two versions of the skill |
+| `gallery/` | The seven pages, their captures, and each run's `.design/record.md`, one name per page; the poster at the top of the README, `how-it-works.html` and its capture; and `README.md`, the source of truth for the prompt each page was built from |
 
 ## Change a rule
 
@@ -47,7 +48,7 @@ done
 
 For a change under `skills/`, the diff printing nothing at every copy is the review's last
 count. Each live-test workspace (below) carries its own copy under `.claude/skills/`; it is one
-of the copies.
+of the copies, synced with `node scripts/live-test.mjs sync <workspace>`.
 
 ## Review
 
@@ -57,7 +58,10 @@ Read every changed file in full, as the session that will execute it, then apply
 `CHANGELOG.md`, and everything in `gallery/`. Each lens file carries its own procedure — what
 to list before applying, and when an agent pass is used. The README's mechanical counts come
 from `node scripts/check-readme.mjs --pages`; every line it prints is 0 before a README change
-is done. `DESIGN.md`, `DECISIONS.md`, and this file have no lens file; read them with the four
+is done. A change under `skills/design-discipline/runner/web/` is done when
+`node scripts/live-test/test-runner.mjs` prints no MISSED line, and a change to a count line when
+`node scripts/check-runner.mjs` prints 0 runner lines missing from their rule file.
+`DESIGN.md`, `DECISIONS.md`, and this file have no lens file; read them with the four
 questions under Words in `CLAUDE.md`.
 
 ## Live test
@@ -69,30 +73,12 @@ own terms — the declaration and its scope of change, the record, the marks str
 surface, the accessibility floor, not taken; `DESIGN.md` under Vocabulary gives each with the
 file that defines it.
 
-The workspace lives outside this repo — one directory per copy of a scaffold, a starter project
-built to carry the defects a run should find; its own git repo, nothing from it committed here.
-Four scaffolds, and small workspaces cut from them. The first: one page whose `:root` carries a template's defaults (a near-black
-background, a blue accent, `system-ui`, one radius), a logo drawn in CSS with a spin animation, one
-button, two cards, one email field; a `README.md` holding the brief in one paragraph; a `CLAUDE.md`
-with the one line that routes screen work to the skill and names the language the person reads, its
-polite form included; the skill copied into `.claude/skills/` and synced after every edit. The
-second: two pages sharing one navigation, a `brand/` directory holding the brand's guidelines and
-logo as text, the same `README.md`, `CLAUDE.md`, and skill copy, and, planted on the pages, defects
-that trip the counts — a carousel nothing can stop, a fixed bottom bar with no allowance for the
-platform's own regions, a field with 14-pixel text, on which paste is blocked, a hover treatment
-with no hover condition, a disabled button with no reason in sight, a button label that wraps at 320
-pixels, an error line that pushes the form down, a menu whose animation restarts from its start, a
-headline that names nothing of the product, no way past the navigation by keyboard, a viewport that
-caps zoom, a hero over three equal cards with no reason written for the arrangement, and, carrying
-nothing, a glow and a dot grid behind the hero, an eyebrow over each card and a colored band down
-its edge. The third, in Japanese: two pages sharing one navigation, a `brand/` directory whose
-guidelines name three colors, one role split between a Japanese family and a Latin family, and a
-handwriting face for one line of the hero, a `README.md` whose brief states the member count, and,
-planted: font stacks whose order differs between headings and body, so Latin letters are set in both
-families; the handwriting face on the hero line and on one card's title; three cards of the same
-kind rotated and set in perspective; a lead that says thousands where the brief says the count; a
-photograph whose largest areas are a blue no declared value holds; an English eyebrow restating the
-title under it, and a lead repeating the heading. The fourth, in Japanese: one screen and a
+A scaffold is a starter project built to carry the defects a run should find. The ones kept are
+under `live-test/scaffolds/`, and `node scripts/live-test.mjs new <scaffold> <workspace>` copies
+one, with the skill, into a workspace outside this repo — one directory per copy, its own git
+repo, nothing from it committed here. A workspace inside this repo would load this repo's
+`CLAUDE.md` and be read the answers. `live-test/README.md` has the commands.
+Two kinds of scaffold are kept. The whole one, `full`, in Japanese: one screen and a
 full-screen layer over it, a brief that names the readers' devices but no window size, and,
 planted: a box that draws nothing over the main button, growing only on windows whose height the
 browser's bars or the system's scaling cut; a skip that unlocks on the wall clock while the pause
@@ -101,46 +87,34 @@ brackets that leaves `)` alone on a line; separators exposed to the screen reade
 text built from pieces; a layer back does not close, and a result layer that closes itself;
 two buttons whose press areas overlap — and, as decoys a run must not flag, a countdown the reader
 started, a sheet that closes on back, a hidden separator with a pause in its place, a dash inside
-a sentence. A small workspace is one screen cut from a scaffold with its declaration, record,
-structure, and lexicon already in place, and the code already at the declaration but for what the
-run is to settle; a repair list of one in the record lets `fix` start without a full inspection.
-It settles one or two rules in minutes where a whole scaffold takes most of an hour. You run the
-entries in Claude Code inside the
-workspace; a session opened in this repo reads `.design/` and the diff and judges against the tables
-below. Keep a copy of the scaffold's code as it stood before the first run, and a script in the
-workspace that prints the diff against it, the declaration, and the record; the judging session runs
-that script after every run. Each run's `.design/record.md` stays with the workspace. Before the
+a sentence. A small
+workspace is one screen cut from a scaffold, with the code already at the declaration but for what
+the run is to settle; it settles one or two rules in minutes where a whole scaffold takes most of
+an hour. Five small workspaces are kept. Three are each the one before it plus one layer: `cover`, `full`'s
+cover screen with no `.design/`, for `init` and `review`; `cover-declared`, with the declaration,
+record, structure, and lexicon in place, for `inspect` and `fix`; `cover-glow-border`, with two
+planted defects and the decoys beside them. The fourth, `cover-stamped`, is `cover` as an `init`
+and a `fix` left it, the inspection script the run wrote included; the fifth, `cover-card`, is
+`cover-stamped` as the next `inspect` and `fix` left it, the runner's configuration included. Each
+is for the `inspect` and `fix` after it. You run the entries in Claude Code inside the workspace; a
+session opened in this repo runs `node scripts/live-test.mjs judge <workspace>`, which prints the
+diff against the scaffold, the declaration, and the record, and judges against the tables below
+and the round's lines in `live-test/TESTPLAN.md`. Each run's `.design/record.md` stays with the
+workspace. Before the
 first run, read the scaffold as built against its description here and the table it is judged by; a
 planted defect the description does not name, or names differently, is a repair to one of them.
 
-On the first scaffold:
+On a scaffold whose brief leaves the questions to the person, the entries in sequence. The kept
+scaffolds' briefs answer them in advance, so a run on one is judged by its round's lines in
+`live-test/TESTPLAN.md` and by the list for every run below; this table says what the sequence
+shows where the questions are put:
 
 | Run | What to read | It passes when |
 |---|---|---|
-| `init` on a copy with no `.design/` | The questions as they appear; `.design/declaration.md`; `.design/record.md`; the code | `init` opens with its fixed text and nothing before it. Each question put — the browser question only when the session has neither the extension nor a browser it could start itself — is the fixed text under What it asks you, translated, labels included, put through the AskUserQuestion tool, no term of the skill. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The declaration adopts no value from the template, carries a reason on every entry, names entries as `rules/tokens.md` gives them, and reads scope of change: not yet asked (or not applicable with no code). The record holds the study record, the map of the code, and the comparison. The code is unchanged |
+| `init` on a copy with no `.design/` | The questions as they appear; `.design/declaration.md`; `.design/record.md`; the code | `init` opens with its fixed text and nothing before it. Each question put — the browser question only when the session has neither the extension nor a browser it could start itself — is the fixed text under What it asks you, translated, labels included, put through the AskUserQuestion tool, no term of the skill. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The declaration adopts no value from the code, carries a reason on every entry, names entries as `rules/tokens.md` gives them, and reads scope of change: not yet asked (or not applicable with no code). The record holds the study record, the map of the code, and the comparison. The code is unchanged |
 | `inspect` on the same copy | `.design/record.md`; `git status`; the code | Every repair on the list is marked structural or surface. tokens.md's unfilled-entries count is 0 with the scope of change entry at not yet asked. anti-slop.md's studied-references count is reported open when no study was done. Only `.design/record.md`, `.design/captures/`, and `.design/harness/` were written. The code is unchanged |
 | `fix` on the copy, answering Keep the layout | The third question as it appears; `.design/declaration.md`; `.design/record.md`; the diff | The question is the fixed text, translated, put through the AskUserQuestion tool. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The skill puts no other question (a stop for plan approval that your own `~/.claude/CLAUDE.md` asks for is not the skill's). The scope of change entry reads structure kept as soon as the answer is given. A value the declaration lacked is decided by the session and written with its reason. At most five repairs per pass; after each the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. The record ties every change in the diff to a repair on the list. After the last pass, a run of every applicable Inspection finds nothing the record does not already hold with its reason. Every skipped repair carries its reason. Nothing moved, resized, removed, or reordered; artwork unchanged, its colors included; motion unchanged. Accessibility-floor repairs applied. The code's values are the declaration's; no template value remains but what the scope of change keeps |
 | `inspect` again after `fix` | `.design/record.md`; the code | The counts behind every surface repair `fix` applied read 0. Structural repairs are still listed, marked, with the scope of change named as the reason. The code is unchanged |
-
-On the second scaffold, everything above holds, and:
-
-| Run | What to read | It passes when |
-|---|---|---|
-| `init` | `.design/declaration.md` | The colors and typefaces name `brand/` as their source, no value is marked provisional, and every type-scale step states a line-height |
-| `inspect` | `.design/record.md` | Every planted defect is reported by a count or a check or, where the workspace cannot drive it, recorded as not taken; the arrangement first shows up as no declared structure; and rules/anti-slop.md's check on each decorative element names the eyebrows, the colored bands, and the dot grid as carrying nothing |
-| `fix`, answering Keep the layout | `.design/record.md`; `.design/structure.md`; the diff | The carousel gets a control that stops it, a link past the navigation is laid over the page, the zoom cap is removed, paste is unblocked, the wrapping label is shortened, the headline is replaced with a fact from the brief or named as a job and recorded as missing, the arrangement is written into `.design/structure.md` as arrived unasked and left as structural, and the form's `name` and `action` are unchanged |
-| `inspect` again after `fix` | `.design/record.md` | The arrangement count reads 1 per page, and the counts recorded as not taken are still recorded so |
-| `fix` after the scope of change entry is edited to everything may change, then `inspect` | `.design/declaration.md`; `.design/record.md`; the diff | `fix` asks nothing and applies the structural repairs, the form's `name` and `action` still unchanged; `inspect` reads rules/review.md's lines on repairs from the record and the code, and every change the code shows is tied to a repair on the list |
-
-On the third scaffold, everything above holds, and:
-
-| Run | What to read | It passes when |
-|---|---|---|
-| `init` | `.design/declaration.md` | The typefaces entry lists the Japanese and Latin families as one family of one classification, naming the writing system each sets; the recorded exceptions entry holds the handwriting face with where it goes — the hero line — and the reason quoted from `brand/`; no entry names the photograph as a value's source |
-| `inspect` | `.design/record.md` | Each planted defect is reported: families sharing a classification 0 — the entry names the writing systems — and typeface families in the flow 3, uses of a banned default outside its exception 2 (the card title and the rotated row), the rotated row named by the decorative-element check as carrying nothing, words standing in for a figure 1, photographs outside the palette 1, stated twice 2 or more; the card title is also on the family-switch count and the eyebrow on the all-caps count. The font order, the card title, the rotation, the word, and the lead are marked surface; the eyebrow and the photograph structural |
-| `fix`, answering Keep the layout | `.design/record.md`; the diff | The five surface repairs are applied — one stack order, the card title in the body family, the rotation removed, the count written as the figure, the lead rewritten — and the eyebrow and the photograph are left with their reasons, the photograph's naming the material that would settle it |
-| `inspect` again after `fix` | `.design/record.md` | The five counts read 0; the two structural repairs are still listed, with the scope of change as the reason |
-| `fix` after the recorded exceptions entry gains the English captions, with where they go, and the scope of change is edited to everything may change, then `inspect` | `.design/declaration.md`; `.design/record.md`; the diff | The eyebrow is no longer counted as stated twice, and the decorative-element check answers it with the exception's place and reason; the photograph is replaced, brought to the palette, or left with the material named; every change is tied to a repair, and the exception count reads 0 |
 
 On every run, whatever the scaffold:
 
@@ -153,7 +127,7 @@ On every run, whatever the scaffold:
   the fixed texts, repaired by saying in them what happens.
 - The repair list says once, where it begins, what structural and surface mean, and `inspect`
   names what it could not take and why.
-- The first line to the person comes before any file is written, and the run ends in the order
+- The first line to the person comes before the first tool call, and the run ends in the order
   How `inspect` and `fix` end gives: what was done, the repairs heaviest first, what only the
   person can give, what was not taken and what would take it, the next command.
 - After each run: the diff holds only what the run's record ties to a repair; `.design/` holds
@@ -161,8 +135,10 @@ On every run, whatever the scaffold:
   record shows the run read the last lines of `rules/review.md`'s count against itself — the
   screens it read, the capture behind each pass, the scripts it kept.
 
-Before asking for a run, check the test, and write the check in the workspace's test plan:
-measure every planted defect at every size a session might choose — full displays, a scripted
+Before asking for a run, check the test, and write the check in `live-test/TESTPLAN.md` — never
+inside a scaffold, where the run would read it: measure every planted defect, with
+`node scripts/live-test.mjs verify <workspace>` where the scaffold has a check, at every size a
+session might choose — full displays, a scripted
 browser's default, and windows the browser's bars or the system's scaling cut — and say which
 show it; read the brief for anything that answers what the run is to find; fix the model and
 effort every compared run uses. To compare two versions of the skill, run both on copies of one

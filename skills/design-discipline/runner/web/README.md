@@ -12,14 +12,23 @@ capture.
 From the product's root, with Node 22 or later and Chrome on the machine:
 
 ```
-node <skill>/runner/web/run.mjs <label> [--rules=states,copy] [--config=.design/harness/product.mjs] [--gpu]
+node <skill>/runner/web/run.mjs <label> [--rules=states,copy] [--config=.design/harness/product.mjs] [--gpu] [--inventory=<label> | --kept=<label>]
 ```
 
 - `<skill>` is the directory of this skill, `design-discipline/` beside the entry commands.
 - `<label>` names the run: `2026-11-04-inspect`, `pass3`. Captures go to
   `.design/captures/<label>/`, the results to `.design/harness/out/<label>.txt` and `.json`.
 - `--rules=` takes rule file names — tokens, anti-slop, layout, states, navigation, motion, copy,
-  forms, assets, a11y — and runs only the steps those files' counts need. With none, all of them.
+  forms, assets, a11y, review — and runs only the steps those files' counts need. With none, all of them.
+- `--inventory=<label>` takes the inventory of every screen — in its `populated` state where it
+  names one, its first state otherwise, over every checked size — and writes it to
+  `.design/harness/out/<label>.inventory.json`: one list per screen of the links (`link`), the
+  names fields submit under (`field`), the ids in-page links reach (`anchor`), test identifiers
+  (`test`), event names (`event`), and controls with their accessible names (`control`). It is run
+  before the first pass.
+- `--kept=<label>` takes the inventory again and compares it with `<label>.inventory.json`; the
+  `review` line prints the number of items in that file the new inventory lacks, and each with its
+  screen. The session subtracts the items a repair names. Where `<label>.inventory.json` is missing, the line is not taken and says so. Either flag adds `review` to the rules run; with `--rules=review` nothing else runs, and the flags write nothing but that file and the usual results.
 - The browser is `chrome-headless-shell` where one is installed or named in `CHROME_PATH`, and the
   installed Chrome otherwise, and the `.json` names the one it used; the session does not start a
   browser itself to find or check it. Its profile and temporary files stay under
@@ -28,7 +37,9 @@ node <skill>/runner/web/run.mjs <label> [--rules=states,copy] [--config=.design/
 - The browser draws without the GPU unless `--gpu` is given. Without it a run holds less memory —
   about 1.1 to 1.5 GB against 1.6 GB, on the scaffolds this runner is tested on — but software
   drawing can drop frames a device would not, so the frame-rate check is read from a run of
-  `--rules=motion --gpu`.
+  `--rules=motion --gpu`. Take that run once, while nothing else on the machine is busy — not while
+  a reviewer reads captures, which in one run stretched the longest interval from 16.8 to 33.4 ms —
+  and take it once more only to confirm a reading over the bar.
 - A step that runs past a limit leaves the tab in doubt. Where the tab no longer answers, the
   runner opens a new one and goes on; where no tab answers, every later line is not taken at once,
   naming the step after which the browser stopped.
@@ -131,6 +142,7 @@ export default {
       },
       long: { storage: { "plants": "<json with many plants and long names>" }, pad: 3 },  // rules/states.md, Long content
       signature: ".watering-calendar",  // the signature entry, where it appears on this screen
+      answer: { el: ".plant-list > li:first-child", state: "populated", control: "button" },  // rules/layout.md, the first view holds what the screen is for
       names: [".plant-name"],      // names set from data, read with titles and headings for line breaks
       layers: [                    // what opens over the screen
         { name: "add", open: ".add-plant", close: ".sheet-close", box: "[role=dialog]", dimmed: ".scrim" },
@@ -186,12 +198,16 @@ open, unless the row says otherwise.
 | anti-slop | Shadow values not present in the declared elevation scale | number |
 | anti-slop | Spacing values not a multiple of the declared base unit, the allowance for the platform's own regions (rules/layout.md) excepted | number |
 | anti-slop | Text set with a glow as its style — light spreading outward from the glyphs, however it is drawn | number |
+| anti-slop | Label styles set in capitals or small caps, or smaller than the body text with letter-spacing wider than the body text's by more than 0.03em | number |
 | anti-slop | Surfaces at the widest checked size where what draws — text, a border, a fill other than the page's own background, an image — spans less than half the view's width, counting none the recorded exceptions name | number, read before any scroll |
 | anti-slop | Where the declaration names a signature, checked sizes at which it sits outside what shows before any scroll on every screen its entry names | number |
 | layout | Distinct left edges within one column, counting only those with no stated reason | data |
 | layout | Groups whose internal gap is equal to or larger than the gap separating them from their neighbors | data |
 | layout | Controls styled as primary | number |
+| layout | Screens whose first view, at any checked size and in the state the reader meets most, does not hold the first item of what the screen exists to show or take, whole, with the control that acts on it where there is one | number |
 | layout | Regions that hide on the narrow display with no stated alternative route to their content | data |
+| layout | Table column heads that wrap onto a second line at any checked size | number |
+| layout | Tables at the narrowest checked size where the column naming the row or the column acting on it lies outside the view before any sideways scroll | number |
 | states | Elements that move because a neighbor changed state — a border thickening, an error line or a help or character-count line appearing, a transient message or an indicator arriving — counting none that moved because the reader opened, expanded, reordered, or filtered something, none moved by content that updates itself arriving, which is content arriving rather than a state change, and not the surface scrolling as a whole to bring a focused field into view, which rules/forms.md owns | number |
 | states | Long-content captures — the long string, the unbroken token, the raised text size, the filled collection — showing a clipped control, an overlapped neighbor, or content pushed out of the layout | number |
 | states | Text that stays the same size when the platform's text size is raised one step | number |
@@ -219,6 +235,7 @@ open, unless the row says otherwise.
 | motion | Elements that translate, scale, or slide once the reduce-motion preference is turned on | number |
 | motion | Content the reader can see moving, blinking, or scrolling on its own for more than five seconds, shown at the same time as other content, with no control on the screen to pause, stop, or hide it — motion that is the whole content, that the reader started, or that indicates a wait the reader is in excepted | number |
 | motion | Motion running on a spring or a curve the declaration does not name | number |
+| motion | Elements that stand invisible at rest — no opacity, hidden, or moved out of view — until the product's code shows them once the screen has drawn | number |
 | copy | Layouts that break under the longest translation on hand, or under source strings padded by the states.md multiple | number |
 | copy | Labels of controls with a shape drawn around them — buttons, tabs, links in a navigation or a menu — set on more than one line at any supported width, under the longest translation on hand or, where none exists, the source label | number |
 | copy | Lines opening with a closing bracket, a closing quotation mark, or punctuation that belongs to the line before, under the longest real values at the width of every checked size | number |
@@ -230,6 +247,7 @@ open, unless the row says otherwise.
 | a11y | Modals, sheets, and full-screen takeovers that open without taking focus, let it escape while open, or fail to return it on close | number |
 | a11y | Focusable elements reached in an order that differs from the visual order | number |
 | a11y | Surfaces on which the reader's own zoom is disabled, or capped short of the 200 percent the accessibility guidelines name — the one line here the source can answer | number |
+| review | Items in the inventory taken before the first pass — where a link goes, the name a field submits under, an id a link reaches, a test identifier or event name, a control and its name — that the inventory after the last pass lacks and no repair on the list names, and runs that applied repairs with no inventory before and after in the record | data |
 
 A word, for the break count, is a segment `Intl.Segmenter` gives at word granularity in the page's
 language. The motion rows read the animations the page runs (`document.getAnimations()`) during a

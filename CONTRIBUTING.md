@@ -11,7 +11,7 @@ decides what the skill says.
 | Path | Holds |
 |---|---|
 | `skills/design-discipline/SKILL.md` | The entry point: the order of decisions, the three questions the skill puts to the person, and the pointer to each rule file |
-| `skills/design-discipline/rules/` | The eleven rule files, each ending in an Inspection — counts that return a number, checks answered in a sentence |
+| `skills/design-discipline/rules/` | The twelve rule files, each ending in an Inspection — counts that return a number, checks answered in a sentence |
 | `skills/design-discipline/NOTICE` | The provenance of every threshold number the rules count against |
 | `skills/design-discipline/README.md` | The skill's own README: what it does, install, what it asks |
 | `skills/design-discipline-{init,review,inspect,fix}/` | The four entry commands, one `SKILL.md` each, deferring to the skill beside them |
@@ -90,14 +90,19 @@ started, a sheet that closes on back, a hidden separator with a pause in its pla
 a sentence. A small
 workspace is one screen cut from a scaffold, with the code already at the declaration but for what
 the run is to settle; it settles one or two rules in minutes where a whole scaffold takes most of
-an hour. Five small workspaces are kept. Three are each the one before it plus one layer: `cover`, `full`'s
+an hour. Eight small workspaces are kept. Three are each the one before it plus one layer: `cover`, `full`'s
 cover screen with no `.design/`, for `init` and `review`; `cover-declared`, with the declaration,
 record, structure, and lexicon in place, for `inspect` and `fix`; `cover-glow-border`, with two
 planted defects and the decoys beside them. The fourth, `cover-stamped`, is `cover` as an `init`
 and a `fix` left it, the inspection script the run wrote included; the fifth, `cover-card`, is
-`cover-stamped` as the next `inspect` and `fix` left it, the runner's configuration included. Each
-is for the `inspect` and `fix` after it. You run the entries in Claude Code inside the workspace; a
-session opened in this repo runs `node scripts/live-test.mjs judge <workspace>`, which prints the
+`cover-stamped` as the next `inspect` and `fix` left it, the runner's configuration included; the
+sixth, `cover-wide`, is `cover-card` as the `fix` after that left it, with two planted defects;
+the seventh, `cover-columns`, is `cover-wide` as the `fix` after that left it, nothing planted.
+Each is for the `inspect` and `fix` after it. The eighth, `mizuyari`, is a second product's one
+screen with no `.design/`, for the whole sequence on a product whose look is not chosen yet. You run the entries in Claude Code inside the
+workspace, or, where the brief answers every question in advance,
+`node scripts/live-test.mjs run <workspace> <entry>` runs one through `claude -p` with nobody at
+the keyboard; a session opened in this repo runs `node scripts/live-test.mjs judge <workspace>`, which prints the
 diff against the scaffold, the declaration, and the record, and judges against the tables below
 and the round's lines in `live-test/TESTPLAN.md`. Each run's `.design/record.md` stays with the
 workspace. Before the

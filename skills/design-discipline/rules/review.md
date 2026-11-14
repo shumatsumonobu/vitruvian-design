@@ -54,6 +54,24 @@ strongest reference, fix, and go again.
 next. Regressions hide inside batches, and a batch that improves four things and breaks a fifth
 reads as an improvement right up until someone finds the fifth.
 
+**Whole screens before single elements.** `inspect` returns the list, and every pass takes from
+it, in one order: first the repairs to what a whole screen shows at a checked size — nothing on
+the screen big enough to be its reason, a column with the width beside it left empty, the
+signature out of view before any scroll, the visual concept carried in color alone — then the
+repairs to one element. A repair answering a line that reads a screen or its first view as a
+whole — the first view as a poster, the visual concept on the screen, the signature in view, what
+the width past one column carries, the artwork and its room, the first item in the first view,
+the element the screen is built around — is a whole-screen repair however small the change it
+names. Within each kind, the repair that reaches more of the screen comes first. A detail
+repaired on a screen that still fails as a whole is work the whole-screen repair undoes.
+
+**An entry describes the screen a repair builds toward; it never excuses the one rendered.** A
+change to the declaration, the structure, or the style system that brings a count on a rendered
+screen down while that screen stays as it was repairs nothing: the count stays open, and the
+record names the change. Where the session judges an entry wrong, the change it proposes is a
+repair of its own on the list, and every count reading that entry is read again on the screen
+after it.
+
 **The session decides; a helper writes.** Naming the deficits, writing the target lines,
 choosing each repair and how far it may go, and every verdict on a count or a check stay with the
 session. Where the session can start a helper — a second agent on a smaller, faster model — every
@@ -64,9 +82,13 @@ read this skill, so the session hands it everything the work needs: each repair 
 line; or, for a script, the rule files whose counts it takes, by path, and the screens, sizes, and
 states it reads them at — for a runner's configuration, the runner's README by path in their
 place; the declaration entries the work touches; the record's lines naming methods that hung or
-returned nothing; and the files — the helper writes nowhere but `.design/` and the files it is
-given. A helper that wrote or
-changed a script runs it once before it returns, and returns its output with the change. When the
+returned nothing; the sentence below on running a script from its file; and the files — the
+helper writes nowhere but `.design/` and the files it is given. A helper that wrote or
+changed a script runs it once before it returns, and returns its output with the change. A
+script runs from its file, never fed to an interpreter on its standard input — the session's own
+one-off scripts included: where the interpreter is reached through a launcher that does not pass
+standard input on, the interpreter waits at its prompt with nothing to read, and the command never
+ends; a helper hung so in one run, and the run with it. When the
 helper returns, the session reads every change back against the repair or the count it serves
 before any count from it is used, and the record names what a helper wrote. Where no helper can be
 started, the session writes the code itself.
@@ -78,12 +100,65 @@ the scope of change forbids, not repaired. A deficit whose repair would change w
 relies on behind what the reader receives is recorded the same way (SKILL.md, Before fix or review
 changes the code).
 
+**What the product relies on is counted, not remembered.** Before its first pass `fix`, and
+`review` before its rebuild, takes an inventory of every screen it may touch, at every checked
+size: where each link goes, the name each field submits its value under, each id a link reaches,
+each test identifier and event name the screen's code carries, and each control with the name it
+carries. After the last pass the inventory is taken again, and the record holds both, or names
+the files under `.design/harness/` a runner wrote them to. An item in the first and missing from
+the second that no repair on the list names is a change to what the product relies on, or a
+control removed: the pass that removed it is undone, or the item is left to the person as SKILL.md
+says.
+
 Each pass ends by running the Inspection sections that the deficits point at, rather than all of
 them: tokens.md and anti-slop.md where the deficit was visual, layout.md where it was in alignment,
 grouping, or hierarchy — states.md where a state was missing or defaulted, navigation.md where a
 transition or a back path was wrong, motion.md where the motion was, copy.md where the words were,
-forms.md where the deficit was in a field, assets.md where the artwork was, and a11y.md where it
-was in what a screen reader or the keyboard receives.
+forms.md where the deficit was in a field, assets.md where the artwork was, charts.md where it was
+in a chart, and a11y.md where it was in what a screen reader or the keyboard receives.
+
+## A reviewer who has not read the reasons
+
+The session that wrote or read the declaration's reasons is the weakest judge of whether the
+screens carry them: it sees what was meant. `inspect`, and `fix` in its first closing run of every
+Inspection, hand the checks answered by looking at a capture — the signature, the visual concept,
+the first view as a poster, and the artwork in rules/anti-slop.md among them — to a reviewer, once
+in the run: an agent started in a context of its own, on the session's own model, since a verdict
+is the session's work and not a helper's.
+
+The session does not read the reviewer's instructions, `reviewer.md` in this skill's directory
+beside SKILL.md. It starts the reviewer with that path and hands it, as paths and quoted lines,
+four things: the first view of every screen, in every state, at every checked size, as still
+captures the size of the view — no recording, no full-page capture, no sheet of reduced captures;
+what the declaration's visual concept, signature, and artwork entries name — the world the look
+is borrowed from and its layout metaphor, the element the product is remembered by and where it
+sits, and, where the declaration names artwork, what the picture depicts, the screens it names, and
+how it is cut down at the narrowest size — in the entries' own words, without what chose them;
+the lines it is to answer — checks, and counts read by looking at a still capture — each with its
+rule file; and the paragraph Whole screens before single elements, above. Nothing else — no count's
+result, no other declaration entry, no record: a reviewer handed the reasons reads the reasons.
+Nothing less either: every screen, state, and checked size the record lists, and every line read
+off a capture. The brief goes into the record as sent.
+
+The reviewer starts once the captures exist and works while the session takes and reads the
+counts; the repair list is written once both are in. The reviewer changes nothing and writes
+nothing. It returns a first word — `recapture`, `fix`, or
+`clear` — then its findings, at most eight, whole screens first; one answer on whether the visual
+concept and the signature describe the screens in front of it; and one change that would make the
+screen impossible to mistake for another product's, which the session lists as a repair where the
+scope of change allows it. The session decides each finding the way it decides a count: a repair
+on the list, or dismissed in the record, and a finding is dismissed only where a capture
+contradicts it — what it says is missing is there, or what it says is there is not, at the screen
+and size it names — with the capture and the place in it named. A finding the session reads
+differently, with no capture that contradicts it, is a repair: the reviewer is there because the
+session is the weaker judge of its own screen. A value the screen does not show, a letter-spacing
+or a token's name, contradicts nothing. `recapture` means a capture was missing or showed the wrong thing; the session captures
+again and starts a new reviewer, once — a second `recapture` ends the review, and the record names
+the captures that could not be made. After the repairs a review called for, the session reads its
+own recaptures against each finding, as a pass reads a count again; the review is not started a
+second time. Where no agent can be started, the session reads `reviewer.md`
+and answers it from the captures before it reads any count line of the run, and the record says
+the review ran in the session.
 
 ## The screen sits in a flow
 
@@ -101,10 +176,11 @@ failure a screenshot cannot show.
 The first four lines of the count are `review`'s own. The lines from Repairs applied between one
 look and the next to Deficits from the original list are read against any run that applied
 repairs — `review`'s rebuild or `fix`'s passes — from the record's account of each pass and the
-changes to the code; `inspect` reads them whenever the record holds a fix pass. The last eleven
-lines are read by every run — `init`, `inspect`, `fix`, `review` — against what that run itself
-changed, wrote, and read, before it ends: a rule a run reads once at its start is the rule a long
-run forgets, and these are where that showed.
+changes to the code; `inspect` reads them whenever the record holds a fix pass. The three lines on
+the reviewer, and the line after them on the list's order, are read by `inspect` and `fix` against
+their own run. The last twelve lines are read by every run — `init`, `inspect`, `fix`, `review` —
+against what that run itself changed, wrote, and read, before it ends: a rule a run reads once at
+its start is the rule a long run forgets, and these are where that showed.
 
 ### The count
 
@@ -128,10 +204,31 @@ run forgets, and these are where that showed.
 - Repairs on the list with no structural or surface mark, or skipped with no reason beside
   them: 0.
 - Defects the record ties to the run's own changes that are still in place when it ends: 0.
+- Repairs `fix`'s closing run of every Inspection listed — reviewer findings among them — that the
+  scope of change allows and that the run left for the next `inspect` while its closing pass held
+  fewer than five (SKILL.md, the `fix` entry in Ways in): 0.
+- Repairs a pass took to one element while a repair to what a whole screen shows stood open on
+  the list: 0.
+- Items in the inventory taken before the first pass — where a link goes, the name a field
+  submits under, an id a link reaches, a test identifier or event name, a control and its name —
+  that the inventory after the last pass lacks and no repair on the list names, and runs that
+  applied repairs with no inventory before and after in the record: 0.
 - Deficits from the original list still present at the end, those the scope of change forbids,
   those whose repair would change what the product relies on behind what the reader receives
   (SKILL.md, Before fix or review changes the code), and those whose repair `fix` leaves for an
   entry marked provisional (rules/tokens.md) excepted, each recorded as such: 0.
+- Runs whose record holds no reviewer's first word, findings, answer on the visual concept, and
+  one change, and reviews that ran in the session where an agent could have started: 0.
+- Reviewer findings the record neither lists as a repair nor dismisses, and reviewer briefs, as
+  the record keeps them, that carried more than the four things this file names, or less — a
+  screen, a state, or a checked size the record lists, or a line read off a capture, left out: 0.
+- Reviewer findings dismissed without naming the capture, and the place in it, that contradicts
+  what the finding says, and reviewers started more than once in a run, `recapture` excepted: 0.
+- Repair lists the run returned or worked with a repair to one element above a repair to what a
+  whole screen shows, a repair answering a line that reads a screen or its first view as a whole
+  counting as a whole-screen repair: 0.
+- Counts on a rendered screen that the record reads lower after a change to the declaration, the
+  structure, or the style system while that screen stayed as it was: 0.
 - Changes to the code that the record ties to no repair on the list: 0. A rule, a setting, or a
   script that served only what a listed repair removed is tied to that repair when the record
   says so. Under `init` and `inspect`, which apply no repairs, every change is untied.
@@ -151,14 +248,20 @@ run forgets, and these are where that showed.
 - Scripts under `.design/harness/` that this run wrote or changed itself where it could start a
   helper: 0.
 - Values in a runner's configuration that differ from the declaration or the structure entry its
-  comment names, and values with no entry named: 0.
+  comment names, values with no entry named, and keys the runner's README lists that the
+  configuration leaves out where the declaration or the structure holds the entry — a
+  configuration an earlier run wrote, before the runner gained the key, among them: 0.
 - Steps in scripts under `.design/harness/` that wait with no time limit, methods that hung or
   returned nothing in this run that the record does not name, and steps using a method the record
   names: 0.
 - Counts the record gives as not taken that the run's own browser, recording, or scripts could
   have taken — the next run named as what would take one among them: 0.
+- Scripts the run, or its helper, fed to an interpreter on its standard input rather than running
+  them from a file: 0.
 - Code or scripts a helper wrote whose counts the session used before reading them back against
   the repair or the count they serve, and helper work the record does not name: 0.
+- Compactions of the conversation the record does not name, and steps taken after one before
+  SKILL.md and the rule files of the step were read again: 0.
 
 ### The checks
 
@@ -182,7 +285,23 @@ run forgets, and these are where that showed.
   model has its own prompt cache, so that turn reads the whole conversation again with nothing
   cached. A subagent starts a conversation of its own and leaves the session's cache as it was
   (Claude Code's prompt caching page). Where the organization's available models exclude the one
-  named, the call runs on another.
+  named, the call runs on another. A helper or a reviewer started in the background announces its
+  own end, and the session waits on that notice, with no wake-up of its own scheduled: under
+  `claude -p` a pending wake-up holds the run open until it fires — in one run, 14 minutes after the
+  work had ended.
+- Claude Code: a reviewer is a subagent started with the Agent tool, the session's own model named
+  in the call — a call naming none takes whatever default subagent model is configured — run in
+  the background as soon as the captures exist, so that the session takes and reads the counts while
+  it works, and its effort set to medium in the call: a review reads captures, and Claude's prompting page for Opus 5.5 reports that model reading
+  visual material accurately even at its lowest effort. A subagent starts with none of the
+  session's conversation, which is what the review needs. The frame-rate run waits until the
+  reviewer returns, since a busy machine drops frames a device would not.
+- Claude Code: `.design/record.md` is written with the Edit or Write tool, not through a shell
+  redirection — a long section holding quotes breaks the shell's parsing, and in three runs of three
+  the section that tried was written twice.
+- Claude Code: after a compaction, Claude Code re-attaches the start of each skill the
+  conversation invoked, and of what a tool read only what the summary says: SKILL.md and the rule
+  files, read by the Read tool, are gone until read again (Claude Code's skills page).
 - Web: this skill carries a runner, `runner/web/run.mjs` in this skill's own directory, the one
   that holds `rules/`. Its README — `runner/web/README.md` there — says how to run it, how to
   write the product's configuration and flows, which count lines it takes, its time limits, and

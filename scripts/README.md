@@ -89,12 +89,30 @@ node scripts/live-test.mjs sync t1                        # skill copy from the 
 node scripts/live-test.mjs stats t1 --last                # the run's transcripts: time, tools, questions, tokens
 node scripts/live-test.mjs judge t1                       # code diff against the scaffold, declaration, record
 node scripts/live-test.mjs verify t1                      # checks the scaffold's planted defects show
+node scripts/live-test.mjs run t1 design-discipline-inspect   # the entry through claude -p, nobody at the keyboard
 ```
 
 - `new` — copies the scaffold (its `fixture.json` `extends` chain, base first), installs the five
   skill directories into `.claude/skills/`, runs `git init`
 - `sync` — refuses a workspace made with `--skill`
 - `verify` — runs `scripts/live-test/verify-<scaffold>.mjs`; a scaffold without one has no check
+- `run` — types the entry as its slash command into `claude -p` in the workspace: Opus 5.5 at xhigh
+  unless `--model=` or `--effort=` says otherwise, permissions in auto mode. A question the run puts
+  ends it, so it fits a scaffold whose brief answers in advance. The stream goes to
+  `<workspace>.<entry>.<time>.jsonl` beside the workspace, and the console shows each message's
+  first line; `stats` reads the transcript as for a run at the keyboard. The run's temporary
+  files — Claude Code's own (`CLAUDE_CODE_TMPDIR`), its background tasks' output, the browser's —
+  go to `.tmp/<workspace>` in the workspaces' directory, emptied when the next run of that
+  workspace starts. The run is stopped, and says why and names the largest temporary file, when
+  free space on that drive falls below 3 GB or the temporary files pass 5 GB — a Python prompt
+  started by a heredoc with no lines went on writing errors into a background task's output, 4.7 GB
+  in one run. Background work gets 60 minutes after the session's last turn
+  (`CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS`) rather than Claude Code's 10, since a session waits on a
+  helper's own notice. Where `python` is a pyenv-win shim, the interpreter it stands for goes first
+  on the run's path: a script fed to the shim on standard input never reached Python, and a helper
+  waited at its prompt until the run was stopped. At the end it stops a Python prompt with nothing
+  to read (`python -`) started during the run, and lists any other Python process started then
+  that is still running
 
 ## Runner
 

@@ -2,9 +2,10 @@
 // count lines it feeds (X.add / X.put / X.data). A step that fails leaves those lines "not taken".
 import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { LimitError } from "./cdp.mjs";
 import { hueClusters, nearBlacks, resolveSteps, matchStep, sameSize, easesIn, declaredCurve, CLOSE, worstRatio, normalizeHex } from "./measure.mjs";
 
-const PASS_FEEDS = ["sides", "hues", "nearblack", "families", "display", "offscale", "linelen", "contentwidth", "radii", "shadows", "spacing", "glow", "signature", "edges", "gaps", "primary", "hidden", "tap", "press", "overlap", "contrast", "clip", "labelwrap", "closebracket", "onechar", "wordbreak"];
+const PASS_FEEDS = ["sides", "hues", "nearblack", "families", "display", "offscale", "linelen", "contentwidth", "radii", "shadows", "spacing", "glow", "signature", "answer", "edges", "gaps", "primary", "hidden", "tap", "press", "overlap", "contrast", "clip", "labelwrap", "closebracket", "onechar", "wordbreak", "labelstyle", "thwrap", "tablecut"];
 const norm = (s) => s.replace(/\s+/g, " ").trim();
 const sleepFor = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -33,6 +34,8 @@ export async function runSteps(X) {
   if (!decl.spacingUnit) unavailable("spacing", "the configuration's declaration has no base spacing unit");
   if (!screens.some((x) => x.long)) { unavailable("longcaps", "no screen in the configuration names a long-content state"); unavailable("translation", "no screen in the configuration names a long-content state"); }
 
+  if (L.has("inventory") && !X.inventory) unavailable("inventory", "no inventory was asked for: pass --inventory=<label> before the first pass, --kept=<label> after the last");
+
   const pollNode = async (fn, ms, every = 100) => {
     const t0 = Date.now();
     for (;;) {
@@ -60,6 +63,17 @@ export async function runSteps(X) {
     if (decl.shadows) { const ok = decl.shadows.map(norm); for (const [k, v] of Object.entries(p.shadows)) if (!ok.includes(norm(k))) add("shadows", `${norm(k)} (${v})`, w); }
     if (decl.spacingUnit) for (const e of p.spacing) for (const [k, v, rawv] of e.values) if (Math.abs(v / decl.spacingUnit - Math.round(v / decl.spacingUnit)) > 0.01) add("spacing", `${e.el} ${k}=${rawv}`, w);
     for (const g of p.glow) add("glow", g.el, w, g.how);
+    // The body text: the declared body step where the configuration names one, the page's running text otherwise.
+    const bodyStep = steps.find((x) => x.name === "body");
+    const bFs = bodyStep ? bodyStep.px : p.bodyFs, bLs = bodyStep ? (bodyStep.letterSpacing || 0) * bodyStep.px : p.bodyLs;
+    const bodyIs = bodyStep ? "the declared body step's" : "the body text's";
+    for (const l of p.labelCands) {
+      const why = l.caps ? [l.caps] : [];
+      if (l.fs < bFs && l.ls - bLs > 0.03 * l.fs) why.push(`${l.fs}px against ${bodyIs} ${bFs}px, with letter-spacing ${+l.ls.toFixed(2)}px against ${+bLs.toFixed(2)}px (${+((l.ls - bLs) / l.fs).toFixed(3)}em wider)`);
+      if (why.length) add("labelstyle", `${l.el}「${l.text}」`, w, why.join(", "));
+    }
+    for (const t of p.thWraps) add("thwrap", `${t.el}「${t.text}」`, w, `${t.lines} lines`);
+    if (size.w === Math.min(...sizes.map((z) => z.w))) for (const t of p.tableCut) add("tablecut", t.el, w, t.detail);
 
     // edges and gaps are data for the session to judge
     const lefts = {};
@@ -153,6 +167,24 @@ export async function runSteps(X) {
       const g = await H("rect", screen.signature);
       if (g && g.bottom > g.vh) add("signature", `${tag} ${screen.name}`, w, `${screen.signature} top ${g.top} bottom ${g.bottom}, view height ${g.vh}`);
       measure(`signature/${tag}/${screen.name}/${st}`, g);
+    }
+    // The first item of what the screen is for, whole and with its control, inside the view before any scroll,
+    // read in the state the reader meets most. A screen counts once however many sizes fail: the finding is
+    // keyed by the screen, each failing size adds its place to it, and each failure has its own data line.
+    if (screen.answer && st === screen.answer.state) {
+      const a = screen.answer;
+      const g = await H("rect", a.el);
+      const c = g && a.control ? await H("rectIn", a.el, a.control) : null;
+      const out = (r) => !r || r.top < 0 || r.bottom > r.vh;
+      const failed = [];
+      if (!g) failed.push(`${a.el} is missing`);
+      else if (out(g)) failed.push(`${a.el} top ${g.top} bottom ${g.bottom}, view height ${g.vh}`);
+      if (g && a.control && out(c)) failed.push(c ? `${a.control} in ${a.el} top ${c.top} bottom ${c.bottom}, view height ${c.vh}` : `${a.control} is missing in ${a.el}`);
+      measure(`answer/${tag}/${screen.name}`, { item: g, control: c, failed });
+      if (failed.length) {
+        add("answer", screen.name, w, `${tag}: ${failed.join("; ")}`);
+        data("answer", `${w}: ${failed.join("; ")}`);
+      }
     }
     if (first) hiddenAt[`${tag}/${screen.name}`] = await H("hiddenRegions");
     // The width what draws spans, at the widest checked size: text, a border, a fill other than the page's, an image.
@@ -573,6 +605,69 @@ export async function runSteps(X) {
     measure(`a11y/${w}`, { viewport: meta });
   }
 
+  // ---- scripts stopped: what the markup holds invisible that a script shows ----
+  async function atRest(size, screen, st0) {
+    const w = where(size, screen, st0);
+    await X.setSize(size);
+    let stopped;
+    try {
+      const blank = X.waitEvent("Page.loadEventFired", s, limits.load);
+      await send("Page.navigate", { url: "about:blank" }, s);
+      await blank;
+      await send("Emulation.setScriptExecutionDisabled", { value: true }, s);
+      const loaded = X.waitEvent("Page.loadEventFired", s, limits.load);
+      const nav = await send("Page.navigate", { url: X.urlOf(screen) }, s);
+      if (nav.errorText) throw new Error(`could not open ${X.urlOf(screen)}: ${nav.errorText}`);
+      if (!(await loaded)) throw new LimitError("page load", "Page.navigate", limits.load);
+      await X.reinstall();
+      // A page that fades in by CSS alone does not wait for a script: its animations are taken to their end.
+      await H("finishAnimations");
+      stopped = await H("invisibleAtRest");
+    } finally {
+      try { await send("Emulation.setScriptExecutionDisabled", { value: false }, s); } catch {}
+    }
+    measure(`reveal/${w}`, { stopped: stopped.length });
+    if (!stopped.length) return;
+    await R.load(screen, st0, { size });
+    const shown = await H("visibleNow", stopped.map((x) => x.path));
+    stopped.forEach((x, i) => { if (shown[i]) add("reveal", `${x.el}「${x.text}」`, w, x.why); });
+  }
+
+  // ---- the inventory (rules/review.md): what a rebuild must not lose ----
+  async function inventory() {
+    const inv = X.inventory;
+    const file = resolve(X.outDir, `${X.slugOf(inv.label)}.inventory.json`);
+    let before = null;
+    if (inv.mode === "compare") {
+      try { before = JSON.parse(readFileSync(file, "utf8")); }
+      catch { unavailable("inventory", `no inventory before: .design/harness/out/${X.slugOf(inv.label)}.inventory.json is missing or unreadable`); return; }
+    }
+    const taken = {};
+    for (const screen of screens) {
+      const st = screen.states?.populated ? "populated" : stateNames(screen)[0];
+      const set = new Set();
+      for (const size of sizes) {
+        await R.load(screen, st, { size });
+        for (const item of await H("inventory")) set.add(item);
+      }
+      taken[screen.name] = [...set].sort();
+    }
+    const n = Object.values(taken).reduce((a, v) => a + v.length, 0);
+    if (inv.mode === "write") {
+      writeFileSync(file, JSON.stringify({ label: inv.label, when: new Date().toISOString(), screens: taken }, null, 1));
+      data("inventory", `wrote .design/harness/out/${X.slugOf(inv.label)}.inventory.json: ${n} items on ${screens.length} screen(s)`);
+      return;
+    }
+    const missing = [];
+    for (const [name, items] of Object.entries(before.screens || {})) {
+      const now = new Set(taken[name] || []);
+      for (const item of items) if (!now.has(item)) missing.push(`${name}: ${item}`);
+    }
+    measure("inventory", { before: before.when, items: n, missing });
+    put("inventory", missing.length, "");
+    data("inventory", missing.length ? missing.join(" ; ") : "none missing");
+  }
+
   // ---- connection, start ----
   async function offline(size, screen, st0) {
     const w = where(size, screen, st0);
@@ -718,6 +813,7 @@ export async function runSteps(X) {
       await step(`${sc} double press`, ["double"], () => doublePress(size, screen, st0));
       await step(`${sc} back`, ["backnothing", "history"], () => backs(size, screen, st0));
       await step(`${sc} names, symbols, zoom`, ["noname", "namelabel", "eyeonly", "zoom"], () => a11yReads(size, screen, st0));
+      await step(`${sc} scripts stopped`, ["reveal"], () => atRest(size, screen, st0));
       await step(`${sc} offline`, ["offline"], () => offline(size, screen, st0));
       await step(`${sc} cold start`, ["cold"], () => coldStart(size, screen));
       if (only("curves")) await step(`${sc} declared curves`, ["curves"], async () => {
@@ -727,6 +823,8 @@ export async function runSteps(X) {
       });
     }
   }
+
+  if (X.inventory) await step("inventory", ["inventory"], inventory);
 
   // regions that hide on the narrow display: not rendered at the narrowest width, rendered at the widest
   await step("regions hidden at the narrow width", ["hidden"], async () => {

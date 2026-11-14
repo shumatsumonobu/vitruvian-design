@@ -3,6 +3,49 @@
 What a fresh copy of `skills/` gets you, newest first. Install is the same at every entry:
 copy the five directories in, replacing the ones you have.
 
+## 2026-11-14
+
+When Claude Code compacts a long run, each entry reads the skill and the rules of its step again
+and says so in the record. The checks read off a capture — the signature, the visual concept,
+whether a whole screen carries anything — go first to a reviewer: an agent on the session's own
+model, handed the captures and the entries naming the look, never the reasons. Repairs to a whole
+screen come before repairs to one element. `fix` and `review` take an inventory of the links, field
+names, ids, test identifiers, event names, and controls before the first pass and after the last,
+and count what went missing. A recorded exception's reason names something in your product; one
+that restates a value or the rule it lifts lifts nothing.
+
+New counts for screens used every day: success shown only once an answer came back, a transient
+message only for what the screen cannot show, a deletion undone or confirmed, content visible with
+scripts stopped, a small label spaced wider than the body text, table heads on one line with the
+naming and acting columns in view at the narrowest size, and a side navigation only past seven
+destinations. Charts have a rule file of their own, `rules/charts.md`. On the web, the runner takes
+the new measured counts and the inventory (`--inventory=`, `--kept=`).
+
+The look runs through the whole screen. The visual concept names its layout metaphor — the thing
+in the borrowed world whose form every region of a screen takes — and the signature is the peak of
+that screen rather than one bold element among quiet ones. The declaration gains an artwork entry:
+a picture for the first view at every size, generated where an image key is set and otherwise a freely licensed
+photograph credited on the screen, brought by `images/fetch.mjs`. The display step is three times
+the body step or more at the widest size and grows with the width up to it, and a color fills the screen where the borrowed world has
+one. `init` writes down the screen your product would get without trying and three directions
+before it takes one; on a declaration written before this, run `init` once to add them. The reviewer
+now asks whether the first view could be another product's with its name taken away, and a run
+starts one reviewer, on stills of the first view. `fix` repairs what its closing check and that
+reviewer find in one more pass, up to five, before it ends; only the rest waits for the next
+`inspect`. The picture is the ground a screen is built on: it is ranked neither in the reading order
+nor against the element a screen is built around, and no repair makes it smaller, lighter, or
+covered, or gives it less room; it covers the room it is given, and the narrowest size moves
+everything else before it cuts the picture. On the screens its entry names, the signature is the
+element a screen is built around and keeps its size the same way. The first view at every checked
+size holds the first item of what the screen is for, with its control; on the web the runner takes
+that count from an `answer` entry in its configuration. An entry describes the screen a repair
+builds toward and never excuses the one rendered; a recorded exception lifts a default, never what
+holds a screen to its own visual concept, signature, artwork, or first item; every reason a count
+accepts names something in your product. The reviewer is handed the artwork entry and the layout
+metaphor too, and a finding is dismissed only where a capture contradicts it. A script runs from
+its file, never fed to an interpreter on its standard input, where a launcher that drops the input
+leaves the command waiting for ever.
+
 ## 2026-11-05
 
 The declaration names where your product is bold: the world outside its category whose look it

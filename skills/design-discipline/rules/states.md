@@ -42,6 +42,22 @@ Rolling back in silence is worse than never having reflected the action at all, 
 reader has moved on believing it happened. An action that cannot be undone is the exception, and it
 takes the determinate wait above instead of the immediate reflection.
 
+## What an action says it did
+
+Success is the answer, shown. A control that says its work is done — sent, saved, booked, on the
+list — says so because a request went out and its answer came back yes. One that prints success
+with no request behind it tells the reader something false, and the reader acts on it; a product
+whose back end does not exist yet says, in words, that the action is not connected yet.
+
+Where the screen itself shows the result — the row appears, the switch turns, the item is gone —
+that is the confirmation, and a transient message saying the same thing is noise over it. A
+transient message carries what the screen cannot show: a failure, an effect somewhere else or
+later, a way to undo.
+
+Deleting is the action a reader most needs a way back from. A deletion the product can reverse
+runs at once and offers to undo it for 5 to 10 seconds. One it cannot reverse keeps a
+confirmation, and the confirmation names what will be gone.
+
 ## Empty
 
 - Empty means the container exists and holds nothing right now: a filter matched nothing, a search
@@ -241,6 +257,11 @@ shown a state of it.
 - Reversible actions that wait for a round trip before changing visibly: 0.
 - Failed actions that roll back with nothing said about it: 0.
 - Failed submissions that discard what the reader entered: 0.
+- Success shown — a message, a mark, a changed label — with no request made and answered behind
+  it, read in the code that shows it: 0.
+- Transient messages that announce only a result the screen already shows: 0.
+- Deletions the product can reverse that offer no undo for 5 to 10 seconds, and deletions it cannot
+  reverse with no confirmation naming what goes: 0.
 - Fetches that wait for a transition to finish before starting: 0.
 - Empty-state elements carrying neither information nor an action: 0.
 - Empty states missing the line naming the cause, or the control that fills the container: 0.

@@ -27,7 +27,8 @@ chose one.
   surface color the assets will sit on. Artwork composed against a surface it will never appear on
   comes back wrong at integration. A photograph the product ships as its own imagery is held to the
   same palette: its largest areas of color, read by reducing the image to its few largest areas,
-  are declared values — the ground, the subject, the light, each brought to the set — or the
+  are declared values — the ground, the subject, the light, each brought to the set by its hue,
+  its range from darkest to lightest kept as the source has it — or the
   declaration names that photograph as the source of the value it took.
 - **Light and texture.** The words themselves, not the intent: where the light comes from, how
   hard it is, whether anything is glossy. The same words carry into every asset in the set.
@@ -76,6 +77,22 @@ A product icon gets its own pass. Render it small — this skill's default is to
 pixels — and if the idea stops being legible there, the idea is too complicated rather than too
 small.
 
+## Where a picture comes from
+
+A picture the artwork entry asks for (rules/tokens.md) comes from the first of three sources
+that can be reached. Generated, where the session can reach an image generator. A photograph whose
+license lets anyone use it — public domain, CC0, CC BY, CC BY-SA — found in an open collection,
+where it cannot. None, where neither can be reached: the screen is built without it and the record
+says why. A photograph from a stock site is not taken.
+
+A found photograph shows the world the visual concept borrows, never the product's own premises,
+people, or product, which the reject list below keeps to the brief and the product's material.
+Whatever its source, a picture goes through the style system before it ships, so that a generated
+image and a found photograph read as one commission. A photograph carries its credit — its author,
+its license, and where it was found — on the screen that shows it, or on a credits screen that
+screen links to; the record lists every picture with its source and the request or the search
+that brought it.
+
 ## When to reject
 
 Any one of these sends the asset back. None of them is a matter of taste.
@@ -119,6 +136,14 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
   own regions, as rules/layout.md names them: 0.
 - Assets in one set carrying different padding: 0.
 - Depicted objects whose capture, cropped to the object alone, stops reading as their subject: 0.
+- Pictures the product ships with no source and no request or search in the record: 0.
+- Pictures brought to the set with a narrower range from darkest to lightest than their source: 0.
+- Artwork entries whose screens ship no picture, with no line in the record naming each source
+  tried, the request or search sent, and what came back: 0.
+- Photographs shown with no credit naming the author, the license, and where they were found, on
+  their screen or a credits screen it links to: 0.
+- Photographs under a license other than public domain, CC0, CC BY, or CC BY-SA, or taken from a
+  stock site: 0.
 
 ### The checks
 
@@ -135,3 +160,8 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
 
 - Where a platform masks the product icon into its own shape, supply the square artwork without
   transparency and without pre-rounded corners, since the mask will cut whatever it is given.
+- This skill carries a tool for the picture: `images/fetch.mjs` in this skill's own directory, the
+  one that holds `rules/`. It generates where an image key is in the environment and finds a
+  photograph in Wikimedia Commons otherwise, writing the picture with its source and credit beside
+  it; its README, `images/README.md` there, says how. A session that reaches an image generator
+  another way uses that, and the record says which.

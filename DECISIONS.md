@@ -5,6 +5,272 @@ the defect that forced it — and where it now lives, so a later change starts f
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
 live in the files named, not here.
 
+## 2026-11-10 — Round 10: the picture is the ground, and the first view holds what the screen is for
+
+Round 10 ran `inspect` and `fix` on what Round 9 left. The slip took its printed form, and `fix`
+took its reviewer's findings in a closing pass, as the 2026-11-09 decision meant. Two things it
+showed are now rules, and one is a setting.
+
+**The plate shrank.** `inspect` listed the plate and the date stamp as contending for the centre,
+from the check on the one element a screen is built around and the check of reading order against
+visual weight. `fix` settled it by shrinking the plate's frame from 594 to 498 px and the drawing
+from 600 to 381 px wide, because the plate holds no answer to the screen's job and so comes last in
+reading order; the drawing then sat low in its frame with bare paper above. Both checks ranked the
+picture as one of the elements read in turn, so the larger the picture, the more they asked to cut
+it, against the poster check that asks for it strong. A picture is seen whole before anything on a
+screen is read; it is now the ground the read elements sit on or beside, in neither list and not a
+second element, and a contest is settled by the composition or the picture's treatment, never by
+its size. A picture that leaves bare ground inside the room it is given is counted. No count asks
+the picture to outweigh every region: a product whose table or form is the screen would be made to
+give its room away. Lives in `rules/layout.md`, One primary job per screen; `rules/anti-slop.md`,
+the one-element check and the count on the picture's room; `rules/tokens.md`, the artwork entry.
+
+**The first row left the phone's first view.** The closing pass set the slip's printed head on two
+lines and put the help button on a row of its own, and at 360 × 560 the first row's dates went under
+the bottom edge. The session noted it in the record as "a candidate, not a count": no count asked
+for it. The first view at every checked size now holds the first item of what the screen exists to
+show or take, whole, with its control, in the state the reader meets most; the structure entry names
+that item; where the narrowest size cannot hold it beside the signature and the picture, the picture
+is cut down further and the rest moves below. The runner takes the count, since a session read it
+as a judgment once. Lives in `rules/layout.md` and the runner.
+
+**Two lines in English.** Both said what comes next and came right after a tool's output, the
+reasoning kept before them in Japanese; the entry line added on 2026-11-09 took the count from six
+to two, not to zero. Claude Code has a setting for the language it answers in, `language`
+(Claude Code's settings reference), which neither the author's settings nor the workspaces had set.
+A two-minute run could not show what it does: without it, the session already answered in Japanese,
+since the author's own `CLAUDE.md` asks for Japanese. Round 11 ran with it and wrote eleven English
+lines of 55 in `fix`, so the READMEs no longer suggest it. Fourteen small `claude -p` runs built to
+bring the line out — English output just before it, a context past 230k tokens, work that needs
+reasoning, the entry line's own quoted "Next, I'll…" — wrote about 800 lines and none in English;
+Round 11's `fix` wrote its first at 0.9 minutes, right after reading two Japanese files. The cause
+is not found. Round 12 measures a PostToolUse hook that adds one sentence in the user's language
+after every tool result; whatever it shows, no further run is spent on the language alone. Its
+`fix` wrote five English lines of 117, so the hook is not suggested either.
+
+**The picture was weakened twice more.** Round 11's `fix` gave the plate its room back, then wrote
+into the artwork entry that the frame's top quarter is bare paper, which the count on a picture's
+room had excepted as a named margin, and printed the plate at 45 % of its ink, which
+`rules/layout.md` had offered as a way to settle the contest. Three times a run has weakened the
+picture for a reason a rule allowed, each a different reason, so the rule no longer weighs reasons:
+the picture keeps the room, the size, and the strength its entry gives it, and a repair to the code,
+the entry, or the style system that makes it smaller, gives it less room, or prints it lighter is
+counted whatever the reason, the narrowest size's cut-down excepted. A picture set to one side of
+its room is counted whatever an entry says of a margin; it is cropped or scaled to the room. Lives
+in `rules/layout.md`, One primary job per screen and its count; `rules/anti-slop.md`, the count on
+the picture's room.
+
+**A helper hung on a script fed to standard input.** Round 11's first `inspect` ended at 23 minutes
+with no section in the record. Its helper had run `python - <<'EOF'`; on the machine that ran it,
+`python` is a launcher that does not pass standard input on, so Python sat at its prompt and the
+command never ended. The session waited on the helper's notice, as the rules ask, and `claude -p`
+stopped the waiting helper ten minutes after the session's last turn. A script now runs from its
+file, never fed to an interpreter on its standard input, and the session tells its helper so; the
+record counts any that was. The test script also puts the real interpreter first on a run's path,
+gives background work sixty minutes, and stops a Python prompt a run leaves. Lives in
+`rules/review.md`, Rebuild in small passes and its count; `scripts/live-test.mjs`.
+
+**Every way a count could read 0 with the screen unchanged.** Round 11 was the third run in a row in
+which a session met a count by editing what it reads rather than the screen. Before Round 12, an
+agent that had not written the rules read them for every such way and found fifteen, one form under
+all of them: an entry rewritten to match the screen, a one-line reason, or a recorded exception.
+Fourteen are closed. An entry describes the screen a repair builds toward and never excuses the one
+rendered, and a count read lower after an entry changed with the screen as it was stays open. A
+recorded exception lifts a default, never what holds a screen to the product's own visual concept,
+signature, artwork, or first item. Every reason a count accepts in place of what it asks — a display
+step's stop, a flood not taken, a source given as none — is held to the test exceptions already
+were. The artwork count covers the structure, a picture fitted inside its room or padded in its own
+file, and what is set over it; the narrowest size moves everything else before it cuts the picture;
+the signature, on its screens, is the element the screen is built around and is counted the way the
+picture is. The structure's first item cannot be a heading or a count where the screen shows a
+collection. The reviewer is handed the artwork entry and the layout metaphor it was already asked
+about, and a finding is dismissed only where a capture contradicts it. A repair answering a line
+that reads a whole screen is a whole-screen repair however small the change. A photograph is brought
+to the set by its hue with its tonal range kept; a screen shipped with no picture names each source
+tried; the three directions share no borrowed world or layout metaphor. One is left: the count on a
+wide screen's drawn width reads what draws, so a full-width rule brings it to 0; closing it changes
+what the runner measures, and no run in this batch reaches it. Lives in `rules/review.md`,
+`rules/anti-slop.md`, `rules/layout.md`, `rules/assets.md`, `rules/tokens.md`, `reviewer.md`, and
+`SKILL.md`, Exceptions.
+
+## 2026-11-09 — Round 9: `fix` takes what its reviewer finds, and the line that says what comes next
+
+Round 9 rebuilt the watering log from the look a session makes without trying: an endpaper flood, a
+botanical plate on the left page, a date-due slip on the right. Two things it showed are now rules.
+
+**The reviewer's strongest finding waited for another run.** `fix`'s closing reviewer found the
+slip still a white card ruled across, with no printed heads, column rule, or paper edge, and gave
+the slip as its one change. The `fix` entry said what the closing run finds new goes to the record
+for the next `inspect`, unless this run's own changes caused it; the session did exactly that, and
+the run ended with the finding that most decides whether the screen is the product's own still
+open. That sentence was written before the reviewer joined the closing run, to give new findings a
+fate. It now gives them one more pass: every defect this run caused, and up to five other repairs,
+whole screens first, then the counts that pass touched and the recaptures read against each
+finding, with no second reviewer. Only what that pass cannot take goes to the next `inspect`.
+Lives in `SKILL.md`, the `fix` entry in Ways in; the `fix` entry file; and `rules/review.md`, its
+count.
+
+**Six lines went out in English.** All six said what the session would do next — "Next, I'll add
+…", "Finally, I'll delete …" — and three of them followed a tool result with Japanese in it, so
+English output before them was not the whole cause; the reasoning the run kept before three of them
+was in Japanese. The four
+entry files now name that line and ask for its first word in the user's language. Lives in the
+four entry files.
+
+## 2026-11-08 — Round 8: the picture at every size, and a headline set for the widest screen
+
+Round 8 ran the 2026-11-06 batch on the cover Round 7 left. At 1920 the cover became one entry card
+printed across the whole width, ruled into fields, with a fold and a halftone photograph; two things
+it showed are now rules.
+
+**The picture was below the first view at 360.** `init` wrote the artwork entry so: the signature,
+the week's squares, had to fit the narrow first view, so the photograph went after it. The artwork
+check in `rules/anti-slop.md` sends a first view without the picture to the repair list, and the
+reviewer said, of 360, that only the signature set the screen apart. `fix` would not move the
+picture against the declaration, and left it. A declaration should not be able to write what its
+own inspection fails, so the artwork entry now puts the picture in the first view at every checked
+size, beside the signature, cut down at the narrowest — a band, a detail — rather than moved below.
+Lives in `rules/tokens.md`, the artwork entry and its count.
+
+**The headline stopped growing at 600 px.** The display step was 48 px — three times the 16 px body,
+as the type scale asks at the widest size — from 600 px to 1920, so the widest first view carried a
+headline set for a screen a third as wide. Three times the body is a floor taken from Anthropic's
+cookbook; a floor met at a narrow width and held says nothing about the poster the widest first view
+is. The display step now grows with the width up to the widest checked size, or says what stops it.
+No new number: the count reads whether it grows. Lives in `rules/tokens.md`, the type scale entry
+and its count.
+
+## 2026-11-06 — Distinct every time: the screen a concept runs through, and a picture
+
+Round 7's `fix` left a cover that was tidy and ordinary: a grey ground, one red button, a white
+card, rows between rules, the radio-exercise card visible on one card only. The author wanted every
+product, whatever it is, to be one nothing else could be mistaken for, with as few questions as
+now, and pointed at a designer's poster whose borrowed route map is its whole layout and at a
+gallery of pages each carried by one picture.
+
+**What made it quiet was a rule.** The frontend-design skill this one runs beside says "Spend your
+boldness in one place. Let one element be the memorable thing, keep everything around it quiet and
+disciplined", and the signature entry had copied it: "the product's boldness is spent here; what
+surrounds it stays quiet". Read beside the sources below, that is the opposite of what makes work
+recognizable. The visual concept now names a layout metaphor — the thing in the borrowed world
+whose form every region of a screen takes — and the signature is the peak of a screen the concept
+runs through. `rules/anti-slop.md` says where this skill parts from frontend-design. Lives in
+`rules/tokens.md` and `rules/anti-slop.md`.
+
+**What the sources say.** Each was read in its source on 2026-11-06.
+- OpenAI's frontend guide (https://developers.openai.com/blog/designing-delightful-frontends-with-gpt-5-4):
+  "Treat the first viewport as a poster, not a document"; "If the first viewport could belong to
+  another brand after removing the nav, the branding is too weak"; "If the first viewport still
+  works after removing the image, the image is too weak"; and to have the model first generate "a
+  mood board or several visual options". The poster and artwork checks in `rules/anti-slop.md` are
+  the first three.
+- Anthropic's prompting cookbook for frontend aesthetics
+  (https://platform.claude.com/cookbook/coding-prompting-for-frontend-aesthetics): "Dominant colors
+  with sharp accents outperform timid, evenly-distributed palettes"; "Size jumps of 3x+, not 1.5x".
+  The flood is now taken where the borrowed world has one, and the display step is three times the
+  body step or more at the widest size. This withdraws the earlier refusal of a floor on the jump,
+  which had no source.
+- Anthropic's prompting page for Opus 5.5
+  (https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5):
+  "a general instruction such as 'avoid a generic AI look' mostly swaps one default for another";
+  it names patterns instead, pill-shaped buttons among them, and says to extend the list after each
+  result. Rows between rules, a pale ground with one careful accent, pill buttons, and one
+  interesting card in a generic kit joined the reach-for list, and two of them on one screen make
+  it the screen the product would get without trying. The radius sentence's example had taught
+  pills for actions; it no longer does. The same page reports the model reading visual material
+  accurately at its lowest effort, which is why the reviewer runs at medium.
+- hallmark's guidance for a page designed from nothing (`references/direction.md`): set aside the
+  page you would make anyway; sketch three directions as far apart as you can and build the one a
+  design lead would fight for; an idea that stops at the hero is a template with a good hero. `init`
+  now writes the screen got without trying and three directions into the record before it derives.
+  This withdraws the earlier refusal of three first drafts as a production step.
+- Paula Scher, as SVA quotes her (https://sva.edu/features/svas-paula-scher-discusses-pentagrams-design-process):
+  "Theoretically, you should be able to recognize something without even seeing the logo."
+  Romaniuk, as Pushers quotes her (https://wepushers.com/frameworks/distinctive-brand-assets/):
+  "uniqueness is most important". Distinctiveness is what only this product has, kept the same
+  across its screens — the same aim as one product made by one hand.
+
+**A picture, generated or found.** The gallery's pages and the poster are each carried by a picture.
+The author chose generation where a key exists and a photograph otherwise. The declaration gains an
+artwork entry, `rules/assets.md` says where a picture comes from — generated, or a freely licensed
+photograph credited on the screen, never a stock site — and the skill carries `images/fetch.mjs`,
+which a helper wrote and this session read back; its tests run against stubs, and one live search
+took a CC BY-SA photograph from Wikimedia Commons with its credit. No image key was in the
+environment, so the generation path has not run against a provider. Two models named in the brief
+had been retired by their providers, which their documentation said.
+
+**One reviewer, on stills.** Round 7's `fix` started three reviewers, one per closing run, and they
+made about two thirds of its output. A run now starts one; after the repairs it called for, the
+session reads its own recaptures. It is handed the first view of each screen as stills, and a
+capture it cannot read whole is a `recapture`. A finding is dismissed only by pointing at something
+a capture shows. Lives in `rules/review.md` and `reviewer.md`.
+
+**A source left unused.** A copy of an earlier frontend-design pushing toward extremes was found,
+but the page could not be confirmed as Anthropic's own, so nothing here rests on it.
+
+**Time, where it went.** The author asked for the work to finish sooner, quality kept. Read off the
+transcripts, by the time between each tool call and its result: Round 7's `inspect` spent 14 of 31
+minutes waiting on its reviewer and 10 thinking and writing; its `fix` spent 42 of 89 on four
+agents, 22 on the runner and its own script across three closing runs, and 18 thinking and writing.
+With one reviewer at medium effort on stills, Round 8's `inspect` waited 2.2 minutes on it, and took
+28 minutes in all; of the rest, 4.1 went to three frame-rate runs in a row, 2.4 to checking for
+leftover processes, and about 4 to a record section written twice after a shell heredoc broke on
+its quotes, as it had in every run that tried. So the reviewer now works in the background while the
+counts are read, the frame-rate run waits for it and runs once, `fix` reruns only what a repair to
+its own change touched, and the record is written with the file tools (`rules/review.md`,
+`rules/motion.md`, `SKILL.md`, the runner's README). Claude Code's fast mode runs Opus up to 2.5
+times faster at a higher price billed outside the subscription; the author, on a subscription,
+declined it.
+
+## 2026-11-06 — What a published design skill does that this one did not
+
+The author had hallmark, a published design skill, read in full, its scripts and its eval
+included, and chose four groups to take. Its catalogue of themes, its rotation between builds,
+its photo library, and its landing-page budgets go the other way from this skill and were left
+out; `DESIGN.md`, Read and left out, says why for each.
+
+**A compacted conversation forgets the rules.** Claude Code's skills page says a compaction
+re-attaches the first 5,000 tokens of each skill the conversation invoked. The entries read
+`SKILL.md` with the Read tool, which is not an invocation, so after a compaction a run keeps only
+the entry's few lines and a summary. Round 5's `fix` compacted once and read no skill file after.
+The entry files, which survive whole, now say to read `SKILL.md` and the step's rule files again
+and to say so in the record. Lives in the four entry files and `rules/review.md`.
+
+**The session that wrote the reasons is the weakest judge of the screen.** Rounds 4 and 5 showed
+the bare sides and the quiet signature in their captures, and neither session listed them; the
+author saw them by eye. Each session had read what the declaration meant the screen to be. The checks read off a capture now go first to a reviewer on the
+session's own model, handed the captures, the visual concept and signature entries, the check
+lines, and the order of repairs, and never a count line or a reason. The session does not read
+the reviewer's instructions, so the screens are not shaped to them, and still decides every
+finding. Lives in `rules/review.md` and `reviewer.md`.
+
+**A reason names the product.** Round 6 kept bare sides for the declared maximum content width,
+the value under question standing as its own reason. A recorded exception whose reason names
+nothing in the product — a value, the rule it lifts, another exception's words — is now counted,
+and the default it was written for counts as unlifted. The published skill also requires 24
+characters; a length holds different amounts of text in different languages, so it was not taken.
+Lives in `rules/anti-slop.md`.
+
+**Whole screens first, and what the product relies on counted.** A pass of five repairs had no
+order, so five details could go before a screen that fails as a whole. Repairs to a whole screen
+now come first. `fix` and `review` take an inventory of what the product relies on, and of each
+control, before the first pass and after the last, so the rule against changing it is measured
+rather than remembered. Lives in `rules/review.md`; the runner takes it on the web.
+
+**Screens used every day.** Success shown only behind an answer, a transient message only for what
+the screen cannot show, a deletion undone or confirmed, content visible with scripts stopped, a
+label spaced wider than the body text or set in capitals, a table's heads and its naming and
+acting columns, a side navigation only past seven destinations, and a chart file of its own. The
+published skill's threshold for a tracked label is an absolute 0.03 em; Japanese text is commonly
+set at about 0.04 em throughout, so the count reads a label against the body text. Lives in
+`rules/states.md`, `rules/motion.md`, `rules/anti-slop.md`, `rules/layout.md`,
+`rules/navigation.md`, and `rules/charts.md`.
+
+**Runs without the author at the keyboard.** The published skill drives Claude Code with
+`claude -p` to check that a run follows the skill. `scripts/live-test.mjs run` does the same for a
+scaffold whose brief answers every question in advance, which Rounds 5 and 6 did with no question
+put.
+
 ## 2026-11-05 — Round 6, the last run of this batch
 
 Round 6 ran `inspect` (30 minutes, 112k output tokens of the larger model) and `fix` (52k) on

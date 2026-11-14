@@ -5,13 +5,14 @@
 //   node scripts/live-test.mjs stats <workspace-name> [--last]
 //   node scripts/live-test.mjs judge <workspace-name>
 //   node scripts/live-test.mjs verify <workspace-name>
+//   node scripts/live-test.mjs run <workspace-name> <entry> [--model=<id>] [--effort=<level>]
 // Workspaces live under the directory in the environment variable VITRUVIAN_LIVE_TEST_DIR,
 // registered in <that directory>/.live-test.json. Usage in scripts/README.md.
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync, spawnSync, spawn } from "node:child_process";
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const scaffolds = path.join(repo, "live-test", "scaffolds");
@@ -277,6 +278,129 @@ function verifyCmd() {
   process.exitCode = r.status ?? 1;
 }
 
-const commands = { new: newCmd, sync: syncCmd, stats: statsCmd, judge: judgeCmd, verify: verifyCmd };
-if (!commands[cmd]) die("usage: node scripts/live-test.mjs new|sync|stats|judge|verify ...");
+// A run with nobody at the keyboard: the entry typed as its slash command through `claude -p`, in
+// the workspace, on the model and effort every round uses, permissions in auto mode. A question the
+// run puts ends it, so the scaffold's brief answers in advance what the run would ask. The stream goes
+// to a log beside the workspace, never into it; the transcript lands where `stats` reads it.
+function dirBytes(dir) {
+  let n = 0;
+  if (!fs.existsSync(dir)) return 0;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    try { n += e.isDirectory() ? dirBytes(p) : fs.statSync(p).size; } catch { /* gone while counting */ }
+  }
+  return n;
+}
+
+function largestFile(dir, best = null) {
+  if (!fs.existsSync(dir)) return best;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    try {
+      if (e.isDirectory()) best = largestFile(p, best);
+      else { const n = fs.statSync(p).size; if (!best || n > best.n) best = { p, n }; }
+    } catch { /* gone while counting */ }
+  }
+  return best;
+}
+
+// Python processes started after the given time and still running (Windows: through PowerShell).
+function leftoverPython(since) {
+  if (process.platform !== "win32") return [];
+  const ps = "Get-CimInstance Win32_Process -Filter \"Name like 'python%'\" | ForEach-Object { \"$($_.ProcessId)`t$($_.CreationDate.ToUniversalTime().ToString('o'))`t$($_.CommandLine)\" }";
+  const r = spawnSync("powershell", ["-NoProfile", "-Command", ps], { encoding: "utf8" });
+  return (r.stdout || "").split(/\r?\n/).filter(Boolean).map((l) => { const [pid, at, cmd] = l.split("\t"); return { pid, at: Date.parse(at), cmd: (cmd || "").slice(0, 120) }; })
+    .filter((p) => p.at >= since);
+}
+
+function runCmd() {
+  const name = workspaceName(positional[0]);
+  const entry = positional[1];
+  const entries = SKILLS.slice(1);
+  if (!entries.includes(entry)) die(`give an entry: ${entries.join(", ")}`);
+  const root = liveRoot();
+  const ws = path.join(root, name);
+  if (!fs.existsSync(ws)) die(`no workspace ${name} under ${fwd(root)}`);
+  const opt = (k, d) => { const f = flags.find((x) => x.startsWith(`--${k}=`)); return f ? f.slice(k.length + 3) : d; };
+  const model = opt("model", "claude-opus-5-5");
+  const effort = opt("effort", "xhigh");
+  const at = new Date().toISOString().replace(/[:.]/g, "-");
+  const log = path.join(root, `${name}.${entry}.${at}.jsonl`);
+  const args = ["-p", `/${entry}`, "--model", model, "--effort", effort, "--permission-mode", "auto",
+    "--output-format", "stream-json", "--verbose"];
+  // Every temporary file the run makes (Claude Code's own, its background tasks' output, the
+  // browser's, the scripts') goes under <root>/.tmp/<workspace>, emptied when the next run of that
+  // workspace starts, so the system temp directory gets none of it.
+  const tmp = path.join(root, ".tmp", name);
+  fs.rmSync(tmp, { recursive: true, force: true });
+  fs.mkdirSync(tmp, { recursive: true });
+  const env = { ...process.env, CLAUDE_CODE_TMPDIR: tmp, TEMP: tmp, TMP: tmp, TMPDIR: tmp };
+  // Claude Code under -p stops background work 10 minutes after the session's last turn; a run whose
+  // session waits on a helper's notice, as rules/review.md asks, needs longer, so the run allows 60.
+  env.CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS = String(60 * 60 * 1000);
+  // Where python is a pyenv-win shim, a script fed to it on standard input never reaches Python, and
+  // the command waits at a Python prompt for ever — a helper hung so in Round 11. The interpreter the
+  // shim stands for goes first on the path, so the run's python reads its standard input.
+  const real = process.platform === "win32" ? spawnSync("pyenv", ["which", "python"], { encoding: "utf8", shell: true }) : null;
+  const py = real && real.status === 0 ? real.stdout.trim().split(/\r?\n/).pop() : "";
+  if (py && fs.existsSync(py)) {
+    const key = Object.keys(env).find((k) => k.toUpperCase() === "PATH") || "PATH";
+    env[key] = path.dirname(py) + path.delimiter + env[key];
+  }
+  console.log(`${entry} in ${fwd(ws)}, ${model} at ${effort}; stream to ${fwd(log)}; temporary files in ${fwd(tmp)}`);
+  // A full disk stops a run halfway with nothing to show, so the run is stopped first, with the
+  // reason on the console, when free space on the workspace's drive falls below MIN_FREE_GB or its
+  // temporary files pass MAX_TMP_GB. A command that never ends — a Python prompt started by a heredoc
+  // with no lines, in the runs seen — goes on writing into a background task's output there.
+  const MIN_FREE_GB = 3;
+  const MAX_TMP_GB = 5;
+  const freeGB = () => { const s = fs.statfsSync(root); return (s.bavail * s.bsize) / 2 ** 30; };
+  if (freeGB() < MIN_FREE_GB) die(`${freeGB().toFixed(1)} GB free on the workspace's drive, below ${MIN_FREE_GB} GB; not started`);
+  const out = fs.createWriteStream(log);
+  const child = spawn("claude", args, { cwd: ws, env, stdio: ["ignore", "pipe", "inherit"] });
+  const started = Date.now();
+  const watch = setInterval(() => {
+    const free = freeGB(), tmpGB = dirBytes(tmp) / 2 ** 30;
+    if (free >= MIN_FREE_GB && tmpGB <= MAX_TMP_GB) return;
+    const why = free < MIN_FREE_GB ? `${free.toFixed(1)} GB free on the workspace's drive, below ${MIN_FREE_GB} GB` : `temporary files at ${tmpGB.toFixed(1)} GB, over ${MAX_TMP_GB} GB`;
+    const big = largestFile(tmp);
+    console.log(`[${((Date.now() - started) / 60000).toFixed(1)} min] ${why}; stopping the run. Temporary files: ${tmpGB.toFixed(1)} GB in ${fwd(tmp)}${big ? `, the largest ${fwd(big.p)} at ${(big.n / 2 ** 30).toFixed(1)} GB` : ""}`);
+    clearInterval(watch);
+    if (process.platform === "win32") spawnSync("taskkill", ["/PID", String(child.pid), "/T", "/F"]); else child.kill();
+  }, 30000);
+  let buf = "";
+  child.stdout.on("data", (chunk) => {
+    out.write(chunk);
+    buf += chunk.toString("utf8");
+    let i;
+    while ((i = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, i); buf = buf.slice(i + 1);
+      let ev; try { ev = JSON.parse(line); } catch { continue; }
+      const min = ((Date.now() - started) / 60000).toFixed(1);
+      if (ev.type === "assistant") for (const c of ev.message?.content ?? []) {
+        if (c.type === "text" && c.text.trim()) console.log(`[${min} min] ${c.text.trim().split("\n")[0].slice(0, 160)}`);
+        if (c.type === "tool_use" && c.name === "AskUserQuestion") console.log(`[${min} min] the run asked a question; with nobody to answer it, it ends here`);
+      }
+      if (ev.type === "result") console.log(`[${min} min] result: ${ev.subtype}${ev.is_error ? " (error)" : ""}, ${ev.num_turns ?? "?"} turns`);
+    }
+  });
+  child.on("close", (code) => {
+    clearInterval(watch);
+    out.end();
+    console.log(`exit ${code} after ${((Date.now() - started) / 60000).toFixed(1)} min; temporary files ${(dirBytes(tmp) / 2 ** 20).toFixed(0)} MB; read it with: node scripts/live-test.mjs stats ${name} --last`);
+    // A Python prompt with nothing to read (`python -`) started during the run is stopped: it does
+    // nothing but wait. Any other Python process started in that time is listed, not stopped, since
+    // one started by something else would look the same.
+    for (const p of leftoverPython(started)) {
+      if (/\bpython[\w.]*"?\s+-\s*$/i.test(p.cmd) && process.platform === "win32") {
+        spawnSync("taskkill", ["/PID", p.pid, "/T", "/F"]);
+        console.log(`stopped a Python prompt the run left: PID ${p.pid}, ${p.cmd}`);
+      } else console.log(`still running since the run: PID ${p.pid}, ${p.cmd}`);
+    }
+    process.exitCode = code ?? 1;
+  });
+}
+
+const commands = { new: newCmd, sync: syncCmd, stats: statsCmd, judge: judgeCmd, verify: verifyCmd, run: runCmd };
+if (!commands[cmd]) die("usage: node scripts/live-test.mjs new|sync|stats|judge|verify|run ...");
 commands[cmd]();

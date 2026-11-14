@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runner plants</title>
+<style>
+  body { margin: 0; font: 16px/1.5 sans-serif; color: #222; background: #fff; }
+  main { padding: 16px; }
+  .tag { font-size: 12px; letter-spacing: 0.1em; margin: 0; }
+  .tag-big { font-size: 18px; letter-spacing: 0.1em; margin: 0; }
+  table { border-collapse: collapse; }
+  th, td { border: 1px solid #888; padding: 6px 8px; text-align: left; }
+  .specs { width: 100%; }
+  .wide-wrap { overflow-x: auto; }
+  .wide { min-width: 720px; }
+  @media (max-width: 500px) {
+    .stack, .stack tbody, .stack tr, .stack td { display: block; }
+    .stack thead { display: none; }
+    .stack td::before { content: attr(data-label) ": "; }
+  }
+  .reveal { opacity: 0; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  .fade-css { animation: fade 0.4s ease both; }
+  .later { height: 120vh; }
+  .reveal-scroll { opacity: 0; transition: opacity 0.3s; }
+  .reveal-scroll.in { opacity: 1; }
+</style>
+</head>
+<body>
+<main>
+  <nav>
+    <a href="/docs.html">Learn more</a>
+    <a href="/guide.html">Learn more</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <h1>Plants</h1>
+  <p class="tag">Status</p>
+  <p class="tag-big">Status</p>
+  <p>These paragraphs are long enough to count as running text on this page, set with normal spacing.</p>
+  <p>Another paragraph of running text, so the most common spacing among the text blocks is the normal one.</p>
+  <table class="specs">
+    <thead><tr><th>Name</th><th>Average monthly household electricity consumption</th><th>Zone</th></tr></thead>
+    <tbody><tr><td>Fern</td><td>12</td><td>A</td></tr></tbody>
+  </table>
+  <div class="wide-wrap">
+    <table class="wide">
+      <thead><tr><th>Name</th><th>Role</th><th>Region</th><th>Action</th></tr></thead>
+      <tbody><tr><td>Ada</td><td>Lead</td><td>North</td><td><button type="button">Edit</button></td></tr></tbody>
+    </table>
+  </div>
+  <table class="stack">
+    <thead><tr><th>Name</th><th>Action</th></tr></thead>
+    <tbody><tr><td data-label="Name">Grace</td><td data-label="Action"><button type="button">Open</button></td></tr></tbody>
+  </table>
+  <section class="reveal"><h2>Plant notes</h2><p>Revealed by a script once the page has loaded.</p></section>
+  <section class="fade-css"><h2>Fades in by CSS</h2><p>No script is involved in showing this section.</p></section>
+  <section id="faq" data-testid="faq"><h2>Questions</h2></section>
+  <form>
+    <input name="email" aria-label="Email">
+    <input type="hidden" name="token" value="x">
+  </form>
+  <div class="later"></div>
+  <section class="reveal-scroll"><h2>Later notes</h2><p>Shown once it scrolls into view.</p></section>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", () => { document.querySelector(".reveal").style.opacity = "1"; });
+  new IntersectionObserver((entries, io) => {
+    for (const x of entries) if (x.isIntersecting) { x.target.classList.add("in"); io.unobserve(x.target); }
+  }).observe(document.querySelector(".reveal-scroll"));
+</script>
+</body>
+</html>

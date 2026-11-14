@@ -25,26 +25,32 @@ export const LIMITS = {
   run: 600_000,    // the whole run
 };
 
-export const ALL_RULES = ["tokens", "anti-slop", "layout", "states", "navigation", "motion", "copy", "forms", "assets", "a11y"];
+export const ALL_RULES = ["tokens", "anti-slop", "layout", "states", "navigation", "motion", "copy", "forms", "assets", "a11y", "review"];
 
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".gif": "image/gif", ".webp": "image/webp", ".ico": "image/x-icon", ".woff": "font/woff", ".woff2": "font/woff2", ".txt": "text/plain; charset=utf-8", ".map": "application/json" };
 
 function usage(msg) {
-  console.error(`${msg}\nusage: node run.mjs <label> [--rules=${ALL_RULES.join(",")}] [--config=.design/harness/product.mjs] [--gpu]`);
+  console.error(`${msg}\nusage: node run.mjs <label> [--rules=${ALL_RULES.join(",")}] [--config=.design/harness/product.mjs] [--gpu] [--inventory=<label> | --kept=<label>]`);
   process.exit(1);
 }
 
 function parseArgs(argv) {
   const flags = argv.filter((a) => a.startsWith("--")), rest = argv.filter((a) => !a.startsWith("--"));
   if (rest.length !== 1) usage("one label is needed");
-  const bad = flags.filter((f) => !f.startsWith("--rules=") && !f.startsWith("--config=") && f !== "--gpu");
+  const bad = flags.filter((f) => !f.startsWith("--rules=") && !f.startsWith("--config=") && f !== "--gpu" && !f.startsWith("--inventory=") && !f.startsWith("--kept="));
   if (bad.length) usage(`unknown option: ${bad.join(" ")}`);
   const rf = flags.find((f) => f.startsWith("--rules="));
-  const rules = rf ? rf.slice(8).split(",").map((x) => x.trim()).filter(Boolean) : ALL_RULES;
+  const inv = flags.find((f) => f.startsWith("--inventory=")), kept = flags.find((f) => f.startsWith("--kept="));
+  if (inv && kept) usage("--inventory and --kept are taken one at a time");
+  const inventory = inv ? { mode: "write", label: inv.slice(12) } : kept ? { mode: "compare", label: kept.slice(7) } : null;
+  if (inventory && !inventory.label) usage("the inventory flag needs a label");
+  // The review line is taken only where it is asked for: by a flag, or by naming the rule.
+  const rules = rf ? rf.slice(8).split(",").map((x) => x.trim()).filter(Boolean) : ALL_RULES.filter((r) => r !== "review");
+  if (inventory && !rules.includes("review")) rules.push("review");
   const unknown = rules.filter((r) => !ALL_RULES.includes(r));
   if (unknown.length || !rules.length) usage(`unknown rule: ${unknown.join(" ") || "(none given)"}`);
   const cf = flags.find((f) => f.startsWith("--config="));
-  return { label: rest[0], rules: ALL_RULES.filter((r) => rules.includes(r)), config: cf ? cf.slice(9) : ".design/harness/product.mjs", gpu: flags.includes("--gpu") };
+  return { label: rest[0], rules: ALL_RULES.filter((r) => rules.includes(r)), config: cf ? cf.slice(9) : ".design/harness/product.mjs", gpu: flags.includes("--gpu"), inventory };
 }
 
 // Serves a directory; a path with a dot-directory or dot-file in it (.design, .git, .claude) is not served.
@@ -310,12 +316,12 @@ async function main() {
     const X = {
       R, cfg, base, selected, L, add, put, data, unavailable, step, notes, extras, results, views, CAP, limits, progress,
       raw, ev, H, send: sendP, s: PAGE, waitEvent: waitP, listeners, setSize, load, reinstall, mouse, pressAt, press, key, shot, wait, history, stateOf, urlOf, sleep, slug,
-      current: () => current, gpu: args.gpu,
+      current: () => current, gpu: args.gpu, inventory: args.inventory, outDir, slugOf: (l) => l.replace(/[\\/:*?"<>|]/g, "_"),
     };
 
     try {
       await runSteps(X);
-      if (cfg.flows) {
+      if (cfg.flows && args.rules.some((r) => r !== "review")) {
         await step("flows", [], () => cfg.flows(R));
       }
     } catch (e) {
@@ -354,7 +360,7 @@ function render(L, extras, selected) {
       let value, where;
       const failure = l.failed.length ? l.failed : l.unavailable ? [l.unavailable] : !l.taken ? ["no step ran for this line"] : null;
       if (failure) { value = "not taken"; where = [...new Set(failure)].slice(0, 3).join(" ; "); }
-      else if (l.result.startsWith("data")) { value = "data"; where = l.data.slice(0, 40).join(" ; "); }
+      else if (l.result.startsWith("data")) { value = l.put ? l.put.n : "data"; where = l.data.slice(0, 40).join(" ; "); }
       else { value = l.put ? l.put.n : l.items.size; where = l.put ? l.put.where : showWhere(l); }
       row(l.rule, l.line, value, where);
       if (!failure && l.result.startsWith("number") && l.data.length) row(l.rule, l.line, "data", l.data.slice(0, 40).join(" ; "));

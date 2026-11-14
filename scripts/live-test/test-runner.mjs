@@ -16,6 +16,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const SCAFFOLDS = join(REPO, "live-test", "scaffolds");
 const CONFIGS = join(REPO, "scripts", "live-test", "runner-configs");
+const FIXTURES = join(REPO, "scripts", "live-test", "fixtures");
 const RUNNER = join(REPO, "skills", "design-discipline", "runner", "web", "run.mjs");
 const WORK = join(REPO, "scripts", ".tmp", "runner-test");
 
@@ -58,7 +59,7 @@ function listOutsideDesign(dir) {
 
 function runRunner(dir, extra = []) {
   const t0 = Date.now();
-  const r = spawnSync(process.execPath, [RUNNER, "test", ...extra, ...(ruleSet ? [`--rules=${ruleSet.join(",")}`] : [])], { cwd: dir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const r = spawnSync(process.execPath, [RUNNER, "test", ...extra, ...(ruleSet && !extra.some((a) => a.startsWith("--rules=")) ? [`--rules=${ruleSet.join(",")}`] : [])], { cwd: dir, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   const ms = Date.now() - t0;
   const lines = r.stdout.split(/\r?\n/).filter(Boolean).map((l) => {
     const [rule, line, value, ...rest] = l.split(" | ");
@@ -205,6 +206,45 @@ export default { ...base, screens: base.screens.map((s) => ({ ...s, layers: [{ n
   const names = lines.find((l) => l.rule === "a11y" && l.line.startsWith("Operable controls with no accessible name"));
   report(!!names && /^\d+( \|)?$/.test(names.value),`freeze: a step after the freeze was taken in the new tab (a11y names: ${names ? names.value : "no line"})`);
   report(times.freeze < 300000, `freeze: finished in ${mmss(times.freeze)}, under 5 min`);
+  if (!keep) rmSync(dir, { recursive: true, force: true });
+}
+
+if (wanted("runner-plants")) {
+  // A small page with planted cases (scripts/live-test/fixtures/runner-plants/): each count is read for an exact number.
+  const dir = join(WORK, "runner-plants");
+  rmSync(dir, { recursive: true, force: true });
+  mkdirSync(join(dir, ".design", "harness"), { recursive: true });
+  cpSync(join(FIXTURES, "runner-plants"), dir, { recursive: true });
+  cpSync(join(CONFIGS, "runner-plants.mjs"), join(dir, ".design", "harness", "product.mjs"));
+  const t0 = Date.now();
+  const res = runRunner(dir, ["--rules=anti-slop,layout,motion"]);
+  console.log(`--- runner-plants: ${res.lines.length} lines, ${mmss(res.ms)}`);
+  const exact = (rule, prefix, n, text, within) => {
+    const l = find(res, rule, prefix);
+    report(num(l) === n && (!within || within.test(l.where)), `runner-plants: ${rule}, ${text} = ${n} (${l ? l.value + " | " + l.where.slice(0, 200) : "no line"})`);
+  };
+  report(res.status === 0, `runner-plants: the run finished (exit ${res.status})`);
+  exact("anti-slop", "Label styles set in capitals", 1, "the 12 px label at 0.1em is counted, the 18 px one and the label typeset like its page are not", /plants .*\.tag|\.tag/);
+  exact("layout", "Table column heads that wrap", 1, "the long column head wraps at 360 px, the short ones do not", /Average monthly/);
+  exact("layout", "Tables at the narrowest checked size", 1, "the wide table whose action column lies outside is counted, the restacked one is not", /\.wide/);
+  exact("layout", "Screens whose first view, at any checked size", 1, "the screen whose first item sits below the view at 360x640 is counted once, the one whose item is in view at both sizes is not", /answer-below/);
+  exact("motion", "Elements that stand invisible at rest", 2, "the section a script shows and the one shown once it scrolls into view are counted, the CSS fade and the cells scrolled sideways are not", /reveal/);
+  // The inventory: before, then an unchanged copy, then a copy with one link and one named field removed.
+  const inv = (flag) => runRunner(dir, [flag, "--rules=review"]);
+  const written = inv("--inventory=before");
+  const w = find(written, "review", "Items in the inventory");
+  report(written.status === 0 && !!w && /wrote .*before\.inventory\.json: \d+ items/.test(w.where) && existsSync(join(dir, ".design", "harness", "out", "before.inventory.json")), `runner-plants: --inventory writes before.inventory.json (${w ? w.where.slice(0, 120) : "no line"})`);
+  report(written.lines.length === 1, `runner-plants: with --rules=review nothing else runs (${written.lines.length} line(s))`);
+  const same = find(inv("--kept=before"), "review", "Items in the inventory");
+  report(num(same) === 0, `runner-plants: --kept against an unchanged copy = 0 (${same ? same.value + " | " + same.where : "no line"})`);
+  const page = join(dir, "index.html");
+  writeFileSync(page, readFileSync(page, "utf8").replace(/ *<a href="\/guide\.html">Learn more<\/a>\r?\n/, "").replace(/ *<input type="hidden" name="token" value="x">\r?\n/, ""));
+  const lost = find(inv("--kept=before"), "review", "Items in the inventory");
+  const items = lost ? lost.where.split(" ; ").sort() : [];
+  report(num(lost) === 2 && items.join("|") === "plants: field token|plants: link /guide.html", `runner-plants: --kept after removing a link and a field lists exactly them (${lost ? lost.value + " | " + lost.where : "no line"})`);
+  const none = find(runRunner(dir, ["--kept=nothing", "--rules=review"]), "review", "Items in the inventory");
+  report(!!none && none.value === "not taken" && /missing/.test(none.where), `runner-plants: --kept with no inventory before is not taken (${none ? none.where.slice(0, 120) : "no line"})`);
+  times["runner-plants"] = Date.now() - t0;
   if (!keep) rmSync(dir, { recursive: true, force: true });
 }
 

@@ -348,6 +348,66 @@ export function install() {
     const spans = [...out.blocks.flatMap((b) => { const r = document.querySelector(b.path)?.getBoundingClientRect(); return r ? [[r.left, r.right]] : []; }), ...out.controls.map((c) => [c.rect.l, c.rect.r])];
     out.contentWidth = spans.length ? Math.round(Math.max(...spans.map((s) => s[1])) - Math.min(...spans.map((s) => s[0]))) : 0;
     out.scrolls = scopeSel ? scope.scrollHeight > scope.clientHeight + 1 : document.documentElement.scrollHeight > vh + 1;
+
+    // Label styles: short text that is not a sentence, set in capitals or small caps, or smaller than the body text with
+    // letter-spacing wider than the body text's by more than 0.03em. The body text is the page's running text: the most common
+    // font size and the most common letter-spacing among blocks of more than 40 characters; the body element's where there are none.
+    const lsOf = (c) => (c.letterSpacing === "normal" ? 0 : parseFloat(c.letterSpacing));
+    const lsCount = new Map(), fsCount = new Map();
+    for (const e of els.filter(directText)) {
+      const own = [...e.childNodes].filter((n) => n.nodeType === 3).map((n) => n.nodeValue).join(" ").replace(/\s+/g, " ").trim();
+      if (own.length > 40) { const cs = getComputedStyle(e), k = +lsOf(cs).toFixed(2), f = parseFloat(cs.fontSize); lsCount.set(k, (lsCount.get(k) || 0) + 1); fsCount.set(f, (fsCount.get(f) || 0) + 1); }
+    }
+    const common = (m, fallback) => (m.size ? [...m.entries()].sort((a, b) => b[1] - a[1])[0][0] : fallback);
+    const bodyLs = common(lsCount, lsOf(getComputedStyle(document.body))), bodyFs = common(fsCount, parseFloat(getComputedStyle(document.body).fontSize));
+    // The candidates go back with their measures; the count is decided against the declared body step where the
+    // configuration names one (steps.mjs), since the running text of one state can be a lead or an error line.
+    out.bodyLs = bodyLs; out.bodyFs = bodyFs;
+    out.labelCands = [];
+    for (const e of els.filter(directText)) {
+      const text = e.textContent.trim().replace(/\s+/g, " ");
+      if (!text || text.length > 40 || /[.。!?！？]$|[.。!?！？]\s/.test(text)) continue;
+      const c = getComputedStyle(e);
+      const caps = c.textTransform === "uppercase" ? "text-transform uppercase"
+        : /small-caps/.test(c.fontVariantCaps) || /small-caps/.test(c.fontVariant) ? `font-variant ${/small-caps/.test(c.fontVariantCaps) ? c.fontVariantCaps : c.fontVariant}` : null;
+      out.labelCands.push({ el: h.desc(e), text: text.slice(0, 20), fs: parseFloat(c.fontSize), ls: lsOf(c), caps });
+    }
+
+    // Column heads whose text renders on more than one line.
+    out.thWraps = [];
+    for (const e of els.filter((x) => x.matches("th, [role=columnheader]"))) {
+      const blocks = new Set();
+      const tw = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+      while (tw.nextNode()) if (tw.currentNode.nodeValue.trim() && tw.currentNode.parentElement) blocks.add(h.blockOf(tw.currentNode.parentElement));
+      const n = Math.max(0, ...[...blocks].map((b) => h.lines(b).lines.length));
+      if (n > 1) out.thWraps.push({ el: h.desc(e), text: e.textContent.trim().replace(/\s+/g, " ").slice(0, 20), lines: n });
+    }
+
+    // Tables whose naming column (the first cell of a row) or acting column (a cell holding a control) lies outside the view
+    // before any sideways scroll: outside the viewport, or outside the visible box of a scrolling container it sits in.
+    out.tableCut = [];
+    const edgesOf = (el) => {
+      let l = 0, r = vw;
+      for (let a = el.parentElement; a && a !== document.documentElement; a = a.parentElement) {
+        if (/auto|scroll|hidden|clip/.test(getComputedStyle(a).overflowX)) { const b = a.getBoundingClientRect(); l = Math.max(l, b.left); r = Math.min(r, b.right); }
+      }
+      return [l, r];
+    };
+    for (const t of els.filter((x) => x.matches("table, [role=table], [role=grid]"))) {
+      const rows = [...t.querySelectorAll("tr, [role=row]")].map((r) => ({ r, cells: [...r.children].filter((c) => c.matches("td, th, [role=cell], [role=gridcell], [role=rowheader], [role=columnheader]")) }))
+        .filter((x) => !x.r.closest("thead") && x.cells.some((c) => !c.matches("[role=columnheader], th[scope=col]")));
+      let found = null;
+      rows.forEach(({ cells }, i) => {
+        if (found || !cells.length) return;
+        const acting = cells.filter((c) => c.querySelector("button, a[href], input:not([type=hidden]), select, textarea, [role=button]"));
+        for (const [kind, c] of [["naming", cells[0]], ...acting.map((a) => ["acting", a])]) {
+          if (!c.getClientRects().length) continue;
+          const b = c.getBoundingClientRect(), [l, r] = edgesOf(c);
+          if (b.left < l - 1 || b.right > r + 1) { found = `row ${i + 1} ${kind} cell「${c.textContent.trim().replace(/\s+/g, " ").slice(0, 14)}」 spans ${Math.round(b.left)} to ${Math.round(b.right)} against the visible ${Math.round(l)} to ${Math.round(r)}`; return; }
+        }
+      });
+      if (found) out.tableCut.push({ el: h.desc(t), path: h.path(t), detail: found });
+    }
     return out;
   };
 
@@ -361,7 +421,15 @@ export function install() {
     const r = e.getBoundingClientRect();
     return { top: +r.top.toFixed(1), bottom: +r.bottom.toFixed(1), left: +r.left.toFixed(1), right: +r.right.toFixed(1), vh: innerHeight, vw: document.documentElement.clientWidth };
   };
-  h.firstView = () => { h.scrollTop(); return true; };
+  // The first match of `inner` inside the first match of `sel`; null where either is missing.
+  h.rectIn = (sel, inner) => {
+    const e = document.querySelector(sel);
+    const c = e && e.querySelector(inner);
+    if (!c) return null;
+    const r = c.getBoundingClientRect();
+    return { top: +r.top.toFixed(1), bottom: +r.bottom.toFixed(1), left: +r.left.toFixed(1), right: +r.right.toFixed(1), vh: innerHeight, vw: document.documentElement.clientWidth };
+  };
+  h.firstView =() => { h.scrollTop(); return true; };
   h.openBox = (sel) => { const e = sel && document.querySelector(sel); return !!e && h.visible(e); };
   h.state = (sel) => ({ url: location.href, scrollY: Math.round(scrollY), open: sel ? h.openBox(sel) : null, active: h.desc(document.activeElement), activeInBox: sel ? !!(document.querySelector(sel) && document.querySelector(sel).contains(document.activeElement)) : null });
 
@@ -524,6 +592,127 @@ export function install() {
     let min = 2, max = -1;
     for (let i = 0; i < d.length; i += 4) { const y = 0.2126 * f(d[i]) + 0.7152 * f(d[i + 1]) + 0.0722 * f(d[i + 2]); if (y < min) min = y; if (y > max) max = y; }
     return { min, max };
+  };
+
+  // ---- elements the markup holds that stand invisible at rest ----
+  // A path that survives a script adding siblings where it can: from the nearest unique id.
+  h.stablePath = (el) => {
+    const parts = [];
+    for (let e = el; e && e.nodeType === 1 && e !== document.documentElement; e = e.parentElement) {
+      if (e.id && document.querySelectorAll("#" + CSS.escape(e.id)).length === 1) { parts.unshift("#" + CSS.escape(e.id)); return parts.join(">"); }
+      parts.unshift(`${e.tagName.toLowerCase()}:nth-child(${[...e.parentElement.children].indexOf(e) + 1})`);
+    }
+    return "html>" + parts.join(">");
+  };
+  // Why the element's own style makes it invisible: opacity 0, or a transform that moved its box entirely outside the
+  // view above, left, or right of it (or below it, for a fixed box); null otherwise. A box outside the view with no
+  // transform of its own is laid out there — a table scrolled sideways, text placed off screen for a screen reader.
+  h.hiddenOwn = (e) => {
+    const c = getComputedStyle(e);
+    if (+c.opacity === 0) return "opacity 0";
+    const r = e.getBoundingClientRect();
+    if (c.transform !== "none" && r.width >= 1 && r.height >= 1) {
+      const vw = document.documentElement.clientWidth;
+      if (r.right <= 0 || r.left >= vw || r.bottom <= 0 || (c.position === "fixed" && r.top >= innerHeight)) return `box outside the view (${Math.round(r.left)},${Math.round(r.top)} ${Math.round(r.width)}x${Math.round(r.height)})`;
+    }
+    return null;
+  };
+  h.hiddenEff = (e) => {
+    if (getComputedStyle(e).visibility === "hidden") return "visibility hidden";
+    for (let a = e; a && a !== document.documentElement; a = a.parentElement) { const w = h.hiddenOwn(a); if (w) return w; }
+    return null;
+  };
+  // Outermost elements that carry text or an image and are invisible by their own style.
+  h.invisibleAtRest = () => {
+    const out = [];
+    const media = (e) => /^(IMG|SVG|PICTURE|VIDEO|CANVAS)$/i.test(e.tagName) || getComputedStyle(e).backgroundImage !== "none";
+    for (const e of document.body.querySelectorAll("*")) {
+      if (SKIP.has(e.tagName)) continue;
+      const c = getComputedStyle(e);
+      const own = c.visibility === "hidden" && (!e.parentElement || getComputedStyle(e.parentElement).visibility !== "hidden") ? "visibility hidden" : h.hiddenOwn(e);
+      if (!own) continue;
+      if (e.parentElement && e.parentElement !== document.body && h.hiddenEff(e.parentElement)) continue;
+      if (!(e.textContent.trim() || media(e) || e.querySelector("img, svg, picture, video, canvas"))) continue;
+      out.push({ path: h.stablePath(e), el: h.desc(e), text: e.textContent.trim().replace(/\s+/g, " ").slice(0, 20), why: own });
+    }
+    return out;
+  };
+  // Visible with scripts running. One still invisible is scrolled into view first and read again, since a
+  // reveal that waits for its element to scroll in shows it only then; the waits stay inside one message's limit.
+  h.visibleNow = async (paths) => {
+    const seen = (e) => !!e && e.getClientRects().length > 0 && !h.hiddenEff(e);
+    const out = [];
+    const until = Date.now() + 10000;
+    for (const p of paths) {
+      let e = null;
+      try { e = document.querySelector(p); } catch {}
+      if (!e) { out.push(false); continue; }
+      if (seen(e) || Date.now() > until) { out.push(seen(e)); continue; }
+      e.scrollIntoView({ block: "center", behavior: "instant" });
+      await new Promise((r) => setTimeout(r, 250));
+      h.finishAnimations();
+      out.push(seen(e));
+    }
+    scrollTo(0, 0);
+    return out;
+  };
+  h.finishAnimations = () => { for (const a of document.getAnimations()) { try { a.finish(); } catch {} } return true; };
+
+  // ---- the inventory: what a rebuild must not lose ----
+  h.inventory = () => {
+    const out = new Set();
+    const clean = (t) => (t || "").replace(/\s+/g, " ").trim().slice(0, 60);
+    for (const a of document.querySelectorAll("a[href], area[href]")) {
+      const raw = a.getAttribute("href").trim();
+      let v = raw;
+      try { const u = new URL(raw, location.href); if (u.origin === location.origin) v = u.pathname + u.search + u.hash; } catch {}
+      out.add(`link ${v}`);
+      if (raw.length > 1 && raw[0] === "#") {
+        let id = raw.slice(1);
+        try { id = decodeURIComponent(id); } catch {}
+        if (document.getElementById(id)) out.add(`anchor ${id}`);
+      }
+    }
+    for (const f of document.querySelectorAll("input[name], select[name], textarea[name]")) out.add(`field ${f.getAttribute("name")}`);
+    for (const e of document.querySelectorAll("*")) {
+      for (const at of e.attributes) {
+        if (!at.value) continue;
+        if (/^data-(testid|test|cy|qa)$/.test(at.name)) out.add(`test ${at.value}`);
+        else if (/^data-(event|track|analytics|gtm.*)$/.test(at.name)) out.add(`event ${at.value}`);
+      }
+    }
+    const roleOf = (e) => {
+      const r = (e.getAttribute("role") || "").trim().split(/\s+/)[0];
+      if (r) return r;
+      const t = e.tagName;
+      if (t === "BUTTON" || t === "SUMMARY") return "button";
+      if (t === "A") return "link";
+      if (t === "SELECT") return "combobox";
+      if (t === "TEXTAREA") return "textbox";
+      if (t === "INPUT") {
+        const k = (e.getAttribute("type") || "text").toLowerCase();
+        return { button: "button", submit: "button", reset: "button", image: "button", checkbox: "checkbox", radio: "radio", range: "slider", number: "spinbutton", search: "searchbox" }[k] || "textbox";
+      }
+      return "generic";
+    };
+    const nameOf = (e) => {
+      const lb = e.getAttribute("aria-labelledby");
+      if (lb) { const t = clean(lb.split(/\s+/).map((id) => document.getElementById(id)).filter(Boolean).map((n) => n.textContent).join(" ")); if (t) return t; }
+      if (clean(e.getAttribute("aria-label"))) return clean(e.getAttribute("aria-label"));
+      if (e.labels && e.labels.length) { const t = clean([...e.labels].map((l) => l.textContent).join(" ")); if (t) return t; }
+      if (clean(e.getAttribute("alt"))) return clean(e.getAttribute("alt"));
+      const text = clean(e.textContent);
+      if (text) return text;
+      const img = e.querySelector("img[alt]");
+      if (img && clean(img.getAttribute("alt"))) return clean(img.getAttribute("alt"));
+      if (e.tagName === "INPUT" && /^(button|submit|reset)$/.test(e.type) && clean(e.value)) return clean(e.value);
+      return clean(e.getAttribute("title"));
+    };
+    for (const e of document.querySelectorAll("button, [role=button], a[href], input:not([type=hidden]), select, textarea, summary, [tabindex]")) {
+      if (!e.matches("button, [role=button], a[href], input:not([type=hidden]), select, textarea, summary") && !(parseInt(e.getAttribute("tabindex"), 10) >= 0)) continue;
+      out.add(`control ${roleOf(e)} 「${nameOf(e)}」`);
+    }
+    return [...out].sort();
   };
 
   window.__h = h;

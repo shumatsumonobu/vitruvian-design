@@ -6,73 +6,74 @@
 <title>vitruvian-design — how a run works</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@75..100,400..700&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=block">
 <style>
-  /* A plate from an architectural treatise — the book the repo is named for. Parchment, ink, one
-     red chalk for what changed. The results are drawn to scale on a measured rule, a run's order
-     is a dimension chain, and the runner is hatched as a section is: each convention carries a
-     fact, none is ornament. A tall serif for display; a grotesque with a width axis for the
-     lettering, narrowed where it labels a figure, as a drawing's lettering is. */
+  /* A cyanotype sheet: an architect's drawing printed white on Prussian blue, the repo being named for
+     an architect. Every drafting convention carries a fact. What a change removes is drawn dashed and
+     what it builds is drawn solid, so before is a dashed outline and after a solid fill; a run's order
+     is a dimension chain; the runner is hatched as a section is; the conditions sit in the title block,
+     where a drawing states what it shows and who drew it. One family, its width axis doing the lettering. */
   :root {
-    --parchment: #F2EAD8;
-    --ink: #2A2118;
-    --ink-70: #5A4B3C;
-    --rule: #8C7A63;
-    --chalk: #A9402A;
-    --serif: "Instrument Serif", "Times New Roman", serif;
+    --ground: #163E66;
+    --line: #EAF2FA;
+    --line-70: #A8C2DE;
+    --line-40: #6F92B8;
     --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
     --label: 272px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--parchment); }
+  html, body { background: var(--ground); }
   body {
-    width: 1440px; padding: 64px 80px 56px; color: var(--ink);
-    font: 400 24px/1.35 var(--sans); font-variant-numeric: tabular-nums lining-nums;
+    width: 1440px; padding: 40px; color: var(--line);
+    font: 400 24px/1.35 var(--sans); font-stretch: 87%; font-variant-numeric: tabular-nums lining-nums;
   }
-  .name { color: var(--ink-70); }
-  h1 { margin-top: 16px; font: 400 108px/1 var(--serif); letter-spacing: -0.01em; white-space: nowrap; }
-  h1 em { display: block; font-style: italic; color: var(--chalk); }
+  .sheet { border: 2px solid var(--line); padding: 48px 56px 40px; }
+  .name { color: var(--line-70); }
+  h1 { margin-top: 16px; font: 700 92px/1.02 var(--sans); font-stretch: 75%; letter-spacing: -0.01em; }
 
-  /* the results, drawn to scale on a measured rule */
-  .scales { margin-top: 40px; display: grid; grid-template-columns: var(--label) 1fr; row-gap: 24px; }
-  .what b { display: block; font-weight: 600; font-stretch: 87%; }
-  .what span { color: var(--ink-70); }
-  .scale { position: relative; height: 96px; border-bottom: 1px solid var(--rule); }
-  .tick { position: absolute; bottom: -1px; width: 1px; height: 8px; background: var(--rule); }
-  .bar { position: absolute; left: 0; height: 32px; font-weight: 600; font-stretch: 87%; line-height: 32px; white-space: nowrap; }
-  .bar.before { top: 8px; background: var(--ink-70); color: var(--parchment); text-align: right; padding-right: 12px; }
-  .bar.after { top: 52px; background: var(--chalk); }
-  .bar.range { top: 52px; border: 2px solid var(--chalk); border-left: 0; }
-  .val { position: absolute; top: 52px; line-height: 32px; font-weight: 600; font-stretch: 87%; color: var(--chalk); white-space: nowrap; }
-  small { font: 400 24px/1 var(--sans); }
-  .bar.before small { color: var(--parchment); }
-  .val small { color: var(--ink-70); }
+  /* the results, drawn to scale: dashed is what the change removed, solid what it built */
+  .scales { margin-top: 44px; display: grid; grid-template-columns: var(--label) 1fr; row-gap: 24px; }
+  .what b { display: block; font-weight: 700; }
+  .what span { color: var(--line-70); }
+  .scale { position: relative; height: 96px; border-bottom: 1px solid var(--line-40); }
+  .tick { position: absolute; bottom: -1px; width: 1px; height: 8px; background: var(--line-40); }
+  .bar { position: absolute; left: 0; height: 32px; line-height: 28px; font-weight: 700; white-space: nowrap; }
+  .bar.before { top: 8px; border: 2px dashed var(--line); text-align: right; padding-right: 12px; }
+  .bar.after { top: 52px; background: var(--line); }
+  .bar.range { top: 52px; border: 2px solid var(--line); border-left: 0; }
+  .val { position: absolute; top: 52px; line-height: 32px; font-weight: 700; white-space: nowrap; }
+  small { font: 400 24px/1 var(--sans); color: var(--line-70); }
 
   /* a run's order: one dimension chain across the three stages */
   .plate { margin-top: 48px; display: grid; grid-template-columns: var(--label) repeat(3, 1fr); }
   .stage { padding: 0 24px; }
-  .stage b { display: block; font: italic 400 60px/1 var(--serif); }
+  .stage b { display: block; font: 700 56px/1 var(--sans); font-stretch: 75%; }
   .chain { grid-column: 2 / 5; position: relative; height: 40px; }
-  .chain::before { content: ""; position: absolute; left: 0; right: 16px; top: 19px; border-top: 2px solid var(--ink); }
-  .chain::after { content: ""; position: absolute; right: 0; top: 12px; border-left: 18px solid var(--ink); border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
-  .chain i { position: absolute; top: 10px; width: 2px; height: 20px; background: var(--ink); }
-  .desc { padding: 0 24px; color: var(--ink-70); }
+  .chain::before { content: ""; position: absolute; left: 0; right: 16px; top: 19px; border-top: 2px solid var(--line); }
+  .chain::after { content: ""; position: absolute; right: 0; top: 12px; border-left: 18px solid var(--line); border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
+  .chain i { position: absolute; top: 10px; width: 2px; height: 20px; background: var(--line); }
+  .desc { padding: 0 24px; color: var(--line-70); }
   .who { grid-column: 1; padding-top: 20px; }
-  .who b { display: block; font-weight: 600; font-stretch: 87%; }
-  .who span { color: var(--ink-70); }
+  .who b { display: block; font-weight: 700; }
+  .who span { color: var(--line-70); }
   .lane { padding-top: 28px; }
   .lane i { display: block; height: 20px; }
   .lane p { margin-top: 8px; padding-left: 24px; }
-  .s1 { grid-column: 2 / 5; } .s1 i { background: var(--ink); }
-  .s2 { grid-column: 3 / 5; } .s2 i { border: 2px solid var(--ink); }
-  .s3 { grid-column: 3 / 5; } .s3 i { background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 9px); border: 2px solid var(--ink); }
+  .s1 { grid-column: 2 / 5; } .s1 i { background: var(--line); }
+  .s2 { grid-column: 3 / 5; } .s2 i { border: 2px solid var(--line); }
+  .s3 { grid-column: 3 / 5; } .s3 i { background: repeating-linear-gradient(135deg, var(--line) 0 2px, transparent 2px 9px); border: 2px solid var(--line); }
 
-  .foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--rule); color: var(--ink-70); }
+  /* the title block: where a drawing says what it shows, on what, and by whom */
+  .block { margin: 44px 0 0 var(--label); border: 2px solid var(--line); display: grid; grid-template-columns: 168px 1fr; }
+  .block dt, .block dd { padding: 12px 16px; border-top: 1px solid var(--line-40); }
+  .block dt { color: var(--line-70); border-right: 1px solid var(--line-40); }
+  .block dt:first-of-type, .block dd:first-of-type { border-top: 0; }
 </style>
 </head>
 <body>
+<div class="sheet">
   <p class="name">vitruvian-design — a Claude Code skill</p>
-  <h1>Every screen your agent builds,<em>counted against written rules.</em></h1>
+  <h1>Every screen your agent builds, counted against written rules.</h1>
 
   <div class="scales">
     <p class="what"><b>Minutes</b><span>for one screen</span></p>
@@ -111,6 +112,12 @@
     <div class="lane s3"><i></i><p>counts the rendered page, every wait time-limited</p></div>
   </div>
 
-  <p class="foot">One test screen, Opus 5.5 and Sonnet 5.5 in Claude Code. Before: one fix that wrote its own measuring script. After: an inspect and a fix with the runner and a helper, twice — 55 min and 79k, then about 52 min and 164k.</p>
+  <dl class="block">
+    <dt>Measured on</dt><dd>One test screen, in Claude Code</dd>
+    <dt>Models</dt><dd>Opus 5.5, with Sonnet 5.5 as the helper</dd>
+    <dt>Before</dt><dd>One fix that wrote its own measuring script</dd>
+    <dt>After</dt><dd>An inspect and a fix with the runner and a helper, twice: 55 min and 79k, then about 52 min and 164k</dd>
+  </dl>
+</div>
 </body>
 </html>

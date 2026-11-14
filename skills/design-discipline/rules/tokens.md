@@ -16,7 +16,9 @@ Write the declaration into the project, not into your head. It holds these entri
   job nobody can name does not go in. The grey family is declared on its own line below and does
   not count against this number. A color may be declared as a flood: a surface the color fills,
   taking a large share of the screens it names. The entry says which screens, roughly what share,
-  and the reason; a flood is not the accent, and the accent's three places do not change
+  and the reason; a flood is not the accent, and the accent's three places do not change. Where the
+  world the visual concept borrows has a color that fills its surfaces — a poster's printed ground,
+  a station's tiled wall — that color is the flood, and a declaration that takes none says why
 - grey family: one, warm or cool
 - themes: one, or light and dark resolved from this one declaration — and which one the product
   ships where it ships one
@@ -38,8 +40,11 @@ Write the declaration into the project, not into your head. It holds these entri
   where the family has a width axis to state, and the OpenType features a step relies on where the
   family carries them — a step set over columns of numbers states its figure treatment. The step
   used at display size is marked as such, with its size as a multiple of the body step and what in
-  the subject chose that jump; where a screen needs a second display size, both are marked and
-  each says what it is for
+  the subject chose that jump — three times the body step or more at the widest checked size, and
+  at the narrowest the multiple the step states for it. Between the two it grows with the width all
+  the way to the widest checked size, or the step says what stops it there: a size held from a
+  narrower width up leaves the widest first view set for a narrower screen. Where a screen needs a
+  second display size, both are marked and each says what it is for
 - maximum line length: one; a second for serif body text where a serif is declared
 - maximum content width: one, where the surface scrolls vertically and the platform does not
   impose one
@@ -53,11 +58,22 @@ Write the declaration into the project, not into your head. It holds these entri
 - formats: number and date
 - visual concept: one sentence — the world outside the product's own category whose look the
   product borrows, and what in the subject chose it: a studied reference from outside the category
-  (SKILL.md, Before you draw), or the subject's own physical world
+  (SKILL.md, Before you draw), or the subject's own physical world. Then its layout metaphor: the
+  thing in that world whose form every region of a screen takes — a route map's lines and stations
+  carrying the sections, a whole page printed as one card whose ruled squares carry the regions —
+  so that the world reaches the whole screen, not one element on it
 - signature: the one element the product is remembered by — what it carries, and on which screens
   it appears and where; on at least one of them it sits in what shows before any scroll, at every
-  checked size (rules/layout.md). The product's boldness is spent here; what surrounds it stays
-  quiet
+  checked size (rules/layout.md). It is the peak of a screen the visual concept runs through, not
+  a bold element set among quiet ones
+- artwork: what the first view of the screens it names shows as a picture, taken from the visual
+  concept's world — what it depicts, how it is treated so that any picture becomes this product's
+  (rules/assets.md, the style system), and where it comes from (rules/assets.md, Where a picture
+  comes from). It sits in that first view at every checked size, the ground the signature and the
+  screen's first item sit on or beside (rules/layout.md, One primary job per screen); where the
+  narrowest cannot hold the picture whole beside them, the entry says how it is cut down there — a band, a
+  detail of it — and does not move it below the first view. Not applicable, with the reason, only
+  where the subject has nothing a picture could show
 - voice: the product's, in one phrase — what it sounds like and how far from plain it goes. The
   bans in anti-slop.md that turn on voice read this entry
 - recorded exceptions: anything this skill bans by default that this product uses on purpose, each
@@ -103,8 +119,8 @@ the next screen. The structure of a surface belongs to layout.md.
   for a second family to make one word louder is a defect.
 - Spacing: one base unit, either 4 or 8. Every margin, padding, and gap is a multiple of it, the
   allowance for the platform's own regions (rules/layout.md) excepted.
-- Radius: one scale, and a sentence naming which element takes which step — actions are pills,
-  containers the large step, inputs the small one. That sentence is what makes a mixed set
+- Radius: one scale, and a sentence naming which element takes which step — actions the small
+  step, containers the large step, inputs the actions' step. That sentence is what makes a mixed set
   checkable; without it, any radius can be argued for.
 - Elevation: a shadow states how far a surface sits above the one behind it, and nothing else.
   Declare the steps with what each one means — resting surface, raised surface, overlay — and use
@@ -137,6 +153,13 @@ counts below. While an entry is provisional, `fix` does not bring the code's val
 the counts in rules/anti-slop.md return for that entry is written to the record with the reason and
 left to the person, until the material is reached.
 
+Before any entry, write down the screen this product would get without trying — the parts What
+the model reaches for in rules/anti-slop.md lists that a screen of this kind collects — and set it
+aside. Then write three directions into the record (`.design/record.md`), two lines each: the
+world borrowed and its layout metaphor, how the screen is built, how it looks. They are as far
+apart as they can be made, and none holds two parts of the screen set aside. The derivation takes
+the direction a design lead would fight for, not the safest, and the record says which and why.
+
 1. Derive every entry from the subject, each with the reason that chose it — what in the
    subject, or which studied reference, settled it.
 2. Where code exists, find where its values live and write the map in the record
@@ -155,7 +178,8 @@ left to the person, until the material is reached.
    entry written as not yet asked where code exists, and as not applicable where none does.
    Each entry is shown under its English name as the file will hold it, with a gloss in the
    user's language beside it, so that what the person sees is what they will later edit. The
-   visual concept and the signature are shown first, ahead of the other entries.
+   visual concept with its layout metaphor, the signature, and the artwork are shown first, ahead
+   of the other entries.
    Nothing in the code changes here. Once the declaration is agreed, the code's values are what
    the counts in rules/anti-slop.md catch and `fix` replaces.
 5. Where the person changes a value before the declaration is written, the entry takes the
@@ -195,6 +219,17 @@ artwork that a style system governs are counted in rules/assets.md.
 - Springs named, where any motion follows a finger: 2. Ease-out curves named, where any motion is
   driven by time: 1. Where the product has neither, both counts are 0.
 - Values this pass needed that were not written back into the declaration: 0.
+- Visual concept entries naming no layout metaphor: 0.
+- Color entries declaring no flood and holding no line on why the product takes none: 0.
+- Display steps under three times the body step at the widest checked size: 0. Display steps that
+  stop growing at a width narrower than the widest checked size, with no line in the step saying
+  what stops them: 0.
+- Artwork entries that put the picture below the first view at any checked size: 0.
+- Declarations derived with no line in the record setting aside the screen the product would get
+  without trying, with fewer than three directions there, two lines each, or with no line naming
+  the direction taken and why: 0.
+- Directions in the record holding two or more of the parts the screen set aside lists, or sharing
+  the borrowed world or the layout metaphor with another direction: 0.
 - Declaration entries with no reason from the subject beside them, the scope of change and values
   marked provisional excepted: 0.
 - Where the product belongs to a brand that already exists, declared values given as the brand's
@@ -222,8 +257,10 @@ artwork that a style system governs are counted in rules/assets.md.
   does not.
 - The accent. State which of the three places it earns — the primary action, the selected state,
   progress — appear on this screen, and confirm nothing else took it.
-- The visual concept. Name the world it borrows from and what showed it. A concept that names the
-  product's own category — a timer that looks like timers — is not a concept, and the entry goes on
+- The visual concept. Name the world it borrows from and what showed it, and the layout metaphor:
+  which thing in that world the screens' regions take their form from. A concept that names the
+  product's own category — a timer that looks like timers — is not a concept, and a layout metaphor
+  that is an interface part — a card, a list, a grid of tiles — is not a metaphor; either goes on
   the repair list `inspect` returns (SKILL.md).
 - The radius sentence. Read it back and point at one element per step it names.
 - Each stand-in, where a family loads after the screen first draws. Render the screen once with

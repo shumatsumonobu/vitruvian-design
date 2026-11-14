@@ -93,6 +93,10 @@ often enough that icon-only navigation fails recognition outright. The label sta
 than appearing on hover or on press, because the reader needs it before they commit to touching
 anything.
 
+Where they sit follows how many there are. Up to about seven fit a bar along one edge of the
+screen. A side navigation spends a column of every screen on them and earns that column only past
+seven, where a bar no longer holds them; below that, it is a template the product reached for.
+
 Top-level sections stand beside one another rather than in sequence, so nothing directional plays
 between them. Each keeps a history of its own, restored when the reader comes back to it. What
 happens when the section already in view is selected again is a platform convention rather than a
@@ -146,6 +150,8 @@ counts were not taken; an untaken count is not a pass.
   own: 0.
 - Top-level sections: 3 to 5, or a written reason for the number chosen.
 - Top-level section controls whose label is not visible without touching or hovering: 0.
+- Side navigations holding seven destinations or fewer, counting none the declaration's recorded
+  exceptions name: 0.
 - Cold starts showing a signed-out screen to a signed-in reader: 0.
 - Controls reimplementing one the environment supplies, with nothing stated that the supplied one
   could not do: 0.

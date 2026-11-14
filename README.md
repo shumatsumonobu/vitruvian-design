@@ -11,7 +11,7 @@ chose — a default stays once the declaration says why it suits this product; t
 for Vitruvius — firmitas, utilitas, venustas — because good building has criteria, and
 this one writes them down.
 
-<img src="gallery/how-it-works.png" alt="A poster. Every screen your agent builds, counted against written rules. Drawn to scale: inspecting and fixing one test screen took 95 minutes before and 52 to 55 after, over two runs; output tokens of the larger model, 249k before and 79k to 164k after. A run goes init, inspect, fix. The session, on the larger model, decides every value, repair, and verdict across all three. A helper on a smaller model writes the runner's configuration in inspect and fix, and it is read back. The runner, a tested script in the skill, counts the rendered page in inspect and fix, every wait time-limited. Before was one fix that wrote its own measuring script; after was an inspect and a fix with the runner and a helper, run twice, in Claude Code with Opus 5.5 and Sonnet 5.5.">
+<img src="gallery/how-it-works.png" alt="A poster drawn as a blueprint, white lines on blue. Every screen your agent builds, counted against written rules. Drawn to scale, before as a dashed outline and after as a solid bar: inspecting and fixing one test screen took 95 minutes before and 52 to 55 after, over two runs; output tokens of the larger model, 249k before and 79k to 164k after. A run goes init, inspect, fix. The session, on the larger model, decides every value, repair, and verdict across all three. A helper on a smaller model writes the runner's configuration in inspect and fix, and it is read back. The runner, a tested script in the skill, counts the rendered page in inspect and fix, every wait time-limited. Before was one fix that wrote its own measuring script; after was an inspect and a fix with the runner and a helper, run twice, in Claude Code with Opus 5.5, and Sonnet 5.5 as the helper.">
 
 The poster in words is under [How a run works](#how-a-run-works). The seven pages after Try it
 were each built from one prompt.
@@ -24,6 +24,9 @@ declaration — the project's design values, each written down with the reason t
 and the counts. Install both. The reference study needs a browser the agent can drive — Claude
 in Chrome, for one; without one, `init` asks once whether to connect. On a web product, `inspect`
 and `fix` run a script the skill carries, which needs Node 22 or later and Chrome on the machine.
+A screen's picture is generated where `GEMINI_API_KEY`, `OPENAI_API_KEY`, or `TOGETHER_API_KEY`
+is set, at that provider's price per image, and found as a freely licensed photograph, credited on
+the screen, where none is.
 
 ```bash
 git clone https://github.com/shumatsumonobu/vitruvian-design
@@ -354,11 +357,12 @@ menu:
 
 ```text
 ~/.claude/skills/   or   .claude/skills/
-    design-discipline/           SKILL.md, README.md, NOTICE, rules/ —
+    design-discipline/           SKILL.md, README.md, NOTICE, reviewer.md, rules/ —
                                  tokens, layout, anti-slop, states, navigation,
-                                 motion, copy, forms, assets, a11y, review —
-                                 and runner/web/, the script that takes a web
-                                 product's counts on the rendered screen
+                                 motion, copy, forms, assets, a11y, charts, review —
+                                 runner/web/, the script that takes a web
+                                 product's counts on the rendered screen, and
+                                 images/, which brings a screen its picture
     design-discipline-init/      the declaration: derive, agree, write — once per project
     design-discipline-review/    improve an existing screen, from named deficits
     design-discipline-inspect/   run every applicable Inspection — the counts and checks in
@@ -377,6 +381,8 @@ When building, restyling, auditing, or reviewing a screen, follow the design-dis
 The language and its form go in this line because `CLAUDE.md` is read on every turn. The
 skill's own rule on them is read once, when a run starts, and an hour of tool calls buries it:
 one long run drifted into English without the line, and another dropped the polite form.
+Runs with the line have still written a few progress lines in English, each one saying what the
+session will do next.
 
 The skill directory follows the [Agent Skills](https://agentskills.io) format; the four
 entries are Claude Code commands, and Claude Code is the only agent its author has run any of
@@ -392,10 +398,20 @@ The work splits by what it needs. The session — the model you run Claude Code 
 decision: each value, each repair, each verdict on a count. Writing what it decided — the
 configuration a count runs on, and a pass's code where the session hands it over — goes to a
 helper, a subagent on a smaller model, and the session reads it back before any count from it is
-used. A subagent rather than a model
-switch: each model keeps its own prompt cache, so switching the session's model reads the whole
-conversation again uncached, while a subagent starts its own conversation and leaves the
-session's cache as it was ([Claude Code's prompt caching page](https://code.claude.com/docs/en/prompt-caching)).
+used. A subagent rather than a model switch: each model keeps its own prompt cache, so switching
+the session's model reads the whole conversation again uncached, while a subagent starts its own
+conversation and leaves the session's cache as it was
+([Claude Code's prompt caching page](https://code.claude.com/docs/en/prompt-caching)).
+
+What is judged by eye — whether the one element the product is remembered by is where the eye
+goes, whether the look borrowed from outside the product's category shows in more than its colors, whether a whole screen has anything
+on it worth the room — goes first to a reviewer: a subagent on the session's own model, handed the
+captures and the lines that name the look — the borrowed world and the form it gives each region,
+the element remembered, the picture — never the reasons behind them: it is handed what
+is there, not what was meant. The session still decides each finding. And when Claude Code
+compacts a long conversation, each entry reads its rules again, since a compacted conversation
+keeps the start of each skill it invoked and only a summary of the rest
+([Claude Code's skills page](https://code.claude.com/docs/en/skills)).
 
 Counts that need only the source and the record are taken from them. The counts that need the
 rendered screen — contrast, what a press lands on, line breaks, motion — are taken on a web
@@ -416,17 +432,18 @@ sentence:
 
 | File | Owns |
 |---|---|
-| [tokens](skills/design-discipline/rules/tokens.md) | The declaration: 4 to 6 named colors with one accent, one grey family, one or two typefaces with stated roles, a type scale, one spacing unit, radius and elevation scales, springs and easing, formats, voice, the world outside the product's category whose look it borrows, and the one element it is remembered by, placed where a reader sees it before scrolling. Derived from the subject, a brand's own colors and typefaces read from its material instead; where code exists it is read beside the derivation and every difference reported, never adopted |
-| [layout](skills/design-discipline/rules/layout.md) | The arrangement, with what in the subject chose it — a centered hero over a row of equal cards counts when nothing did; shared edges shared exactly, the gap inside a group smaller than the gap around it, optical centering, at most one primary control per screen, every region declaring how it narrows and the structure what a wide display's extra width carries, nothing to read or press under a status bar or home indicator, checked at the sizes a reader is left with — a phone with the browser's bars showing, a laptop the system scales |
-| [anti-slop](skills/design-discipline/rules/anti-slop.md) | The unprompted defaults — the purple gradient, glass on every card, mesh gradients, confetti — named and counted: color literals, off-scale radii, undeclared shadows, emoji in chrome, each at zero unless the declaration records why, and where, this product uses it |
-| [states](skills/design-discipline/rules/states.md) | Five states per screen, forced on the running screen and captured, never reasoned from the source; the response thresholds; long content well past the expected length; what happens across a session, a timer running on through a pause among it; a press landing on the control drawn; text over a moving background read at its worst moment |
-| [navigation](skills/design-discipline/rules/navigation.md) | Stack against replace, one-way doors past sign-in and checkout, a sheet that grows past one step re-presented as a modal, no rebuilt platform controls, deep links landing with a way into the product; back closing whatever covers the screen, and nothing moving on without the reader |
-| [motion](skills/design-discipline/rules/motion.md) | How often a reader meets a moment decides whether it animates, before any curve; springs where a finger drives, ease-out curves where time does, overshoot for thrown things only; verified against a recording, frame rate measured rather than judged |
+| [tokens](skills/design-discipline/rules/tokens.md) | The declaration: 4 to 6 named colors with one accent, one grey family, one or two typefaces with stated roles, a type scale, one spacing unit, radius and elevation scales, springs and easing, formats, voice, the world outside the product's category whose look it borrows and the thing in it whose form every region of a screen takes, the picture the screens open with, and the one element it is remembered by, placed where a reader sees it before scrolling; a display step three times the body or more, and a color filling the screen where the borrowed world has one. Three directions are written, and the screen the product would get without trying set aside, before one is taken. Derived from the subject, a brand's own colors and typefaces read from its material instead; where code exists it is read beside the derivation and every difference reported, never adopted |
+| [layout](skills/design-discipline/rules/layout.md) | The arrangement, with what in the subject chose it — a centered hero over a row of equal cards counts when nothing did; shared edges shared exactly, the gap inside a group smaller than the gap around it, optical centering, at most one primary control per screen, every region declaring how it narrows and the structure what a wide display's extra width carries, tables whose heads hold one line and whose naming and acting columns stay in view, nothing to read or press under a status bar or home indicator, checked at the sizes a reader is left with — a phone with the browser's bars showing, a laptop the system scales |
+| [anti-slop](skills/design-discipline/rules/anti-slop.md) | The unprompted defaults — the purple gradient, glass on every card, mesh gradients, confetti, a small label spaced out wide — named and counted: color literals, off-scale radii, undeclared shadows, emoji in chrome, each at zero unless the declaration records why, and where, this product uses it, the why naming something in the product |
+| [states](skills/design-discipline/rules/states.md) | Five states per screen, forced on the running screen and captured, never reasoned from the source; the response thresholds; long content well past the expected length; what happens across a session, a timer running on through a pause among it; a press landing on the control drawn; text over a moving background read at its worst moment; success shown only once the answer came back, and a deletion that can be undone or is confirmed |
+| [navigation](skills/design-discipline/rules/navigation.md) | Stack against replace, one-way doors past sign-in and checkout, a sheet that grows past one step re-presented as a modal, no rebuilt platform controls, deep links landing with a way into the product; back closing whatever covers the screen, and nothing moving on without the reader; a side navigation only past seven destinations |
+| [motion](skills/design-discipline/rules/motion.md) | How often a reader meets a moment decides whether it animates, before any curve; springs where a finger drives, ease-out curves where time does, overshoot for thrown things only; verified against a recording, frame rate measured rather than judged; content visible with scripts stopped |
 | [copy](skills/design-discipline/rules/copy.md) | One label per intent, banned strings, numbers and dates out of a locale formatter, no layout hanging off a string's length, a claim that would hold for any product counted as empty, a figure the brief supplies shown as a figure, nothing stated twice; no line opening with a closing bracket, no title or short text ending on one character, no title broken inside a word |
 | [forms](skills/design-discipline/rules/forms.md) | Labels above fields that stay, input method and autofill declared per field, validation that waits until the reader is done, the raised keyboard never covering the field being typed into |
-| [assets](skills/design-discipline/rules/assets.md) | A style system before the first asset, generated, photographed, or drawn in code; every edge inspected enlarged, photographs held to the declared palette, a product icon still legible at small size |
+| [assets](skills/design-discipline/rules/assets.md) | A style system before the first asset, generated, photographed, or drawn in code; a picture generated where an image key exists, a freely licensed photograph credited on the screen otherwise, never a stock site; every edge inspected enlarged, photographs held to the declared palette, a product icon still legible at small size |
 | [a11y](skills/design-discipline/rules/a11y.md) | The floor no exception lifts: names on everything operable, images described or hidden, color never the sole carrier, focus in and back out, keyboard parity and a way past controls repeated on every screen, results announced, marks meant for the eye hidden from the screen reader and a phrase read as one, zoom left to the reader; closed by two walks, one with a screen reader and one by keyboard alone |
-| [review](skills/design-discipline/rules/review.md) | What better means: deficits named before gathering, at most five repairs per pass, a comparison against the strongest shipped screen solving the same problem |
+| [charts](skills/design-discipline/rules/charts.md) | A chart only where it answers faster than its table: one value axis, bars from zero, no pie or gauge for a share of a whole, at most seven series, text never in a series' color |
+| [review](skills/design-discipline/rules/review.md) | What better means: deficits named before gathering, at most five repairs per pass, whole screens before single elements, a reviewer that has not read the reasons, what the product relies on inventoried before and after, a comparison against the strongest shipped screen solving the same problem |
 
 ### What the skill asks a session to do
 

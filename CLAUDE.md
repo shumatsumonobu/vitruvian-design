@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 This repo is the source of truth for the design-discipline skill: `skills/design-discipline/` —
-`SKILL.md` the entry point, the eleven rule files under `rules/`, `NOTICE` the provenance of
+`SKILL.md` the entry point, the twelve rule files under `rules/`, `NOTICE` the provenance of
 every threshold number — and its four entries, `init`, `review`, `inspect`, `fix`, each a
 directory beside it. `DESIGN.md` is the skill as it stands: its parts, its vocabulary, where
 each concern lives; read it before changing a rule. `DECISIONS.md` is why each rule reads as it
@@ -120,9 +120,11 @@ use a word that reader does not have. Write the four answers down for each part;
 answered in writing was not asked. A review of the whole repo lists every file first and asks
 the same of each; a file not on the list was not reviewed.
 
-A person whose published work led to a change is named nowhere in this repo — not in a source
-column, a decision, a changelog entry, or a commit message. The source is described by what it
-is: a designer's published prompt, a product's month of use.
+A person whose own post led to a change — a designer's published prompt, a thread, a talk — is
+named nowhere in this repo: not in a source column, a decision, a changelog entry, or a commit
+message. The source is described by what it is: a designer's published prompt, a product's month
+of use. A published skill or repository is a source of another kind, and it is named, as a
+citation is: hallmark, open-design.
 
 ## Claims and numbers
 

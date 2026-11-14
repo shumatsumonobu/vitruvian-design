@@ -12,6 +12,13 @@ one is in the user's language.
 Before your first tool call of any kind, say your first words to the person: the opening text under
 What it asks you, translated, or, where the brief agrees to the values in advance, one line on what
 you are about to do. Every line after them stays in that language.
+Code and its comments may stay in English; the line you write after an edit, a script's output, a
+failed call, or a subagent's answer is in the user's language however much English came before it.
+A line that says what you will do next — "Next, I'll…", "Now I'll…" — is the line a long run
+writes in English most often: its first word is in the user's language.
+When the conversation has been compacted — its earlier turns replaced by a summary — read that
+SKILL.md and the rule files of the step you are on again before your next tool call, and say so in
+`.design/record.md`.
 Everything that skill references sits beside it — its rules are
 `${CLAUDE_SKILL_DIR}/../design-discipline/rules/`. Do not search for any of it. If
 `../design-discipline/` is not installed beside this skill, say this and stop: "The

@@ -141,3 +141,20 @@ everywhere.
   one line, a control's label at every supported width         rules/copy.md
   one character, a title's last line                rules/copy.md
   two focusable elements, the smallest recurring block         rules/a11y.md
+  0.03 em, a label's spacing past the body text's  rules/anti-slop.md
+  5 to 10 seconds, the undo after a deletion        rules/states.md
+  seven destinations, before a side navigation      rules/navigation.md
+  seven categories or series in one chart           rules/charts.md
+  eight findings, the most a reviewer returns       rules/review.md
+      the five above taken from hallmark's checks
+  three times the body step, the display step at the widest size   rules/tokens.md
+      from Anthropic's prompting cookbook for frontend aesthetics: "Size jumps of 3x+, not 1.5x"
+  three directions written before one is taken      rules/tokens.md
+  two defaults on one screen, the screen got without trying       rules/anti-slop.md
+      the two above from hallmark's guidance for a page designed from nothing
+  15 seconds, a photograph search                   images/README.md
+  15 seconds, a photograph's file information       images/README.md
+  60 seconds, one image downloaded                  images/README.md
+  120 seconds, one image generated                  images/README.md
+  10 seconds, the longest wait before the one retry images/README.md
+  one half, the smallest photograph against the width asked for    images/README.md

@@ -120,6 +120,12 @@ One choreographed moment — a single load sequence, or a single reveal, with no
 carries a screen further than effects sprayed across it. Motion answering a reader's own tap earns
 its place, because it reports what changed.
 
+An entrance that starts its content invisible and leaves the product's code to show it once the
+screen has drawn — a reveal as the content scrolls in, a fade started when the screen is ready —
+fails whenever that code does not run, runs late, or never sees what it waits for: in a capture, a
+reader view, a slow connection. The content stands visible at rest, and the entrance animates from
+there, or plays without that code.
+
 ## Reduce motion
 
 With the preference on, anything spatial becomes a cross-fade, and environment-supplied
@@ -160,8 +166,9 @@ content or overshooting onto it.
 
 ## Inspection
 
-Every count below is read from the recording. Where no recording can be made, the record
-(`.design/record.md`) says the counts were not taken; an untaken count is not a pass.
+Every count below but the last is read from the recording; the last is read as Platform notes
+says. Where no recording can be made, the record (`.design/record.md`) says
+the counts were not taken; an untaken count is not a pass.
 
 ### The count
 
@@ -220,11 +227,15 @@ Every count below is read from the recording. Where no recording can be made, th
 - Motion running on a spring or a curve the declaration does not name: 0. Where the declaration
   names none because the product has no motion, every motion found is counted here.
 - Beats on a change of state that stay lit, loop, or show no peak in the recording: 0.
+- Elements that stand invisible at rest — no opacity, hidden, or moved out of view — until the
+  product's code shows them once the screen has drawn: 0.
 
 ### The checks
 
 - Frame rate. Sixty frames per second held through every transition, on the slowest hardware the
-  product supports. Read off a measurement, not judged by eye.
+  product supports. Read off a measurement, not judged by eye. In `fix`'s closing run it is measured
+  again only where a pass changed something that moves; otherwise the reading this run or the
+  `inspect` before it took on the same code stands, and the record names which.
 - Glitches still in the recording after the fixes. Name each one the two passes turned up and say
   what became of it. A single wrong frame left in there means the work continues.
 
@@ -239,3 +250,8 @@ How a frame rate gets measured is a matter for whatever profiling the environmen
 this skill does not prescribe it. What it does prescribe is where the reading has to come from:
 the slowest hardware the product claims to support, because that is where motion stops reading as
 motion and starts reading as a fault.
+
+On the web, the count of elements invisible until the product's code shows them is read by loading
+each screen with scripts stopped and again with them running; an element the markup does not hold
+with scripts stopped is not counted, so a page whose scripts build everything reads 0. The runner
+takes it.

@@ -41,11 +41,12 @@ in the `/` menu and defer to the skill beside them:
 
 ```text
 ~/.claude/skills/   or   .claude/skills/
-    design-discipline/           SKILL.md, README.md, NOTICE, rules/ —
+    design-discipline/           SKILL.md, README.md, NOTICE, reviewer.md, rules/ —
                                  tokens, layout, anti-slop, states, navigation,
-                                 motion, copy, forms, assets, a11y, review —
-                                 and runner/web/, the script that takes a web
-                                 product's counts on the rendered screen
+                                 motion, copy, forms, assets, a11y, charts, review —
+                                 runner/web/, the script that takes a web
+                                 product's counts on the rendered screen, and
+                                 images/, which brings a screen its picture
     design-discipline-init/      the declaration: derive, agree, write — once per project
     design-discipline-review/    improve an existing screen, from named deficits
     design-discipline-inspect/   run every applicable count and check, return the repair list
@@ -68,6 +69,8 @@ When building, restyling, auditing, or reviewing a screen, follow the design-dis
 The language and its form go in this line because `CLAUDE.md` is read on every turn. The
 skill's own rule on them is read once, when a run starts, and an hour of tool calls buries it:
 one long run drifted into English without the line, and another dropped the polite form.
+Runs with the line have still written a few progress lines in English, each one saying what the
+session will do next.
 
 ## What it does
 

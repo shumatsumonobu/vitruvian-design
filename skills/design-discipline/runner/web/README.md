@@ -4,7 +4,7 @@ A tested script that takes, on a web product, the counts any web product's scree
 rendered page, an interaction, or a recording. A session — or the helper it starts
 (rules/review.md, Rebuild in small passes) — writes one configuration file for the product and
 runs this script; it does not write a runner of its own. Counts the runner does not take are taken
-as the rule files say: from the source, the record, a device, or the session's own look at a
+as the rule files say: from the source, the run itself, a device, or the session's own look at a
 capture.
 
 ## Running it
@@ -65,7 +65,8 @@ motion | Press feedback outside 100 to 150 ms | not taken | step "press .water-n
 - `data` marks a measurement the session reads and judges — edges, gaps, the words around a line
   break — where the count needs a meaning the page does not carry.
 - `not taken` names the step and the method that ran past its time limit, or the reason the step
-  could not run. The session writes it to the record as not taken, with that method named.
+  could not run. The session reports it as not taken, with that method named, and adds the method to
+  `.design/harness/hung.md`.
 
 The `.json` holds every measurement behind each line. `contact-<w>x<h>.png` in the capture
 directory sets every state's capture side by side at a reduced scale, for the session to look at
@@ -247,7 +248,7 @@ open, unless the row says otherwise.
 | a11y | Modals, sheets, and full-screen takeovers that open without taking focus, let it escape while open, or fail to return it on close | number |
 | a11y | Focusable elements reached in an order that differs from the visual order | number |
 | a11y | Surfaces on which the reader's own zoom is disabled, or capped short of the 200 percent the accessibility guidelines name — the one line here the source can answer | number |
-| review | Items in the inventory taken before the first pass — where a link goes, the name a field submits under, an id a link reaches, a test identifier or event name, a control and its name — that the inventory after the last pass lacks and no repair on the list names, and runs that applied repairs with no inventory before and after in the record | data |
+| review | Items in the inventory taken before the first pass — where a link goes, the name a field submits under, an id a link reaches, a test identifier or event name, a control and its name — that the inventory after the last pass lacks and no repair on the list names, and runs that applied repairs with no inventory taken before and after | data |
 
 A word, for the break count, is a segment `Intl.Segmenter` gives at word granularity in the page's
 language. The motion rows read the animations the page runs (`document.getAnimations()`) during a

@@ -53,7 +53,7 @@ Where the product belongs to a brand that already exists, the wording the brand 
 name, its tagline — read from the brand's own material or the brand's owner's own words is a fact on
 the same terms as its colors and typefaces (rules/tokens.md); such a claim is not empty. Where
 neither the brief nor the product's material supplies what a claim would say, the session writes no
-claim: the string names the job the claim would fill and the record lists it as missing from the
+claim: the string names the job the claim would fill and the run's last message lists it as missing from the
 brief, the same way Facts the brief did not supply, below, lists a missing fact.
 
 ## Said once
@@ -74,7 +74,7 @@ rendered two ways in one product is the defect this catches.
 
 A fact a string needs — a time, a price, a count, a name — that neither the brief nor the
 product's data supplies is not invented. The string names the job the fact would fill, and the
-record lists the fact as missing from the brief.
+run's last message lists the fact as missing from the brief.
 
 ## Translation
 
@@ -131,7 +131,7 @@ text are counted in anti-slop.md, including the exception. Run that count in the
   string carrying nothing the first did not: 0.
 - Claims — strings saying what this product is, does, has, or gives — that name nothing of this
   product's, titles and section labels and the brand's own wording excepted: 0.
-- Claims the brief did not supply that the record does not list as missing, counting none already
+- Claims the brief did not supply that the run does not list for the person as missing, counting none already
   counted on the line above, a claim carrying a fact — a figure, a name — belonging to the facts
   counts below: 0.
 - Filler tokens: 0.
@@ -145,7 +145,7 @@ text are counted in anti-slop.md, including the exception. Run that count in the
 - Numeric and date strings assembled by hand rather than produced by a locale formatter: 0.
 - Quantities of the same kind rendered in two different formats: 0.
 - Reader-visible facts — a time, a price, a count, a name — with no source in the brief or the
-  product's data: 0. Facts the brief lacks that the record does not list as missing: 0.
+  product's data: 0. Facts the brief lacks that the run does not list for the person as missing: 0.
 - Layouts that break under the longest translation on hand, or under source strings padded by
   the states.md multiple: 0.
 - Labels of controls with a shape drawn around them — buttons, tabs, links in a navigation or a

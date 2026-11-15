@@ -82,7 +82,7 @@ small.
 A picture the artwork entry asks for (rules/tokens.md) comes from the first of three sources
 that can be reached. Generated, where the session can reach an image generator. A photograph whose
 license lets anyone use it — public domain, CC0, CC BY, CC BY-SA — found in an open collection,
-where it cannot. None, where neither can be reached: the screen is built without it and the record
+where it cannot. None, where neither can be reached: the screen is built without it and the artwork entry
 says why. A photograph from a stock site is not taken.
 
 A found photograph shows the world the visual concept borrows, never the product's own premises,
@@ -90,7 +90,7 @@ people, or product, which the reject list below keeps to the brief and the produ
 Whatever its source, a picture goes through the style system before it ships, so that a generated
 image and a found photograph read as one commission. A photograph carries its credit — its author,
 its license, and where it was found — on the screen that shows it, or on a credits screen that
-screen links to; the record lists every picture with its source and the request or the search
+screen links to; a file beside every picture holds its source and the request or the search
 that brought it.
 
 ## When to reject
@@ -119,8 +119,8 @@ Any one of these sends the asset back. None of them is a matter of taste.
 This Inspection runs wherever the product carries artwork, generated, photographed, or drawn in
 code. Anything drawn to stand in for a thing the page talks about counts as artwork the product
 carries, however little of the thing it shows. A product using none skips it rather than failing
-it, and the skip is recorded: one line in the record naming what was surveyed and why nothing on
-it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
+it, and the skip is said as the run works: one line naming what was surveyed and why nothing on
+it depicts a thing. A skip not said is a failed Inspection, not a pass.
 
 ### The count
 
@@ -128,7 +128,7 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
 - Photographs the product ships as its own imagery whose largest areas of color, read by reducing
   the image to its few largest areas, are neither declared values nor the named source of one: 0.
 - Assets made before the style system was written: 0.
-- Artwork sharing a frame with text, with no line in the record or the style system saying which
+- Artwork sharing a frame with text, with no line in the style system saying which
   sits in front and where the two cross: 0.
 - Assets carrying baked-in text or a watermark: 0.
 - Assets not yet viewed in every theme the declaration names, on their real surface: 0.
@@ -136,9 +136,10 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
   own regions, as rules/layout.md names them: 0.
 - Assets in one set carrying different padding: 0.
 - Depicted objects whose capture, cropped to the object alone, stops reading as their subject: 0.
-- Pictures the product ships with no source and no request or search in the record: 0.
+- Pictures the product ships with no file beside them holding their source and the request or
+  search that brought them: 0.
 - Pictures brought to the set with a narrower range from darkest to lightest than their source: 0.
-- Artwork entries whose screens ship no picture, with no line in the record naming each source
+- Artwork entries whose screens ship no picture, with no line in the artwork entry naming each source
   tried, the request or search sent, and what came back: 0.
 - Photographs shown with no credit naming the author, the license, and where they were found, on
   their screen or a credits screen it links to: 0.
@@ -164,4 +165,4 @@ it depicts a thing. An unrecorded skip is a failed Inspection, not a pass.
   one that holds `rules/`. It generates where an image key is in the environment and finds a
   photograph in Wikimedia Commons otherwise, writing the picture with its source and credit beside
   it; its README, `images/README.md` there, says how. A session that reaches an image generator
-  another way uses that, and the record says which.
+  another way uses that, and the file beside the picture says which.

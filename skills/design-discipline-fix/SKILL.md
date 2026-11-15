@@ -17,10 +17,12 @@ writes in English most often: its first word is in the user's language.
 After the last pass, run every rule file's Inspection, not only the counts the passes touched — a
 list of one repair included — before you say the run is done. What that run finds new, the
 reviewer's findings among them, is one more pass before the end, as the `fix` entry in Ways in
-says; only what that pass cannot take is left for the next `inspect`.
+says. Take each repair off `.design/repairs.md` as you make it; what is left when the run ends, say
+to the person in your last message, then delete that file — it stays only where the scope of
+change is report only. Write no record of the run to any file.
 When the conversation has been compacted — its earlier turns replaced by a summary — read that
-SKILL.md and the rule files of the step you are on again before your next tool call, and say so in
-`.design/record.md`.
+SKILL.md and the rule files of the step you are on again before your next tool call, and say so to
+the person.
 Everything that skill references sits beside it — its rules are
 `${CLAUDE_SKILL_DIR}/../design-discipline/rules/`. Do not search for any of it. If
 `../design-discipline/` is not installed beside this skill, say this and stop: "The

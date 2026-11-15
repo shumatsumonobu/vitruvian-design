@@ -5,7 +5,8 @@ becomes whatever the environment happens to render when nobody was looking. Five
 designed on every screen: loading, empty, first run, error, long content. A state that fell back
 to a default instead of being designed counts as missing.
 
-A state that cannot occur on a given screen is recorded as not applicable, with one line saying
+A state that cannot occur on a given screen is recorded as not applicable in that screen's
+structure entry (rules/layout.md), with one line saying
 why — a screen reading nothing has no loading state, a screen with no collection has no empty
 one. A recorded exemption counts as designed. An unrecorded absence counts as missing, and the
 difference between the two is whether anyone thought about it.
@@ -250,7 +251,7 @@ shown a state of it.
   content that updates itself arriving, which is content arriving rather than a state change, and
   not the surface scrolling as a whole to bring a focused field into view, which rules/forms.md
   owns: 0. Loading ending is the skeleton count above. Read on the running screen as each state is
-  forced; where no screen can be driven, the record (`.design/record.md`) says the count was not
+  forced; where no screen can be driven, the run says the count was not
   taken; an untaken count is not a pass.
 - Full-screen indicators raised by an action that replaces part of a screen: 0.
 - Operations running past the three-second threshold with only an indefinite indicator: 0.
@@ -274,22 +275,22 @@ shown a state of it.
 - Tap targets below the platform's stated minimum, measured as the area that answers a press: 0.
 - Controls where a press at the middle of the drawn control lands on something other than the
   control or what it contains — at every checked size in the screen's resting state, and in each
-  captured state at the sizes it was captured at: 0. Where no screen can be driven, the record
+  captured state at the sizes it was captured at: 0. Where no screen can be driven, the run
   says the count was not taken; an untaken count is not a pass.
 - Neighboring targets whose areas that answer a press overlap: 0.
 - Text contrast below 4.5 to 1 for body text and 3 to 1 for large text and non-text controls, in
   every theme the declaration names, and, over a background that moves or changes on its own, at
   its least favorable moment as Text over what moves reads it: 0. Both ratios are the minimum
-  level of the accessibility guidelines. Where such a background cannot be recorded, the record
+  level of the accessibility guidelines. Where such a background cannot be recorded, the run
   says the count was not taken for the text over it; an untaken count is not a pass.
 - Focus indicators that animate in rather than appearing at once, read on the running screen as
-  focus arrives: 0. Where no screen can be driven, the record says the count was not taken; an
+  focus arrives: 0. Where no screen can be driven, the run says the count was not taken; an
   untaken count is not a pass.
 - Hover treatments applied with no condition that the input can hover, where any supported device's
   primary input cannot hover: 0. Where every supported device's primary input can hover, 0.
 - Hover treatments that persist after a tap, on a device whose primary input cannot hover, counting
   none already counted on the line above: 0. Where every supported device's primary input can hover,
-  0. Where no touch screen can be driven, the record says the count was not taken; an untaken count
+  0. Where no touch screen can be driven, the run says the count was not taken; an untaken count
   is not a pass.
 - Disabled controls with no reason on the screen — neither words saying why, nor the state of what
   the control acts on showing it — a control disabled while its submission is in flight excepted,

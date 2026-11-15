@@ -3,6 +3,22 @@
 What a fresh copy of `skills/` gets you, newest first. Install is the same at every entry:
 copy the five directories in, replacing the ones you have.
 
+## 2026-11-15
+
+The skill no longer keeps `.design/record.md`. Every file it writes holds what is true now, with no
+dates and no account of a run. `inspect` writes the open repairs to `.design/repairs.md`; `fix`
+takes each off as it makes it, tells you what it left, and deletes the file — it stays only where
+you answered Change nothing, just list the repairs. A run says what it counts and changes as it works; its
+last message gives you what it left and why, what it could not count, and what only you can give;
+your version history keeps what changed. The study of reference sites, the directions set
+aside, and where the code's values live are entries of the declaration: `references`,
+`directions`, `definition sites`. Where you chose another home for the decisions,
+`.design/declaration.md` holds one line naming it.
+
+On a product that has `.design/record.md` from before: delete it, and the sentences in your own
+documents that point at it; nothing reads it. A declaration written before the three entries
+existed is whole without them, and nothing is derived again.
+
 ## 2026-11-14
 
 When Claude Code compacts a long run, each entry reads the skill and the rules of its step again

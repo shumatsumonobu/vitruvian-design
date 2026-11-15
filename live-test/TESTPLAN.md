@@ -743,3 +743,41 @@ Round 11's 45 % undone by this run's repair 4. One reviewer in each run, no find
 open questions from findings 1 and 4 for the next `inspect`. English lines with the hook on: none of
 46 in `inspect`, five of 117 in `fix`, against two of 50 and eleven of 55 in Rounds 10 and 11 without
 it — the hook does not remove them, and no run is added for the language.
+
+## Round 13 — no record: the repair list alone crosses runs, and is deleted (2026-11-15)
+
+| Workspace | Scaffold | Run |
+|---|---|---|
+| `round-13` | `mizuyari`, as Round 9 began: one list screen, a brief that answers every question in advance, no `.design/` | `node scripts/live-test.mjs run round-13 design-discipline-init`; then `design-discipline-inspect`; then `design-discipline-fix` — each through `claude -p` |
+
+The 2026-11-15 batch removed `.design/record.md`; some thirty counts that read "the record" now read
+the run itself. Nothing is planted. Model and effort: Opus 5.5 at xhigh; the reviewer at medium.
+
+| Passes when | Read from |
+|---|---|
+| No `.design/record.md` exists after any of the three runs, and no file under `.design/` but captures holds a date or an account of a run | the workspace |
+| After `init`, the declaration holds `references`, `directions` (the screen set aside, three directions, the one taken), and `definition sites` | `.design/declaration.md` |
+| After `inspect`, `.design/repairs.md` holds the repair list, each repair marked, whole screens first; the last message gives the counts not taken and what only the person can give | the workspace, the transcript |
+| After `fix`, `.design/repairs.md` does not exist; the last message says what was left and why; a reviewer ran once in each of `inspect` and `fix`, and `fix` ran its closing pass | the workspace, the transcript |
+| The screen is no worse than Round 12's kind: a picture covering its room at full strength, the first row in the 360 first view | captures |
+| Minutes and Opus output beside Round 9's (`init` 39, `inspect` 22, `fix` about 86 minutes of work; 102k, 113k, 282k) | `stats` |
+
+Read after Round 13 (`init` 16 minutes, `inspect` 15, `fix` 80, each through `claude -p`; Opus output
+66k, 83k, and 306k; Sonnet 10k, 13k, 16k; no question, no compaction). No `.design/record.md` was
+written by any of the three. `init` wrote the declaration with `references`, `directions`, and
+`definition sites`; the only dates in any file under `.design/` are the examples in the formats
+entry. `inspect` wrote `.design/repairs.md`, 66 repairs marked, and its last message gave the counts
+not taken and what only the person can give. `fix` took repairs off the list as it made them — 73
+lines after `inspect`, 61 partway through — started one reviewer, ran a closing pass, deleted the
+file, and said in its last message what the person decides, where it read a count differently, and
+what it could not confirm. The screen is a date-due slip on a buff ground with a photograph of a
+dating stamp across the head, in two inks; at 360 × 612 the first row and its button are in the
+first view. Six English lines in `fix`, none elsewhere.
+
+A product from an earlier version, its record deleted (`round-13m`: `cover-wide` with
+`.design/record.md` removed, `inspect` only, 16 minutes): no record written; the declaration's lack
+of the three new entries was not listed; one repair lists the dates, the history, and the pointer to
+the missing `.design/record.md` left in the declaration, the structure, the lexicon, and the style
+system. A path by which `init` carried the old record's study into the declaration was written and
+withdrawn before this run, on the author's word: the author's products delete the record and what
+points at it.

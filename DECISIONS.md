@@ -5,6 +5,33 @@ the defect that forced it — and where it now lives, so a later change starts f
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
 live in the files named, not here.
 
+## 2026-11-15 — No record: every file holds what is true now
+
+A product a month under the skill had a `.design/record.md` of 1,197 lines in 69 sections. The
+skill told every entry to write there and none to remove anything, so it only grew; a later
+session read a rejected direction, a rebuilt structure, and repairs long made beside the current
+decisions, as if all stood; every pointer to "the record" cost a read of the whole file; and the
+project's version history already held what changed and when. One file held two kinds of thing
+with different lives: the open repairs, which are current, and the account of finished runs, which
+is past.
+
+The record is gone. Decisions already had a home with their reasons — the declaration, the
+structure, the style system, the lexicon — so the study, the directions set aside, and where the
+code's values live became entries of the declaration, and nothing like a decision log was added
+beside them. What a run needs only while it works — a count's result, the reviewer's brief and
+findings, the inventory — stays in the session, and the counts that read them are answered against
+the run before it ends. The one thing that crosses from one run to another is the repair list:
+`inspect` writes `.design/repairs.md`, `fix` takes each repair off as it makes it, says what is
+left, and deletes the file, since a list kept under another name would grow the same way. What is
+given up: an `inspect` can no longer read what an earlier `fix` did — in Rounds 10 and 11 it found
+a shrunken picture that way; the counts on the rendered screen find the same picture now. No entry
+reads an earlier version's record: the author's products delete it and what points at it, so a
+declaration written before the three entries existed is whole without them and is not counted for
+lacking them — a path that carried the study over was written, and withdrawn before it shipped.
+Lives in `SKILL.md`, What this
+skill writes and Ways in; `rules/tokens.md`, the three entries; `rules/review.md`, its Inspection
+and the count on files that hold a past.
+
 ## 2026-11-10 — Round 10: the picture is the ground, and the first view holds what the screen is for
 
 Round 10 ran `inspect` and `fix` on what Round 9 left. The slip took its printed form, and `fix`

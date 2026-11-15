@@ -24,8 +24,8 @@ than three survive that, write one line saying what you operated and what did no
 carry on with what you have.
 
 Everything after this aims at those three. A review that skips this step collects inspiration and
-lands nowhere. The record of it all — deficits, the surviving references, target lines, pass counts — defaults
-to `.design/record.md`.
+lands nowhere. The deficits, the surviving references, and the target lines are said to the person and
+kept in the session; no file holds them.
 
 ## Gather against the deficits, then cut
 
@@ -68,7 +68,7 @@ repaired on a screen that still fails as a whole is work the whole-screen repair
 **An entry describes the screen a repair builds toward; it never excuses the one rendered.** A
 change to the declaration, the structure, or the style system that brings a count on a rendered
 screen down while that screen stays as it was repairs nothing: the count stays open, and the
-record names the change. Where the session judges an entry wrong, the change it proposes is a
+screen is what gets repaired. Where the session judges an entry wrong, the change it proposes is a
 repair of its own on the list, and every count reading that entry is read again on the screen
 after it.
 
@@ -81,7 +81,7 @@ scripts are the runner's configuration and the flows only this product has. The 
 read this skill, so the session hands it everything the work needs: each repair with its target
 line; or, for a script, the rule files whose counts it takes, by path, and the screens, sizes, and
 states it reads them at — for a runner's configuration, the runner's README by path in their
-place; the declaration entries the work touches; the record's lines naming methods that hung or
+place; the declaration entries the work touches; the lines of `.design/harness/hung.md`, which name methods that hung or
 returned nothing; the sentence below on running a script from its file; and the files — the
 helper writes nowhere but `.design/` and the files it is given. A helper that wrote or
 changed a script runs it once before it returns, and returns its output with the change. A
@@ -90,22 +90,22 @@ one-off scripts included: where the interpreter is reached through a launcher th
 standard input on, the interpreter waits at its prompt with nothing to read, and the command never
 ends; a helper hung so in one run, and the run with it. When the
 helper returns, the session reads every change back against the repair or the count it serves
-before any count from it is used, and the record names what a helper wrote. Where no helper can be
+before any count from it is used, and the session says, as it works, what a helper wrote. Where no helper can be
 started, the session writes the code itself.
 
 Where the declaration's scope of change — the answers SKILL.md defines under What it asks
 you — keeps the structure, or names kept elements, the rebuild leaves them as they are and the
-target lines are written around them; a deficit that would need them changed is recorded as one
+target lines are written around them; a deficit that would need them changed is said to the person as one
 the scope of change forbids, not repaired. A deficit whose repair would change what the product
-relies on behind what the reader receives is recorded the same way (SKILL.md, Before fix or review
+relies on behind what the reader receives is said the same way (SKILL.md, Before fix or review
 changes the code).
 
 **What the product relies on is counted, not remembered.** Before its first pass `fix`, and
 `review` before its rebuild, takes an inventory of every screen it may touch, at every checked
 size: where each link goes, the name each field submits its value under, each id a link reaches,
 each test identifier and event name the screen's code carries, and each control with the name it
-carries. After the last pass the inventory is taken again, and the record holds both, or names
-the files under `.design/harness/` a runner wrote them to. An item in the first and missing from
+carries. After the last pass the inventory is taken again and the two are compared in the run; a
+runner writes them under `.design/harness/`, and they go with its other output when the run ends. An item in the first and missing from
 the second that no repair on the list names is a change to what the product relies on, or a
 control removed: the pass that removed it is undone, or the item is left to the person as SKILL.md
 says.
@@ -136,9 +136,9 @@ sits, and, where the declaration names artwork, what the picture depicts, the sc
 how it is cut down at the narrowest size — in the entries' own words, without what chose them;
 the lines it is to answer — checks, and counts read by looking at a still capture — each with its
 rule file; and the paragraph Whole screens before single elements, above. Nothing else — no count's
-result, no other declaration entry, no record: a reviewer handed the reasons reads the reasons.
-Nothing less either: every screen, state, and checked size the record lists, and every line read
-off a capture. The brief goes into the record as sent.
+result, no other declaration entry, no repair list: a reviewer handed the reasons reads the reasons.
+Nothing less either: every screen, state, and checked size the run read, and every line read
+off a capture.
 
 The reviewer starts once the captures exist and works while the session takes and reads the
 counts; the repair list is written once both are in. The reviewer changes nothing and writes
@@ -147,18 +147,18 @@ nothing. It returns a first word — `recapture`, `fix`, or
 concept and the signature describe the screens in front of it; and one change that would make the
 screen impossible to mistake for another product's, which the session lists as a repair where the
 scope of change allows it. The session decides each finding the way it decides a count: a repair
-on the list, or dismissed in the record, and a finding is dismissed only where a capture
+on the list, or dismissed, and a finding is dismissed only where a capture
 contradicts it — what it says is missing is there, or what it says is there is not, at the screen
-and size it names — with the capture and the place in it named. A finding the session reads
+and size it names — with the capture and the place in it named as the session dismisses it. A finding the session reads
 differently, with no capture that contradicts it, is a repair: the reviewer is there because the
 session is the weaker judge of its own screen. A value the screen does not show, a letter-spacing
 or a token's name, contradicts nothing. `recapture` means a capture was missing or showed the wrong thing; the session captures
-again and starts a new reviewer, once — a second `recapture` ends the review, and the record names
-the captures that could not be made. After the repairs a review called for, the session reads its
+again and starts a new reviewer, once — a second `recapture` ends the review, and the session says
+which captures could not be made. After the repairs a review called for, the session reads its
 own recaptures against each finding, as a pass reads a count again; the review is not started a
 second time. Where no agent can be started, the session reads `reviewer.md`
-and answers it from the captures before it reads any count line of the run, and the record says
-the review ran in the session.
+and answers it from the captures before it reads any count line of the run, and says
+that the review ran in the session.
 
 ## The screen sits in a flow
 
@@ -173,14 +173,15 @@ failure a screenshot cannot show.
 
 ## Inspection
 
-The first four lines of the count are `review`'s own. The lines from Repairs applied between one
-look and the next to Deficits from the original list are read against any run that applied
-repairs — `review`'s rebuild or `fix`'s passes — from the record's account of each pass and the
-changes to the code; `inspect` reads them whenever the record holds a fix pass. The three lines on
-the reviewer, and the line after them on the list's order, are read by `inspect` and `fix` against
-their own run. The last twelve lines are read by every run — `init`, `inspect`, `fix`, `review` —
-against what that run itself changed, wrote, and read, before it ends: a rule a run reads once at
-its start is the rule a long run forgets, and these are where that showed.
+Every line here is read against the run itself — what the session did, wrote, and said in it —
+and answered before the run ends; no file is kept for them. The first four lines of the count are
+`review`'s own. The lines from Repairs applied between one look and the next to Deficits from the
+original list are read by a run that applied repairs — `review`'s rebuild or `fix`'s passes —
+against its own passes and its changes to the code. The three lines on the reviewer, and the line
+after them on the list's order, are read by `inspect` and `fix` against their own run. The lines
+from Changes to the code on are read by every run — `init`, `inspect`, `fix`, `review` — against
+what that run itself changed, wrote, and read: a rule a run reads once at its start is the rule a
+long run forgets, and these are where that showed.
 
 ### The count
 
@@ -190,9 +191,9 @@ its start is the rule a long run forgets, and these are where that showed.
 - Surviving references with no line saying what they earn their place for: 0.
 - Target lines that cannot be confirmed against a screenshot: 0.
 - Repairs applied between one look and the next: 5 or fewer, which is this skill's default. Count
-  them per pass and write the number down.
+  them per pass.
 - Passes after which every rule file's counts ran — the run after the last pass excepted — with
-  no line in the record naming the change that reached them all: 0.
+  no change named, in the session, that reached them all: 0.
 - Repairs applied against the declaration's scope of change — a structural repair under
   structure kept, any repair under report only, any repair while the entry still reads not yet
   asked, a change to a kept element: 0.
@@ -203,7 +204,7 @@ its start is the rule a long run forgets, and these are where that showed.
   provisional (rules/tokens.md), counting none the declaration's recorded exceptions allow: 0.
 - Repairs on the list with no structural or surface mark, or skipped with no reason beside
   them: 0.
-- Defects the record ties to the run's own changes that are still in place when it ends: 0.
+- Defects the run's own changes caused that are still in place when it ends: 0.
 - Repairs `fix`'s closing run of every Inspection listed — reviewer findings among them — that the
   scope of change allows and that the run left for the next `inspect` while its closing pass held
   fewer than five (SKILL.md, the `fix` entry in Ways in): 0.
@@ -212,35 +213,34 @@ its start is the rule a long run forgets, and these are where that showed.
 - Items in the inventory taken before the first pass — where a link goes, the name a field
   submits under, an id a link reaches, a test identifier or event name, a control and its name —
   that the inventory after the last pass lacks and no repair on the list names, and runs that
-  applied repairs with no inventory before and after in the record: 0.
+  applied repairs with no inventory taken before and after: 0.
 - Deficits from the original list still present at the end, those the scope of change forbids,
   those whose repair would change what the product relies on behind what the reader receives
   (SKILL.md, Before fix or review changes the code), and those whose repair `fix` leaves for an
-  entry marked provisional (rules/tokens.md) excepted, each recorded as such: 0.
-- Runs whose record holds no reviewer's first word, findings, answer on the visual concept, and
+  entry marked provisional (rules/tokens.md) excepted, each left on the list as such: 0.
+- Runs that got no reviewer's first word, findings, answer on the visual concept, and
   one change, and reviews that ran in the session where an agent could have started: 0.
-- Reviewer findings the record neither lists as a repair nor dismisses, and reviewer briefs, as
-  the record keeps them, that carried more than the four things this file names, or less — a
-  screen, a state, or a checked size the record lists, or a line read off a capture, left out: 0.
+- Reviewer findings neither put on the list as a repair nor dismissed, and reviewer briefs, as
+  sent, that carried more than the four things this file names, or less — a screen, a state, or a
+  checked size the run read, or a line read off a capture, left out: 0.
 - Reviewer findings dismissed without naming the capture, and the place in it, that contradicts
   what the finding says, and reviewers started more than once in a run, `recapture` excepted: 0.
 - Repair lists the run returned or worked with a repair to one element above a repair to what a
   whole screen shows, a repair answering a line that reads a screen or its first view as a whole
   counting as a whole-screen repair: 0.
-- Counts on a rendered screen that the record reads lower after a change to the declaration, the
+- Counts on a rendered screen that the run reads lower after a change to the declaration, the
   structure, or the style system while that screen stayed as it was: 0.
-- Changes to the code that the record ties to no repair on the list: 0. A rule, a setting, or a
-  script that served only what a listed repair removed is tied to that repair when the record
-  says so. Under `init` and `inspect`, which apply no repairs, every change is untied.
+- Changes to the code that belong to no repair on the list: 0. A rule, a setting, or a
+  script that served only what a listed repair removed belongs to that repair. Under `init` and `inspect`, which apply no repairs, every change is untied.
 - Files the run wrote outside `.design/` (SKILL.md, What this skill writes) and outside the
   product's own code — a browser profile or a script in the system's temporary directory
   included: 0. The run lists what it wrote, and the list is read against the file system.
-- Passes the record reports for counts about the rendered screen, its motion, or a walk, with no
+- Passes the run reports for counts about the rendered screen, its motion, or a walk, with no
   capture, recording, or walk this run made named beside them: 0.
 - Where this run read any count on a rendered screen, screens the product has missing from the
-  record's list — each screen with the checked sizes (rules/layout.md) and states it was read at,
+  list the run gives as it reads them — each screen with the checked sizes (rules/layout.md) and states it was read at,
   or the reason it was not read: 0.
-- Counts the record says a script took with no script named beside them that is still under
+- Counts the run says a script took with no script named beside them that is still under
   `.design/harness/`, and two scripts there taking the same count — a runner this skill carries for
   the platform and a script a run wrote or an earlier run left among them: 0.
 - Inspection scripts under `.design/harness/` that cannot run one rule file's counts without the
@@ -252,16 +252,19 @@ its start is the rule a long run forgets, and these are where that showed.
   configuration leaves out where the declaration or the structure holds the entry — a
   configuration an earlier run wrote, before the runner gained the key, among them: 0.
 - Steps in scripts under `.design/harness/` that wait with no time limit, methods that hung or
-  returned nothing in this run that the record does not name, and steps using a method the record
-  names: 0.
-- Counts the record gives as not taken that the run's own browser, recording, or scripts could
+  returned nothing in this run that `.design/harness/hung.md` does not name, and steps using a
+  method it names: 0.
+- Counts the run gives as not taken that the run's own browser, recording, or scripts could
   have taken — the next run named as what would take one among them: 0.
 - Scripts the run, or its helper, fed to an interpreter on its standard input rather than running
   them from a file: 0.
 - Code or scripts a helper wrote whose counts the session used before reading them back against
-  the repair or the count they serve, and helper work the record does not name: 0.
-- Compactions of the conversation the record does not name, and steps taken after one before
-  SKILL.md and the rule files of the step were read again: 0.
+  the repair or the count they serve, and helper work the session did not name as it worked: 0.
+- Compactions of the conversation the run did not tell the person of, and steps taken after one
+  before SKILL.md and the rule files of the step were read again: 0.
+- Files under `.design/` that hold a date, an account of a run, or an item already done;
+  `.design/repairs.md` still in place when `fix` ends, report only excepted; and
+  `.design/record.md` read or written (SKILL.md, What this skill writes): 0.
 
 ### The checks
 
@@ -296,7 +299,7 @@ its start is the rule a long run forgets, and these are where that showed.
   visual material accurately even at its lowest effort. A subagent starts with none of the
   session's conversation, which is what the review needs. The frame-rate run waits until the
   reviewer returns, since a busy machine drops frames a device would not.
-- Claude Code: `.design/record.md` is written with the Edit or Write tool, not through a shell
+- Claude Code: a file under `.design/` is written with the Edit or Write tool, not through a shell
   redirection — a long section holding quotes breaks the shell's parsing, and in three runs of three
   the section that tried was written twice.
 - Claude Code: after a compaction, Claude Code re-attaches the start of each skill the

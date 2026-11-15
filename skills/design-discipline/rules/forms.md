@@ -121,12 +121,12 @@ passes.
   notes state it, where any such environment is supported: 0. Where none is supported, 0.
 - Fields whose focus zooms the surface, counting none already counted on the line above: 0. Where no
   supported environment zooms on focus, 0. Where the environment that zooms, or its simulator,
-  cannot be driven, the record (`.design/record.md`) says the count was not taken; an untaken count
+  cannot be driven, the run says the count was not taken; an untaken count
   is not a pass.
 - Fields left out of view once they take focus — scrolled past, or under something fixed — counting
   none hidden behind the input method, which the line Fields hidden behind the input method when it
   is raised takes, and none under one of the platform's own regions, which rules/layout.md
-  counts: 0. Where no environment can be driven, the record says the count was not taken; an
+  counts: 0. Where no environment can be driven, the run says the count was not taken; an
   untaken count is not a pass.
 - Fields whose position in the movement order differs from their position on screen: 0.
 - Fields with no stated use: 0.

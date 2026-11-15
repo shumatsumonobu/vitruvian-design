@@ -114,15 +114,16 @@ How it gets satisfied is a timing question rather than a navigation one, and hol
 paint until session state resolves is only one of the answers — states.md carries the threshold a
 cold start has to meet, and holding the paint is the easiest way to miss it.
 
-## What to record from a flow that works
+## What to take from a flow that works
 
-When a flow works, write down which container each step used — stacked screen, modal, sheet,
-overlay — beside the words that step showed. The record's default home is `.design/record.md`.
+When a studied flow works, write down which container each step used — stacked screen, modal,
+sheet, overlay — beside the words that step showed, in the declaration's references entry
+(rules/tokens.md), on that reference's lines.
 
 ## Inspection
 
 Nothing in this file can be answered from the source. Walk the flow and press back at every step
-before counting anything. Where no flow can be driven, the record (`.design/record.md`) says the
+before counting anything. Where no flow can be driven, the run says the
 counts were not taken; an untaken count is not a pass.
 
 ### The count
@@ -167,8 +168,8 @@ counts were not taken; an untaken count is not a pass.
 - Section history and deep links. Switch sections, drill in, switch away, switch back, then open a
   deep link from a cold start and press back once. Then open each layer, reload, and press back
   once. Write down what each produced.
-- Presentation entries in the study record. If the record does not hold one entry per step of the
-  studied flow, it captured layout alone and carries nothing that transfers to a different subject.
+- Presentation lines in the declaration's references entry. If the entry does not hold one line
+  per step of the studied flow, it captured layout alone and carries nothing that transfers to a different subject.
 
 ## Platform notes
 

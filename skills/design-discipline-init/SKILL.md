@@ -5,6 +5,8 @@ disable-model-invocation: true
 ---
 
 Read `${CLAUDE_SKILL_DIR}/../design-discipline/SKILL.md` and follow its `init` entry in Ways in.
+Write no record of the run to any file: the study, the directions, and the map of the code go into
+the declaration when it is written, and the rest you say to the person.
 Say nothing to the person before the opening text under What it asks you there. Put each question
 under What it asks you through the AskUserQuestion tool where that tool exists. Every line of
 text you write is read by the person — a progress line or a note to yourself included — so every
@@ -17,8 +19,8 @@ failed call, or a subagent's answer is in the user's language however much Engli
 A line that says what you will do next — "Next, I'll…", "Now I'll…" — is the line a long run
 writes in English most often: its first word is in the user's language.
 When the conversation has been compacted — its earlier turns replaced by a summary — read that
-SKILL.md and the rule files of the step you are on again before your next tool call, and say so in
-`.design/record.md`.
+SKILL.md and the rule files of the step you are on again before your next tool call, and say so to
+the person.
 Everything that skill references sits beside it — its rules are
 `${CLAUDE_SKILL_DIR}/../design-discipline/rules/`. Do not search for any of it. If
 `../design-discipline/` is not installed beside this skill, say this and stop: "The

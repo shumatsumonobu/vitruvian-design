@@ -69,7 +69,7 @@ shortest height a reader meets there — where a browser or the system keeps bar
 display, the height with them showing; where the operating system scales the display, the window
 that scaling leaves. A window the brief, the product's data, or the person names joins the set.
 The set goes into the structure, each size with its reason; where the structure holds none yet, a
-run reads at the set this paragraph gives, writes the set it used into the record, and the entry
+run reads at the set this paragraph gives, says the set it used as it works, and the entry
 goes on the repair list. This file's counts on a rendered surface are read at every checked size;
 every other rule that reads one at a size says which.
 
@@ -200,7 +200,7 @@ are counted in anti-slop.md. Run that count in the same pass.
   when the surface is scrolled to either end, at any supported width on any supported device,
   counting none already counted on the line above, an artwork's subject being rules/assets.md's: 0.
   Where no supported device has such regions, 0. Where no device with such regions, or its
-  simulator, can be driven, the record (`.design/record.md`) says the count was not taken; an
+  simulator, can be driven, the run says the count was not taken; an
   untaken count is not a pass.
 
 ### The checks

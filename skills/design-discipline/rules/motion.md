@@ -167,7 +167,7 @@ content or overshooting onto it.
 ## Inspection
 
 Every count below but the last is read from the recording; the last is read as Platform notes
-says. Where no recording can be made, the record (`.design/record.md`) says
+says. Where no recording can be made, the run says
 the counts were not taken; an untaken count is not a pass.
 
 ### The count
@@ -235,7 +235,7 @@ the counts were not taken; an untaken count is not a pass.
 - Frame rate. Sixty frames per second held through every transition, on the slowest hardware the
   product supports. Read off a measurement, not judged by eye. In `fix`'s closing run it is measured
   again only where a pass changed something that moves; otherwise the reading this run or the
-  `inspect` before it took on the same code stands, and the record names which.
+  `inspect` before it took on the same code stands, and the run says which.
 - Glitches still in the recording after the fixes. Name each one the two passes turned up and say
   what became of it. A single wrong frame left in there means the work continues.
 

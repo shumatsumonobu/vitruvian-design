@@ -4,7 +4,7 @@
 // 1. Every count line the runner takes (COUNTS in skills/design-discipline/runner/web/run.mjs) must be a count
 //    line of its rule file, word for word as far as the first colon. Lines not found are printed; the target is 0.
 // 2. The count lines of layout, states, navigation, motion, copy, a11y, and anti-slop that the runner does not
-//    take are printed, for a reviewer to read: each is taken from the source, the record, a device, or a look.
+//    take are printed, for a reviewer to read: each is taken from the source, the run itself, a device, or a look.
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -37,7 +37,7 @@ const notFound = COUNTS.filter((c) => !linesOf(c.rule).includes(c.line));
 console.log(`runner lines not found in their rule file: ${notFound.length}`);
 for (const c of notFound) console.log(`  ${c.rule} | ${c.line}`);
 
-console.log("\ncount lines the runner does not take (read from the source, the record, a device, or a look at a capture):");
+console.log("\ncount lines the runner does not take (read from the source, the run itself, a device, or a look at a capture):");
 for (const rule of ["layout", "states", "navigation", "motion", "copy", "a11y", "anti-slop"]) {
   const taken = new Set(COUNTS.filter((c) => c.rule === rule).map((c) => c.line));
   const rest = linesOf(rule).filter((l) => !taken.has(l));

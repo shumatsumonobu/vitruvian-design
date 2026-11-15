@@ -262,7 +262,7 @@ function judgeCmd() {
   };
   show(".design/ files", path.join(ws, ".design"), "(no .design yet)");
   show("declaration", path.join(ws, ".design", "declaration.md"), "(no declaration yet)");
-  show("record", path.join(ws, ".design", "record.md"), "(no record yet)");
+  show("repair list", path.join(ws, ".design", "repairs.md"), "(no repair list: none written yet, or fix has ended)");
 }
 
 function verifyCmd() {

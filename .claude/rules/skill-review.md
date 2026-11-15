@@ -27,7 +27,7 @@ Each returns a number. The target is 0.
   carries the rule beside it.
 - Platform-specific sentences outside a file's `Platform notes` section: 0.
 - Instructions in an Inspection that tell the inspector to fix something, or to write anywhere
-  but `.design/record.md`, `.design/captures/`, or `.design/harness/`: 0.
+  but `.design/repairs.md`, `.design/captures/`, or `.design/harness/`: 0.
 - Files the skill asks a run to write with no named default home: 0.
 - Questions the skill puts to the person whose text is not written out under What it asks you
   in SKILL.md, or that SKILL.md and the entry files do not route through the AskUserQuestion

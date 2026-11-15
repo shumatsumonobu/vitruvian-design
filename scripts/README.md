@@ -87,7 +87,7 @@ node scripts/live-test.mjs new cover-glow-border t1       # prints: cd <workspac
 node scripts/live-test.mjs new full t2 --skill <git-ref>  # skill copy from that commit, kept old
 node scripts/live-test.mjs sync t1                        # skill copy from the working tree; lists differences
 node scripts/live-test.mjs stats t1 --last                # the run's transcripts: time, tools, questions, tokens
-node scripts/live-test.mjs judge t1                       # code diff against the scaffold, declaration, record
+node scripts/live-test.mjs judge t1                       # code diff against the scaffold, declaration, repair list
 node scripts/live-test.mjs verify t1                      # checks the scaffold's planted defects show
 node scripts/live-test.mjs run t1 design-discipline-inspect   # the entry through claude -p, nobody at the keyboard
 ```

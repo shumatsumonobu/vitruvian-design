@@ -109,7 +109,7 @@ subject — code or no code — shows it beside what the code carries, and write
 Three questions, each asked once. A brief can answer any of them in advance.
 
 - **A browser, when the session has none.** The reference study before a visual direction needs
-  pixels. `init` asks whether one can be connected; going on without one records the study as
+  pixels. `init` asks whether one can be connected; going on without one writes the study into the declaration as
   not yet done, and its count in `rules/anti-slop.md` stays open until it is done.
 - **The declaration.** `init` shows the derived values beside what the code carries and asks
   whether they stand and where the file should live. A value the code carries is kept by
@@ -124,8 +124,8 @@ Three questions, each asked once. A brief can answer any of them in advance.
   answer but report only. Under every answer, the skill leaves alone what the product relies on
   behind the screen — a screen's address, the name a form sends a value under, wording the brief
   marks as fixed by law or a contract, anything else the product depends on that a reader never
-  sees — and lists any repair that would change one in `.design/record.md`; to allow it, write
-  that into the declaration on the line the note names. A fresh build is never asked.
+  sees — and tells you of any repair that would change one when it ends; to allow it, write
+  that into the declaration on the line it names. A fresh build is never asked.
 
 `SKILL.md` carries the three questions as they are put, under What it asks you.
 

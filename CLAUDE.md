@@ -45,7 +45,7 @@ a change must keep. A change that breaks one is a defect even when the prose rea
   condition, or it points at nothing whenever the condition fails.
 - **One name per concept**, across all files. Two names for one idea reads as two ideas. Every
   file the skill asks a run to write has a named default home, for the same reason.
-- **`inspect` changes nothing in the product.** It writes the record, and the captures and
+- **`inspect` changes nothing in the product.** It writes the repair list, and the captures and
   scripts its counts need under `.design/captures/` and `.design/harness/`; no check may
   instruct the inspector to fix anything, or to write anywhere else.
 - **What the skill says to the person is written out in full, and reads as their decision.** A
@@ -88,7 +88,7 @@ A run costs the author's time, so a run is asked for only once the test itself h
 checked: every planted defect measured at every size a session might choose, the brief read for
 anything that answers what the run measures, the model and effort fixed, and the check written
 in `live-test/TESTPLAN.md`. A run settles one or two rules on the smallest workspace that
-carries them — one screen, its declaration and record already in place — and a whole scaffold is
+carries them — one screen, its declaration already in place — and a whole scaffold is
 kept for the run that walks the full sequence. Within a run a gap is repaired the moment it
 shows; across runs, the gaps are collected and repaired together before the next run is asked
 for, not one run per repair.

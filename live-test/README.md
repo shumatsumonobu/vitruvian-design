@@ -34,7 +34,7 @@ node scripts/live-test.mjs new <scaffold> <workspace>                 # copy, in
 node scripts/live-test.mjs new <scaffold> <workspace> --skill <ref>   # the skill as it stood at a commit, for an old-against-new comparison
 node scripts/live-test.mjs sync <workspace>                           # the working tree's skill into the workspace, then the diff
 node scripts/live-test.mjs verify <workspace>                         # measure the scaffold's planted defects and decoys
-node scripts/live-test.mjs judge <workspace>                          # after a run: the diff against the scaffold, the declaration, the record
+node scripts/live-test.mjs judge <workspace>                          # after a run: the diff against the scaffold, the declaration, the repair list
 node scripts/live-test.mjs stats <workspace> [--last]                 # minutes, tool calls, language, polite form, tokens per model
 node scripts/live-test.mjs run <workspace> <entry>                    # the entry through claude -p, for a brief that answers every question
 ```

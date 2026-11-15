@@ -104,7 +104,7 @@ Run that inventory in the same pass as the count below.
 
 Icons come from the declared symbol set. An emoji standing in for an icon is a defect rather than
 a style choice. Inside content an emoji survives only where the declaration states a playful or
-chat-native voice, and the sentence stating it gets quoted into the record.
+chat-native voice, in its voice entry.
 
 ## Inspection
 
@@ -126,11 +126,13 @@ derivation belongs to init. A blank is not a pass, and reading it as one is the 
 this Inspection gets misused. A line comparing against a declaration entry marked provisional
 (rules/tokens.md) still returns its number.
 
-- Studied references in the record before the visual direction was set, each with its one line
+- Where the declaration holds a references entry (rules/tokens.md) — a declaration derived before
+  the entry existed holds none, and this line and the next are not read on it — references
+  studied before the visual direction was set, each with its one line
   and how its pixels were seen: 5 or more, at least one of them walked as a running flow and
-  at least one from outside the product's category, the record saying which, or the written
+  at least one from outside the product's category, the entry saying which, or the written
   sentence that nothing was available to study
-- Studied references in the record with no line saying whether the page carried text addressed to
+- Studied references in that entry with no line saying whether the page carried text addressed to
   the session, and what became of it: 0
 - Accent hues rendered in the UI: 1, or 0 where the declaration states a monochrome palette; a
   flood the declaration names is not an accent

@@ -69,7 +69,7 @@ questions under Words in `CLAUDE.md`.
 Document review caps out. What settles a rule change is a run: a bare page with no declaration,
 a re-inspection of an existing build, or a fresh build from a minimal brief that should trip
 the counts the change added without the brief asking for it. The runs below use the skill's
-own terms — the declaration and its scope of change, the record, the marks structural and
+own terms — the declaration and its scope of change, the repair list, the marks structural and
 surface, the accessibility floor, not taken; `DESIGN.md` under Vocabulary gives each with the
 file that defines it.
 
@@ -103,8 +103,8 @@ screen with no `.design/`, for the whole sequence on a product whose look is not
 workspace, or, where the brief answers every question in advance,
 `node scripts/live-test.mjs run <workspace> <entry>` runs one through `claude -p` with nobody at
 the keyboard; a session opened in this repo runs `node scripts/live-test.mjs judge <workspace>`, which prints the
-diff against the scaffold, the declaration, and the record, and judges against the tables below
-and the round's lines in `live-test/TESTPLAN.md`. Each run's `.design/record.md` stays with the
+diff against the scaffold, the declaration, and the repair list, and judges against the tables below
+and the round's lines in `live-test/TESTPLAN.md`. What a run said is in its transcript, beside the
 workspace. Before the
 first run, read the scaffold as built against its description here and the table it is judged by; a
 planted defect the description does not name, or names differently, is a repair to one of them.
@@ -116,10 +116,10 @@ shows where the questions are put:
 
 | Run | What to read | It passes when |
 |---|---|---|
-| `init` on a copy with no `.design/` | The questions as they appear; `.design/declaration.md`; `.design/record.md`; the code | `init` opens with its fixed text and nothing before it. Each question put — the browser question only when the session has neither the extension nor a browser it could start itself — is the fixed text under What it asks you, translated, labels included, put through the AskUserQuestion tool, no term of the skill. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The declaration adopts no value from the code, carries a reason on every entry, names entries as `rules/tokens.md` gives them, and reads scope of change: not yet asked (or not applicable with no code). The record holds the study record, the map of the code, and the comparison. The code is unchanged |
-| `inspect` on the same copy | `.design/record.md`; `git status`; the code | Every repair on the list is marked structural or surface. tokens.md's unfilled-entries count is 0 with the scope of change entry at not yet asked. anti-slop.md's studied-references count is reported open when no study was done. Only `.design/record.md`, `.design/captures/`, and `.design/harness/` were written. The code is unchanged |
-| `fix` on the copy, answering Keep the layout | The third question as it appears; `.design/declaration.md`; `.design/record.md`; the diff | The question is the fixed text, translated, put through the AskUserQuestion tool. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The skill puts no other question (a stop for plan approval that your own `~/.claude/CLAUDE.md` asks for is not the skill's). The scope of change entry reads structure kept as soon as the answer is given. A value the declaration lacked is decided by the session and written with its reason. At most five repairs per pass; after each the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. The record ties every change in the diff to a repair on the list. After the last pass, a run of every applicable Inspection finds nothing the record does not already hold with its reason. Every skipped repair carries its reason. Nothing moved, resized, removed, or reordered; artwork unchanged, its colors included; motion unchanged. Accessibility-floor repairs applied. The code's values are the declaration's; no template value remains but what the scope of change keeps |
-| `inspect` again after `fix` | `.design/record.md`; the code | The counts behind every surface repair `fix` applied read 0. Structural repairs are still listed, marked, with the scope of change named as the reason. The code is unchanged |
+| `init` on a copy with no `.design/` | The questions as they appear; `.design/declaration.md`; the code | `init` opens with its fixed text and nothing before it. Each question put — the browser question only when the session has neither the extension nor a browser it could start itself — is the fixed text under What it asks you, translated, labels included, put through the AskUserQuestion tool, no term of the skill. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The declaration adopts no value from the code, carries a reason on every entry, names entries as `rules/tokens.md` gives them, and reads scope of change: not yet asked (or not applicable with no code). The record holds the study record, the map of the code, and the comparison. The code is unchanged |
+| `inspect` on the same copy | `.design/repairs.md`; the run's last message; `git status`; the code | Every repair on the list is marked structural or surface. tokens.md's unfilled-entries count is 0 with the scope of change entry at not yet asked. anti-slop.md's studied-references count is reported open when no study was done. Only `.design/repairs.md`, `.design/captures/`, and `.design/harness/` were written. The code is unchanged |
+| `fix` on the copy, answering Keep the layout | The third question as it appears; `.design/declaration.md`; the run's last message; the diff | The question is the fixed text, translated, put through the AskUserQuestion tool. What the session says around it is in the person's language, courteous as to someone just met, with no term of the skill and nothing about procedure; the translated question keeps the same courtesy. The skill puts no other question (a stop for plan approval that your own `~/.claude/CLAUDE.md` asks for is not the skill's). The scope of change entry reads structure kept as soon as the answer is given. A value the declaration lacked is decided by the session and written with its reason. At most five repairs per pass; after each the failed counts rerun, and so does every count on an element the pass added, removed, or restyled. The record ties every change in the diff to a repair on the list. After the last pass, a run of every applicable Inspection finds nothing the record does not already hold with its reason. Every skipped repair carries its reason. Nothing moved, resized, removed, or reordered; artwork unchanged, its colors included; motion unchanged. Accessibility-floor repairs applied. The code's values are the declaration's; no template value remains but what the scope of change keeps |
+| `inspect` again after `fix` | `.design/repairs.md`; the run's last message; the code | The counts behind every surface repair `fix` applied read 0. Structural repairs are still listed, marked, with the scope of change named as the reason. The code is unchanged |
 
 On every run, whatever the scaffold:
 
@@ -135,9 +135,9 @@ On every run, whatever the scaffold:
 - The first line to the person comes before the first tool call, and the run ends in the order
   How `inspect` and `fix` end gives: what was done, the repairs heaviest first, what only the
   person can give, what was not taken and what would take it, the next command.
-- After each run: the diff holds only what the run's record ties to a repair; `.design/` holds
+- After each run: the diff holds only what belongs to a repair on the list; `.design/` holds
   every file the run wrote, and the system's temporary directory nothing of the run's; the
-  record shows the run read the last lines of `rules/review.md`'s count against itself — the
+  run's transcript shows the run read the last lines of `rules/review.md`'s count against itself — the
   screens it read, the capture behind each pass, the scripts it kept.
 
 Before asking for a run, check the test, and write the check in `live-test/TESTPLAN.md` — never
@@ -147,7 +147,7 @@ session might choose — full displays, a scripted
 browser's default, and windows the browser's bars or the system's scaling cut — and say which
 show it; read the brief for anything that answers what the run is to find; fix the model and
 effort every compared run uses. To compare two versions of the skill, run both on copies of one
-state, then set the two records side by side: what each found of the planted defects, any decoy
+state, then set the two runs' last messages side by side: what each found of the planted defects, any decoy
 flagged, the counts not taken, the minutes, the language of every line to the person.
 
 Then, with a declaration in place, on any scaffold:
@@ -155,10 +155,10 @@ Then, with a declaration in place, on any scaffold:
 | Run | It passes when |
 |---|---|
 | `init` again, the sites studied | Says the fixed text and stops; nothing is written |
-| `init` on a copy whose record holds the study but no declaration, answering Change some values first and then one value | Puts the one line and waits; shows the whole declaration again, with the person's value and the value it replaced beside it, and every entry derived again from it marked; puts the second question again |
-| The same, answering Save somewhere else and naming a file and a section that do not exist | Puts the one line and waits; creates the file and the section without asking; the record names the home; `.design/declaration.md` does not exist. Then `init` again says the fixed text, and `inspect` reads the declaration from the named home — the unfilled-entries count is 0 |
+| `init` on a copy with no declaration, answering Change some values first and then one value | Puts the one line and waits; shows the whole declaration again, with the person's value and the value it replaced beside it, and every entry derived again from it marked; puts the second question again |
+| The same, answering Save somewhere else and naming a file and a section that do not exist | Puts the one line and waits; creates the file and the section without asking; `.design/declaration.md` holds one line naming the home. Then `init` again says the fixed text, and `inspect` reads the declaration from the named home — the unfilled-entries count is 0 |
 | `fix` on a copy with no declaration | Says the fixed text and stops; nothing is written |
-| `fix` on a copy with a declaration and no repair list in the record | Runs every applicable Inspection first, then works the list that returned |
+| `fix` on a copy with a declaration and no `.design/repairs.md` | Runs every applicable Inspection first, then works the list that returned |
 
 These fire on a product that already has screens, and are not failures: `rules/layout.md`'s
 surfaces with no declared structure, which `fix` closes by writing the structure as a surface
@@ -176,7 +176,7 @@ leans on a tool's label that a version may change — is repaired on the first s
 and the run goes on from there rather than being started over.
 
 What a run found goes into `DECISIONS.md`, under the decision it tested; a ship-visible change
-gets its `CHANGELOG.md` entry ("Git" in `CLAUDE.md`). The run's own record stays in its
+gets its `CHANGELOG.md` entry ("Git" in `CLAUDE.md`). The run's transcript stays beside its
 workspace.
 
 ## Commit

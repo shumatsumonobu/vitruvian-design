@@ -57,7 +57,7 @@ design-discipline inspection counts all pass, or stop after 15 turns
 
 A brief this short gives the agent nothing true to say about the bakery, and the rules do not
 let it invent a headline, a price, or opening hours: each comes back as a line naming what
-belongs there, listed in `.design/record.md` as missing. Say what the bakery is and sells.
+belongs there, and the run lists each for you as missing when it ends. Say what the bakery is and sells.
 
 [Install](#install) has the per-project variant and what the five directories are.
 
@@ -332,7 +332,8 @@ Lamplight reached no reference and critiqued its own capture instead.
 | [Deep field](gallery/deep-field.record.md) | The screen-reader walk; the keyboard walk; the motion recording and its frame-rate reading; the third weakness against its reference — every line ending on the same two edges — not fixed |
 
 The pages ship with those open. The look on these pages is what their prompts ask for; what the
-skill adds is the declaration, the counts, and the record this table is read from. No page here
+skill adds is the declaration and the counts; the records this table is read from were written
+by the skill as it was then, which kept one. No page here
 was built without the skill, so the seven show what the skill produced, not what the same
 prompt gives without it.
 
@@ -413,7 +414,7 @@ compacts a long conversation, each entry reads its rules again, since a compacte
 keeps the start of each skill it invoked and only a summary of the rest
 ([Claude Code's skills page](https://code.claude.com/docs/en/skills)).
 
-Counts that need only the source and the record are taken from them. The counts that need the
+Counts that need only the source are taken from it. The counts that need the
 rendered screen — contrast, what a press lands on, line breaks, motion — are taken on a web
 product by the runner, a tested script the skill carries, which opens the screens in Chrome at
 the checked sizes; on other platforms, by a script written for the product. Every wait in the
@@ -489,7 +490,7 @@ Three questions, each asked once.
      change `review` makes, minus any repair that would change what the product relies on
      behind the screen (below)
    - Change nothing, just list the repairs, recorded as *report only* — nothing changes; the list
-     is written to the record
+     stays in `.design/repairs.md`
    - Keep what you name, recorded as *kept: …* — name what must stay, as anyone would see it on the
      screen; everything else may change, and a thing you named that moves or updates itself
      gets a control that pauses, stops, or hides it
@@ -497,9 +498,8 @@ Three questions, each asked once.
    Accessibility repairs are applied under every answer but report only. Under every answer, the
    agent leaves alone what the product relies on behind the screen — a screen's address, the name
    a form sends a value under, wording your brief marks as fixed by law or a contract, anything
-   else the product depends on that a reader never sees — and lists any repair that would change
-   one in `.design/record.md`; to allow it, write that into the declaration on the line the note
-   names. A fresh build is never asked. A brief can answer this in advance too.
+   else the product depends on that a reader never sees — and tells you of any repair that would change
+   one when the run ends; to allow it, write that into the declaration on the line it names. A fresh build is never asked. A brief can answer this in advance too.
 
 ### Where the rules stand, and what was left out
 

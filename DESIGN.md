@@ -49,9 +49,9 @@ the description Claude Code lists; the procedure lives in the Ways in table of `
 
 | Entry | Does |
 |---|---|
-| `init` | Derives the declaration from the subject, reads the code beside it without adopting a value, asks the second question, writes the declaration once — at `.design/declaration.md`, or at the home the person names, which the record keeps; run again after a skipped study, studies the sites and puts the second question again |
-| `inspect` | Runs every applicable Inspection against every screen the product has, at the checked sizes, writes the results to the record, returns the repair list with each repair marked, and ends with the report How `inspect` and `fix` end describes; changes nothing else |
-| `fix` | Works the repair list down within the scope of change — running the Inspections first where the record holds no list — at most five repairs per pass, and ends with a run of every applicable Inspection and its reviewer, whose new findings are one more pass — every defect its own changes caused, and up to five other repairs, whole screens first — before what is left goes to the record for the next `inspect`; ends with the same report |
+| `init` | Derives the declaration from the subject, reads the code beside it without adopting a value, asks the second question, writes the declaration once — at `.design/declaration.md`, or at the home the person names, which a line in `.design/declaration.md` then gives; run again after a skipped study, studies the sites and puts the second question again |
+| `inspect` | Runs every applicable Inspection against every screen the product has, at the checked sizes, writes the repair list to `.design/repairs.md` with each repair marked, and ends with the report How `inspect` and `fix` end describes; changes nothing else |
+| `fix` | Works the repair list down within the scope of change — running the Inspections first where `.design/repairs.md` holds no list, and taking each repair off it as it is made — at most five repairs per pass, and ends with a run of every applicable Inspection and its reviewer, whose new findings are one more pass — every defect its own changes caused, and up to five other repairs, whole screens first — before what is left is said to the person and the list is deleted; ends with the same report |
 | `review` | Improves a screen that exists: operates it, names the deficits, gathers references against them, rebuilds in small passes, compares |
 
 ### The twelve rule files
@@ -109,9 +109,13 @@ and where in `SKILL.md` is the list. The two that carry the design:
   the person changes a decision, by editing it. `init` creates it; a later pass may add an entry
   the declaration lacks, with its reason, or amend an entry's wording, and never writes the scope
   of change or a permission.
-- **The record** (`.design/record.md`). The ledger: the study, `init`'s map and comparison of the
-  code, every count result, the repair list with its marks, what each fix pass changed and which
-  repair each change belongs to, what was left and why, and which counts were not taken.
+- **The repair list** (`.design/repairs.md`). What `inspect` hands to `fix`, and nothing else: each
+  open repair with its marks. `fix` takes a repair off it as it makes it, says what is left in its
+  last message, and deletes the file. No file holds what a run did: every file the skill writes
+  holds what is true now — the study, the directions set aside, and where the code's values live
+  are entries of the declaration — and what a run counted, found, and changed, it says as it works; its last
+  message gives the person what was left and what only they can give, and the project's version
+  history keeps what changed.
   `inspect` writes here, and the captures and scripts its counts need under `.design/captures/`
   and `.design/harness/`, and changes nothing in the product.
 
@@ -121,7 +125,7 @@ checked sizes. The harness keeps the scripts that take counts, so a later pass c
 running them; on the web the inspection script is the runner, and the session writes its
 configuration and the flows only the product has. An inspection script runs one rule file's
 counts without the others, so a pass reruns only what it must. Every step a script waits on has a time limit, and a method that hung
-or returned nothing is named in the record so no later script uses it. Where the session can start
+or returned nothing is named in `.design/harness/hung.md` so no later script uses it. Where the session can start
 a helper, the helper writes them and runs each once before it returns. Their output and a
 browser's working files go when the pass ends.
 
@@ -157,11 +161,11 @@ in one order: repairs to what a whole screen shows first, then repairs to one el
 Structural: the repair changes where something sits, how big it is, whether it exists, its
 order, the container that presents it, what an artwork depicts or its colors, or whether a
 motion plays. Everything else is surface — a repair that changes nothing the reader receives,
-such as a line written into the record, the structure declaration, the lexicon, or the style
+such as an entry written into the declaration, the structure, the lexicon, or the style
 system, included. The definition is in `SKILL.md` under Before fix or review changes the code.
 
 A count that the workspace cannot drive — a device with the platform's own regions, a touch
-screen, a screen reader, a frame-rate capture — is written in the record as not taken. An
+screen, a screen reader, a frame-rate capture — is said to the person as not taken. An
 untaken count is not a pass. A count the run's own tools could take is taken in the run, never
 passed to the next one. A count the person takes on a device of their own and reports is taken
 by the person, until the code it was read on changes.
@@ -189,7 +193,7 @@ A repair passes four gates, in this order, and each gate has one owner:
 | Behind the screen | A repair changes what the reader receives and nothing the product relies on behind it — a route, a field's submit name, an anchor, a test identifier, an event name, a storage key, wording fixed by law or contract. A repair that would need one changed is written down for the person, who may grant it in the declaration's recorded exceptions | `SKILL.md`, same section; counted in `rules/review.md` |
 | Provisional values | A declaration value marked provisional — a brand value whose material was not reached — is not brought into the code until the material arrives | `rules/tokens.md` |
 
-A repair that fails a gate is written to the record with the reason, and the count it would have
+A repair that fails a gate stays on the list with the reason, for the run's last message, and the count it would have
 closed stays open.
 
 ### When fix is done
@@ -198,12 +202,12 @@ At most five repairs per pass. After each pass the failed counts rerun, and so d
 on an element the pass added, removed, or restyled — the inspection script running those rule
 files alone; a pass after which every rule file's counts ran names the change that reached them
 all. Every change to the code belongs to a repair
-on the list, and the record says which. `fix` is done when the list is empty and a run of every
-applicable Inspection after the last pass finds nothing the record does not already hold with its
+on the list. `fix` is done when the list is empty and a run of every
+applicable Inspection after the last pass finds nothing the list does not already hold with its
 reason. The rule is the `fix` row of Ways in; the lines on repairs at the end of `rules/review.md`
 — repairs per pass, repairs against the scope, repairs behind the screen, unmarked or unreasoned
-repairs, changes tied to no repair, deficits left without a recorded reason — are read by
-`inspect` whenever the record holds a fix pass.
+repairs, changes tied to no repair, deficits left without a reason — are read by
+the run that applied the repairs, against itself, before it ends.
 
 ### Who decides, and who writes
 
@@ -212,7 +216,7 @@ verdict on a count or a check. Where it can start a helper — a second agent on
 model — the helper writes every script under `.design/harness/`, and may write a pass's repairs;
 it has not read the skill, so the session hands it the repair and its target line, or the rule
 files whose counts a script takes, and reads every change back before any count runs on it. The
-record names what a helper wrote. The rule is in `rules/review.md`, Rebuild in small passes; the
+session says, as it works, what a helper wrote. The rule is in `rules/review.md`, Rebuild in small passes; the
 Claude Code form is in its Platform notes.
 
 The checks read off a capture are answered first by a reviewer: an agent on the session's own
@@ -244,7 +248,7 @@ first uses it; every other file uses the same word.
 |---|---|---|
 | the subject | The brief, the product's own material, and the references studied — what every value is derived from | `rules/tokens.md`, Deriving the declaration |
 | the declaration | The file holding the person's design decisions | `SKILL.md`, What this skill writes |
-| the record | `.design/record.md`, the ledger of every run | `SKILL.md`, What this skill writes |
+| the repair list | `.design/repairs.md`: what `inspect` hands to `fix`, deleted when `fix` ends | `SKILL.md`, What this skill writes |
 | the scope of change | The declaration entry answering how far repairs may go: structure kept, everything may change, report only, kept: … | `SKILL.md`, Before fix or review changes the code |
 | structural, surface | The two marks `inspect` puts on a repair | `SKILL.md`, same section |
 | provisional | The mark on a brand value whose material was not reached | `rules/tokens.md`, Deriving the declaration |
@@ -252,7 +256,7 @@ first uses it; every other file uses the same word.
 | recorded exceptions | The declaration entry where a chosen default, where it goes, and its reason, or a granted change behind the screen, are written | `rules/anti-slop.md`, Exceptions are written down |
 | the repair list | What `inspect` returns | `SKILL.md`, Ways in |
 | a count, a check | An Inspection line returning a number; one answered in a sentence | `SKILL.md`, Ways in (`inspect` row) |
-| not taken | The record's word for a count the workspace could not drive | Each count that says it, with the record's path beside it |
+| not taken | A run's word for a count the workspace could not drive, said in its last message with what would take it | Each count that says it |
 | the arrangement | What a surface opens with, what follows, what closes it | `rules/layout.md`, Declare the structure |
 | the generated defaults, arrived unasked | The few shapes generated pages converge on; a shape nobody chose | `rules/layout.md`, the arrangement count; `rules/anti-slop.md` |
 | the platform's own regions | A status bar, a camera cutout, a home indicator, a system navigation bar | `rules/layout.md`, The platform's own regions |
@@ -275,6 +279,7 @@ first uses it; every other file uses the same word.
 | the layout metaphor | The thing in the visual concept's world whose form every region of a screen takes — a route map's lines and stations, a card's ruled squares; never an interface part | `rules/tokens.md`, Declare the set first |
 | the signature | The declaration entry naming the one element the product is remembered by, what it carries, and where it sits — before any scroll, on at least one screen, at every checked size; the peak of a screen the concept runs through | `rules/tokens.md`, Declare the set first |
 | the artwork | The declaration entry naming the picture the first view shows at every checked size, what it depicts, how it is treated, and where it comes from | `rules/tokens.md`, Declare the set first; `rules/assets.md`, Where a picture comes from |
+| the references, the directions, the definition sites | Three declaration entries: what was studied before the direction was set; the screen set aside and the three directions, with the one taken; where the code's values live | `rules/tokens.md`, Declare the set first and Deriving the declaration |
 | the screen got without trying | The screen a product of this kind gets when nothing is chosen; two of the reach-for list's defaults on one screen make it | `rules/anti-slop.md`, What the model reaches for |
 | a flood | A color declared as a surface it fills across a large share of the screens it names; not the accent | `rules/tokens.md`, Declare the set first |
 | the product's category | The kind of product it is — a timer among timers; where the skeleton and the readers' conventions come from | `SKILL.md`, Before you draw |
@@ -322,7 +327,7 @@ instance; each became a rule with a count or a check in the file that already ow
 | A deep link gives a way into the product without writing beneath the page into a history the product does not own | `rules/navigation.md`, the deep-link paragraph and Platform notes | Deep links with no way into the product; entries written beneath the page the reader arrived on | this skill's own runs |
 | Every run reads, before it ends, what it changed and wrote: code changes tied to a repair, files only under `.design/` or in the code | `rules/review.md`, the Inspection's preamble | Changes to the code tied to no repair; files written outside `.design/` and the code — read by every run, not only after a fix pass | this skill's own runs |
 | A value the person changes before saving is theirs; what was derived from it is derived again and marked, and the whole declaration is shown again before the question is put again | `rules/tokens.md`, Deriving the declaration, step 5; the second question's second answer in `SKILL.md` | None — the live run reads it | this skill's own runs |
-| The record names the declaration's home, and every entry reads the declaration from there | `SKILL.md`, What this skill writes; the init row of Ways in; the second question's third answer | Applicable entries left unfilled, in `rules/tokens.md` — a declaration absent from the named home counts as every entry unfilled | this skill's own runs |
+| A line in `.design/declaration.md` names the declaration's home where the person chose another, and every entry reads the declaration from there | `SKILL.md`, What this skill writes; the init row of Ways in; the second question's third answer | Applicable entries left unfilled, in `rules/tokens.md` — a declaration absent from the named home counts as every entry unfilled | this skill's own runs |
 | Motion runs on the declared springs and curves | `rules/motion.md`, the count | Motion running on a spring or a curve the declaration does not name | this skill's own runs |
 | A family that loads after first draw declares what stands in until it does, on every platform | `rules/tokens.md`, Declare the set first and Platform notes | The check Each stand-in, where a family loads after the screen first draws | this skill's own runs |
 | Motion never takes the controls away: input lands mid-transition, animations reverse, nothing moves under the pointer | `rules/motion.md`, Motion never takes the controls away | Controls ignoring input while a transition plays, or animations restarting instead of reversing; controls that move as the pointer arrives | emilkowalski, MengTo |
@@ -334,7 +339,7 @@ instance; each became a rule with a count or a check in the file that already ow
 | Content that moves or updates itself can be paused, stopped, or hidden | `rules/motion.md`, Motion the reader can stop (floor) | Moving content past five seconds with no control; self-updating content with no control | hallmark, WCAG 2.2.2 |
 | The label on a control drawn around it holds one line | `rules/copy.md`, A control's label holds one line | Labels on drawn controls set on more than one line at any supported width | hallmark |
 | A state change moves nothing else unless the reader opened something | `rules/states.md`, A state change moves nothing else | Elements that move because a neighbor changed state | hallmark, MengTo |
-| A claim names this product; a string that would hold for any product is empty | `rules/copy.md`, A claim names this product | Claims naming nothing of this product's; claims the brief did not supply that the record does not list as missing | elayadesign, MengTo, open-design |
+| A claim names this product; a string that would hold for any product is empty | `rules/copy.md`, A claim names this product | Claims naming nothing of this product's; claims the brief did not supply that the run does not list for the person as missing | elayadesign, MengTo, open-design |
 | A role set by two families because the text spans two writing systems is one choice, not two | `rules/tokens.md`, Declare the set first and What the declaration locks | Families sharing a classification, in `rules/tokens.md`, counting such families as one where the entry names the writing system each sets; families in the flow, in `rules/anti-slop.md`, counting them as one where the flow sets no character in two of them | this skill's own runs |
 | An exception lifts a default where it names, and nowhere else | `rules/anti-slop.md`, Exceptions are written down; the recorded exceptions entry in `rules/tokens.md` names where the default goes | Uses of a banned default outside what its exception names, in `rules/anti-slop.md`, governing every count an exception lifts | a designer's poster and landing page |
 | A row of the same things tilted, fanned, or set in perspective is a default that arrives unasked | `rules/anti-slop.md`, What the model reaches for | The check Each decorative element | a designer's poster and landing page |
@@ -374,18 +379,19 @@ instance; each became a rule with a count or a check in the file that already ow
 | The artwork is the ground the screen is built on: in no reading order, and not a second element the screen is built around | `rules/layout.md`, One primary job per screen; `rules/anti-slop.md`, the check The one element the screen is built around; `rules/tokens.md`, the artwork entry | The two checks | this skill's own runs |
 | The first view holds what the screen is for: at every checked size, the first item of what it exists to show or take, whole, with its control; at the narrowest the picture is cut down further and the rest moves below first | `rules/layout.md`, One primary job per screen | Screens whose first view does not hold that item, taken by the runner; structure entries that do not name it — both in `rules/layout.md` | this skill's own runs |
 | An entry describes the screen a repair builds toward and never excuses the one rendered; a change the session judges an entry needs is a repair of its own | `rules/review.md`, Whole screens before single elements and the paragraph after it | Counts read lower after an entry changed with the screen as it was, in `rules/review.md` | this skill's own runs |
+| Every file the skill writes holds what is true now: no dates, no account of a run, nothing kept once done; the repair list alone crosses from `inspect` to `fix`, and `fix` deletes it | `SKILL.md`, What this skill writes and the `fix` row of Ways in | Files under `.design/` holding a past, a repair list left after `fix`, a record written, in `rules/review.md` | a product's month under the skill |
 | The picture keeps its room, size, and strength whatever a repair settles, covers its room, and is cut down at the narrowest only after everything else has moved; the signature, on its screens, is the element the screen is built around and keeps its size | `rules/layout.md`, One primary job per screen; `rules/anti-slop.md`, the check The one element the screen is built around | Repairs that shrink, crowd, or lighten the artwork, or shrink the signature, and cut-downs taken before the rest moved, in `rules/layout.md`; pictures that do not cover their room, in `rules/anti-slop.md` | this skill's own runs |
 | A recorded exception lifts a default, never what holds a screen to the declaration's own visual concept, signature, artwork, or first item | `rules/anti-slop.md`, Exceptions are written down; `SKILL.md`, Exceptions | Exceptions naming those counts or checks, in `rules/anti-slop.md` | this skill's own runs |
 | A photograph is brought to the set by its hue with its range from darkest to lightest kept; a screen shipped with no picture names each source tried | `rules/assets.md`, The style system and Before it ships | The two counts in `rules/assets.md` | this skill's own runs |
 | The three directions are apart: none holds two parts of the screen set aside, and none shares another's borrowed world or layout metaphor | `rules/tokens.md`, Deriving the declaration | The count on directions in `rules/tokens.md` | this skill's own runs |
 | A flood where the borrowed world has one; the display step three times the body step or more, growing with the width up to the widest checked size | `rules/tokens.md`, the colors and type scale entries | Color entries with no flood and no reason; display steps under three times the body, and display steps that stop growing short of the widest size with no reason, all in `rules/tokens.md` | Anthropic's prompting cookbook |
 | The screen got without trying is written down and set aside, and three directions are written before one is taken | `rules/tokens.md`, Deriving the declaration; `rules/anti-slop.md`, What the model reaches for | Declarations with no screen set aside or fewer than three directions, in `rules/tokens.md`; screens carrying two of the reach-for defaults, in `rules/anti-slop.md` | hallmark, Anthropic's prompting page for Opus 5.5 |
-| A picture comes from a generator, or from a freely licensed photograph credited on the screen, never a stock site | `rules/assets.md`, Where a picture comes from; `images/` | Pictures with no source in the record; photographs with no credit or a license outside the four, in `rules/assets.md` | hallmark, this skill's author |
+| A picture comes from a generator, or from a freely licensed photograph credited on the screen, never a stock site | `rules/assets.md`, Where a picture comes from; `images/` | Pictures with no file beside them holding their source; photographs with no credit or a license outside the four, in `rules/assets.md` | hallmark, this skill's author |
 | A tested runner takes the counts any web product needs; a run writes its configuration, not a script of its own | `SKILL.md`, What this skill writes; `runner/web/README.md` | Counts the runner takes, taken instead by another script under `.design/harness/`; configuration values that differ from the entry their comment names — both in `rules/review.md` | this skill's own runs |
 | An inspection script runs one rule file's counts alone, so a pass reruns only what it must | `SKILL.md`, What this skill writes | Scripts that cannot; passes that ran every rule file's counts with no change named — both in `rules/review.md` | this skill's own runs |
-| Every step a script waits on has a time limit; a method that hung is named in the record and handed to the helper | `SKILL.md`, What this skill writes; `rules/review.md`, Rebuild in small passes; the runner's README, What a headless browser does differently | Steps with no time limit, hung methods unnamed, and steps using a named one, in `rules/review.md` | this skill's own runs |
+| Every step a script waits on has a time limit; a method that hung is named in `.design/harness/hung.md` and handed to the helper | `SKILL.md`, What this skill writes; `rules/review.md`, Rebuild in small passes; the runner's README, What a headless browser does differently | Steps with no time limit, hung methods unnamed, and steps using a named one, in `rules/review.md` | this skill's own runs |
 | A script runs from its file, never fed to an interpreter on its standard input | `rules/review.md`, Rebuild in small passes | Scripts fed to an interpreter on its standard input, in `rules/review.md` | this skill's own runs |
-| A compacted conversation keeps the start of each skill it invoked and loses the files a tool read; after a compaction a run reads SKILL.md and its step's rule files again | The four entry files; `rules/review.md`, Platform notes | Compactions the record does not name, and steps taken after one before reading again, in `rules/review.md` | hallmark, Claude Code's skills page, this skill's own runs |
+| A compacted conversation keeps the start of each skill it invoked and loses the files a tool read; after a compaction a run reads SKILL.md and its step's rule files again | The four entry files; `rules/review.md`, Platform notes | Compactions the run did not tell the person of, and steps taken after one before reading again, in `rules/review.md` | hallmark, Claude Code's skills page, this skill's own runs |
 | The checks read off a capture go first to a reviewer that has not read the declaration's reasons | `rules/review.md`, A reviewer who has not read the reasons; `reviewer.md` | Runs with no reviewer verdict; findings neither listed nor dismissed; briefs carrying more or less than the four things; findings dismissed with no capture that contradicts them — in `rules/review.md` | hallmark |
 | A reason a count accepts in place of what it asks for — a recorded exception's among them — names something in the product, not a value or the rule it answers | `rules/anti-slop.md`, Exceptions are written down | Reasons a count accepts that name nothing in the product | hallmark, this skill's own runs |
 | Repairs to a whole screen come before repairs to one element | `rules/review.md`, Rebuild in small passes | Repairs a pass took to one element while a whole-screen repair stood open | hallmark |
@@ -411,7 +417,7 @@ written to the concern and run on a scaffold built to carry it.
 | Varying the shape between one build and the next | Not a concern of the screen. The same subject may take the same shape |
 | Self-scoring, on any scale | A count is 0 or a repair; a score is an argument about the score |
 | Numeric dials set from the brief | A decision is a written reason, not a number |
-| Stamps in the CSS, a log file beside the record | The record exists |
+| Stamps in the CSS, a log file of what each run did | What a run did, it says as it works; the project's version history keeps what changed |
 | Per-component timings — tooltips, minimum spinner display | The frequency bands in `rules/motion.md` decide timing |
 | Implementation rules — animate only transform and opacity, no `transition: all`, viewport units | Outside the skill's scope; their symptoms are caught by the frame-rate check and the long-content count |
 | Terms of service and privacy pages | Legal, not design |
@@ -439,10 +445,10 @@ written to the concern and run on a scaffold built to carry it.
   `fix` has. The end condition of `review` is a separate design.
 - **A wrong mark is not counted.** `inspect` may mark a repair structural that the definition
   calls surface; the definition in `SKILL.md` removes the known ambiguity — a repair that writes
-  only into the record or a declaration file is surface — but no count reads the marks against
+  only into a file the skill keeps is surface — but no count reads the marks against
   the definition.
 - **Counts that need a device.** The platform's own regions, hover after a tap, focus zoom, a
-  screen reader's walk, the frame rate: without the device or its simulator they are recorded as
+  screen reader's walk, the frame rate: without the device or its simulator they are said as
   not taken, and a run that cannot drive one closes with those counts open, unless the person
   takes them on a device of their own.
 - **The cost of every screen at every checked size.** One screen at two checked sizes took a `fix`

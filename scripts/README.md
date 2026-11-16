@@ -96,8 +96,8 @@ node scripts/live-test.mjs run t1 design-discipline-inspect   # the entry throug
   skill directories into `.claude/skills/`, runs `git init`
 - `sync` — refuses a workspace made with `--skill`
 - `verify` — runs `scripts/live-test/verify-<scaffold>.mjs`; a scaffold without one has no check
-- `run` — types the entry as its slash command into `claude -p` in the workspace: Opus 5.5 at xhigh
-  unless `--model=` or `--effort=` says otherwise, permissions in auto mode. A question the run puts
+- `run` — types the entry as its slash command into `claude -p` in the workspace: Opus 5.5 at medium
+  effort, Claude Code's default for that model, unless `--model=` or `--effort=` says otherwise, permissions in auto mode. A question the run puts
   ends it, so it fits a scaffold whose brief answers in advance. The stream goes to
   `<workspace>.<entry>.<time>.jsonl` beside the workspace, and the console shows each message's
   first line; `stats` reads the transcript as for a run at the keyboard. The run's temporary
@@ -142,6 +142,9 @@ node scripts/check-runner.mjs                               # runner lines not i
   loop; the runner must open a new tab, take the steps after it there, and finish within 5 minutes
 - the output of each run stays in `scripts/.tmp/runner-test/<scaffold>.out.txt`; the copies are
   removed unless `--keep` is given
+- `build-inspections.mjs` — gathers every rule file's Inspection and Platform notes, word for word,
+  into `skills/design-discipline/inspections.md`; with `--check`, prints how many of its lines
+  differ from the rule files (the target is 0) and writes nothing
 - `check-runner.mjs` — prints each runner line not found in its rule file (the target is 0), then
   the count lines of layout, states, navigation, motion, copy, a11y, and anti-slop that the runner
   does not take

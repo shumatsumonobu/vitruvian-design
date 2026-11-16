@@ -323,7 +323,7 @@ function runCmd() {
   if (!fs.existsSync(ws)) die(`no workspace ${name} under ${fwd(root)}`);
   const opt = (k, d) => { const f = flags.find((x) => x.startsWith(`--${k}=`)); return f ? f.slice(k.length + 3) : d; };
   const model = opt("model", "claude-opus-5-5");
-  const effort = opt("effort", "xhigh");
+  const effort = opt("effort", "medium");
   const at = new Date().toISOString().replace(/[:.]/g, "-");
   const log = path.join(root, `${name}.${entry}.${at}.jsonl`);
   const args = ["-p", `/${entry}`, "--model", model, "--effort", effort, "--permission-mode", "auto",

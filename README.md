@@ -361,6 +361,8 @@ menu:
     design-discipline/           SKILL.md, README.md, NOTICE, reviewer.md, rules/ —
                                  tokens, layout, anti-slop, states, navigation,
                                  motion, copy, forms, assets, a11y, charts, review —
+                                 inspections.md, every rule file's Inspection in
+                                 one file for the runs that inspect,
                                  runner/web/, the script that takes a web
                                  product's counts on the rendered screen, and
                                  images/, which brings a screen its picture
@@ -425,6 +427,11 @@ On one test screen: a `fix` that read the screen first and wrote its own measuri
 and a helper, run twice on later states of the same screen, took 55 minutes and 79k, then about
 52 minutes and 164k; the helper wrote another 50k and 28k on the smaller model. Each figure is
 one run. The runs are in [live-test/TESTPLAN.md](live-test/TESTPLAN.md), Rounds 4 to 6.
+
+Those runs were at Claude Code's xhigh effort. At medium, its default for Opus 5.5, `init`,
+`inspect`, and `fix` on a second product took 11, 8, and 51 minutes, against 16, 17, and 80 at
+xhigh, and listed the same repairs to whole screens; one run each, under Effort in the same file.
+Run the entries at medium.
 
 ### What the rules hold
 

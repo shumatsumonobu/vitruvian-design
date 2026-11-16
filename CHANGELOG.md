@@ -3,6 +3,22 @@
 What a fresh copy of `skills/` gets you, newest first. Install is the same at every entry:
 copy the five directories in, replacing the ones you have.
 
+## 2026-11-16
+
+`inspections.md` gathers every rule file's counts and checks in one file, which `inspect` and `fix`
+read in place of opening each rule file. On one product an `inspect` then made 19 tool calls
+where it had made 28, in the same eight minutes.
+
+Run the entries at medium effort, Claude Code's default for Opus 5.5. On one product, one run each,
+`init`, `inspect`, and `fix` took 11, 8, and 51 minutes at medium against 16, 17, and 80 at xhigh,
+and the screens they left stand at the same level: xhigh listed more repairs to single elements
+and the same repairs to whole screens.
+
+Nine sentences that no longer agreed after the record was removed now say one thing: `inspect`
+reads nothing of an earlier `fix`, a frame-rate reading is the run's own, a state that cannot occur
+and a step's back behavior are written in the structure, and an answer a rule says to write down,
+with no file named, is said in the session.
+
 ## 2026-11-15
 
 The skill no longer keeps `.design/record.md`. Every file it writes holds what is true now, with no

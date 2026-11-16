@@ -15,7 +15,8 @@ failed call, or a subagent's answer is in the user's language however much Engli
 A line that says what you will do next — "Next, I'll…", "Now I'll…" — is the line a long run
 writes in English most often: its first word is in the user's language.
 After the last pass, run every rule file's Inspection, not only the counts the passes touched — a
-list of one repair included — before you say the run is done. What that run finds new, the
+list of one repair included — before you say the run is done; they are gathered in
+`${CLAUDE_SKILL_DIR}/../design-discipline/inspections.md`, read in place of opening each rule file. What that run finds new, the
 reviewer's findings among them, is one more pass before the end, as the `fix` entry in Ways in
 says. Take each repair off `.design/repairs.md` as you make it; what is left when the run ends, say
 to the person in your last message, then delete that file — it stays only where the scope of

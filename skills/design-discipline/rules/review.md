@@ -177,8 +177,9 @@ Every line here is read against the run itself — what the session did, wrote, 
 and answered before the run ends; no file is kept for them. The first four lines of the count are
 `review`'s own. The lines from Repairs applied between one look and the next to Deficits from the
 original list are read by a run that applied repairs — `review`'s rebuild or `fix`'s passes —
-against its own passes and its changes to the code. The three lines on the reviewer, and the line
-after them on the list's order, are read by `inspect` and `fix` against their own run. The lines
+against its own passes and its changes to the code. The three lines on the reviewer, and the two
+after them — the list's order, and counts read lower after an entry changed — are read by `inspect`
+and `fix` against their own run. The lines
 from Changes to the code on are read by every run — `init`, `inspect`, `fix`, `review` — against
 what that run itself changed, wrote, and read: a rule a run reads once at its start is the rule a
 long run forgets, and these are where that showed.

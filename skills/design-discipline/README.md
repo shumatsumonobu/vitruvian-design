@@ -44,6 +44,8 @@ in the `/` menu and defer to the skill beside them:
     design-discipline/           SKILL.md, README.md, NOTICE, reviewer.md, rules/ —
                                  tokens, layout, anti-slop, states, navigation,
                                  motion, copy, forms, assets, a11y, charts, review —
+                                 inspections.md, every rule file's Inspection in
+                                 one file for the runs that inspect,
                                  runner/web/, the script that takes a web
                                  product's counts on the rendered screen, and
                                  images/, which brings a screen its picture

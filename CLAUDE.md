@@ -3,7 +3,7 @@
 This repo is the source of truth for the design-discipline skill: `skills/design-discipline/` —
 `SKILL.md` the entry point, the twelve rule files under `rules/`, `NOTICE` the provenance of
 every threshold number — and its four entries, `init`, `review`, `inspect`, `fix`, each a
-directory beside it. `DESIGN.md` is the skill as it stands: its parts, its vocabulary, where
+directory beside it. `docs/design/` is the skill as it stands: its parts, its vocabulary, where
 each concern lives; read it before changing a rule. `DECISIONS.md` is why each rule reads as it
 does. `CHANGELOG.md` tells people who copied an older `skills/` what a fresh copy gets them.
 `README.md` is the public story, and its numbers were measured on the gallery builds.
@@ -42,7 +42,9 @@ a change must keep. A change that breaks one is a defect even when the prose rea
   Inspections drifts, and so does a rule restated in two files' prose; cross-file references
   name the owning file. When another file points at an entry that exists only under a
   condition — an entry only web products fill, say — the pointing sentence repeats the
-  condition, or it points at nothing whenever the condition fails.
+  condition, or it points at nothing whenever the condition fails. `inspections.md` is the one
+  copy: every rule file's Inspection, gathered word for word by `scripts/build-inspections.mjs`
+  for the runs that inspect, never edited, and checked against the rule files by that script.
 - **One name per concept**, across all files. Two names for one idea reads as two ideas. Every
   file the skill asks a run to write has a named default home, for the same reason.
 - **`inspect` changes nothing in the product.** It writes the repair list, and the captures and
@@ -74,9 +76,9 @@ a change must keep. A change that breaks one is a defect even when the prose rea
 ## Reviewing
 
 The lenses live in `.claude/rules/` and are fixed per target; Review in `CONTRIBUTING.md` says
-which file each lens covers. No lens file covers `CLAUDE.md`, `CONTRIBUTING.md`, `DESIGN.md`,
+which file each lens covers. No lens file covers `CLAUDE.md`, `CONTRIBUTING.md`, `docs/design/`,
 `DECISIONS.md`, or `scripts/README.md`: read those with the four questions under Words, and
-`DESIGN.md` against the skill files it names. The README's mechanical counts come from
+`docs/design/` against the skill files it names. The README's mechanical counts come from
 `node scripts/check-readme.mjs --pages`. Document review caps out; what settles a rule change
 is a live run, and the runs, with what to read after each, are under Live test in
 `CONTRIBUTING.md`. A gap a run shows is repaired and synced the moment it shows, and the run
@@ -106,7 +108,7 @@ Everything written for this repo — a rule file, a README, a design document, a
 working note — is written in its reader's words, at the time it is written. Files in this repo
 are English; the conversation with the author is in the author's language. The skill's files
 are read by the fresh session — skill-review.md's name for a session that has never seen this
-repo — README by a stranger, `DESIGN.md` by whoever changes the skill next, a handover by
+repo — README by a stranger, `docs/design/` by whoever changes the skill next, a handover by
 whoever picks the work up; a term only the writer understands is a defect in any of them, the
 same as a wrong sentence. A concept the skill already names is called by that name and no
 other — One name per concept, above. A new term is defined in the sentence where it first

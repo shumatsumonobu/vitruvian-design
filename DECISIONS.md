@@ -3,7 +3,31 @@
 Why the rules read as they do. One section per decision: what was decided, why — the run or
 the defect that forced it — and where it now lives, so a later change starts from the reason
 instead of rediscovering it. New decisions go under a new dated heading; the rules themselves
-live in the files named, not here.
+live in the files named, not here. `DESIGN.md`, named in sections dated before 2026-11-16, is
+`docs/design/` from then on.
+
+## 2026-11-16 — The runs are measured at medium effort
+
+Every live-test round from Round 4 ran Opus 5.5 at xhigh, chosen once and never measured against a
+lower level, while Claude Code's default for that model is medium and Claude's prompting page for
+Opus 5.5 says to start there and keep xhigh for work where a gain was measured. On one product,
+one run each, medium took 11, 8, and 51 minutes for `init`, `inspect`, and `fix` against 16, 17, and
+80 at xhigh, with 183k of Opus output against 470k; the three `inspect` runs, on one declaration
+and one screen, listed the same whole-screen repairs, xhigh adding repairs to single elements; the
+screen `fix` left at medium has the borrowed world, the signature, the picture, and the first row
+in the narrow first view. The test script now runs at medium unless told otherwise. A skill's
+`effort` frontmatter was tried as a way to set this from the entry files and did nothing in two
+`claude -p` runs — the requests went out at the flag's level, and at the settings' level with no
+flag — so the entries carry no effort, and a run takes the session's. Lives in
+`scripts/live-test.mjs`; the table is in `live-test/TESTPLAN.md`.
+
+**One file for the runs that inspect.** An `inspect` opened twelve rule files to read their last
+sections, some 13,000 words of 32,000. `inspections.md` gathers those sections word for word,
+built and checked by `scripts/build-inspections.mjs`, so the rule files still own every line and
+the copy cannot drift unseen. On one product, one run each at medium, `inspect` took 8.3 minutes
+with it and without; Opus output fell from 35k to 28k and tool calls from 28 to 19. It saves reads,
+not minutes: the browser and the reviewer set the time. Lives in `inspections.md`, the `inspect` and
+`fix` entry files, and `SKILL.md`, While you build.
 
 ## 2026-11-15 — No record: every file holds what is true now
 

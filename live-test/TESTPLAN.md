@@ -781,3 +781,49 @@ the missing `.design/record.md` left in the declaration, the structure, the lexi
 system. A path by which `init` carried the old record's study into the declaration was written and
 withdrawn before this run, on the author's word: the author's products delete the record and what
 points at it.
+
+## Effort — medium against xhigh on one product (2026-11-16)
+
+Every round since Round 4 ran Opus 5.5 at xhigh, with no run showing that xhigh gave a better
+screen. Claude's prompting page for Opus 5.5 says to start at medium and keep xhigh for work where
+a gain was measured. `mizuyari`, as Round 13 began; one run each; the reviewer at medium and the
+helper on Sonnet throughout.
+
+| Entry | Effort | Minutes | Opus output | Tool calls |
+|---|---|---|---|---|
+| `init` | xhigh (Round 13) | 16 | 66k | 34 |
+| `init` | medium | 11 | 27k | — |
+| `inspect`, same declaration | xhigh | 17.0 | 98k | 43 |
+| `inspect`, same declaration | high | 13.6 | 56k | 53 |
+| `inspect`, same declaration | medium | 8.3 | 35k | 28 |
+| `fix` | xhigh (Round 13, its own list) | 80 | 306k | 325 |
+| `fix` | medium (its own list) | 51 | 121k | 144 |
+
+`init` at medium filled every entry: five references, three directions, a layout metaphor, artwork
+at both sizes, a display step four times the body. The three `inspect` runs read one declaration and
+one screen: all three listed the concept missing from the screen, the defaults in the first view,
+the missing signature and artwork, no element the screen is built around, the first-run, save-failed
+and empty states, and no press answer; xhigh listed more single-element repairs (the display step
+unused, density, facts with no source), and medium did not list the structure's first item by name.
+`fix` at medium made the date-due slip, the stamped date, a photograph across the head, and the
+first row in the 375 first view; it started one reviewer, ran its closing pass, and deleted
+`.design/repairs.md`. English lines in `fix`: twelve of 48 at medium, six of 37 at xhigh.
+
+A skill's `effort` frontmatter was tried on the `inspect` entry, two short `claude -p` runs: with
+`effort: medium` in the entry and `--effort xhigh` on the command, all ten requests went out at
+xhigh; with `effort: high` in the entry and no flag, all thirteen went out at medium, the level the
+machine's settings give Opus 5.5. The entry files carry no effort. `scripts/live-test.mjs run`
+defaults to medium from here on.
+
+`inspections.md` — every rule file's Inspection gathered in one file — was measured the same way:
+`inspect` at medium on the same declaration and screen, one run before it and one with it. 8.3
+minutes both times; Opus output 35k before and 28k with it; tool calls 28 and 19. Both lists hold
+the missing signature and artwork, the first-run and save-failed states; neither names the
+structure's first item.
+
+`fix` at medium on the skill as committed with this entry — the nine repaired sentences and
+`inspections.md` in place — one run on the list the `inspect` above left: 54 minutes, Opus output
+129k, 232 tool calls, no line in English. It read `inspections.md`, took the inventory before the
+first pass (`--inventory=fix-before`) and compared against it to the end (`--kept=fix-before`),
+started one reviewer, and deleted `.design/repairs.md`. The screen has the slip, the stamped date,
+the photograph across the head in two inks, and the first row with its button in the 375 first view.

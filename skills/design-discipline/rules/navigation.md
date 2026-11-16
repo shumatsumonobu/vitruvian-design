@@ -1,7 +1,8 @@
 # Navigation
 
 None of this shows up in a screenshot. All of it shows up the moment someone starts pressing
-things. A step is not designed until three things about it are written down: what back does from
+things. A step is not designed until three things about it are written in its surface's structure entry
+(rules/layout.md): what back does from
 here, on every gesture that counts as back; whether returning here has to stay possible at all;
 and which destination this is in the first place. A step leaving any of the three blank is
 unfinished, however finished the screen looks.
@@ -168,8 +169,8 @@ counts were not taken; an untaken count is not a pass.
 - Section history and deep links. Switch sections, drill in, switch away, switch back, then open a
   deep link from a cold start and press back once. Then open each layer, reload, and press back
   once. Write down what each produced.
-- Presentation lines in the declaration's references entry. If the entry does not hold one line
-  per step of the studied flow, it captured layout alone and carries nothing that transfers to a different subject.
+- Presentation lines in the declaration's references entry, where the declaration holds one. If
+  the entry does not hold one line per step of the studied flow, it captured layout alone and carries nothing that transfers to a different subject.
 
 ## Platform notes
 

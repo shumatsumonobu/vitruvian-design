@@ -12,15 +12,16 @@ decides what the skill says.
 |---|---|
 | `skills/design-discipline/SKILL.md` | The entry point: the order of decisions, the three questions the skill puts to the person, and the pointer to each rule file |
 | `skills/design-discipline/rules/` | The twelve rule files, each ending in an Inspection — counts that return a number, checks answered in a sentence |
+| `skills/design-discipline/inspections.md` | Every rule file's Inspection and Platform notes in one file, for the runs that inspect; built by `scripts/build-inspections.mjs`, never edited |
 | `skills/design-discipline/NOTICE` | The provenance of every threshold number the rules count against |
 | `skills/design-discipline/README.md` | The skill's own README: what it does, install, what it asks |
 | `skills/design-discipline-{init,review,inspect,fix}/` | The four entry commands, one `SKILL.md` each, deferring to the skill beside them |
 | `README.md` | The public story and the gallery of seven pages; its numbers were measured on the gallery builds |
 | `CHANGELOG.md` | What a fresh copy of `skills/` gets someone who copied an older one |
-| `DESIGN.md` | The design of the skill as it stands: its parts, how a run moves, the shared vocabulary, where each concern lives, the known limits. Kept current with the skill, no history |
+| `docs/design/` | The design of the skill as it stands, one file per job: its parts, how a run moves, the shared vocabulary, where each concern lives, the limits. Kept current with the skill, no history |
 | `DECISIONS.md` | Why the rules read as they do: one section per decision — what, why, and where it lives |
 | `.claude/rules/` | The review lenses, loaded by path (Review, below, says which file each covers), and `gallery-images.md`, the rule every gallery image is made by |
-| `scripts/` | `check-readme.mjs` (the README's mechanical counts), `capture.mjs` (every gallery image comes through it), `live-test.mjs` (copies a scaffold out to a workspace and reads the run back), `live-test/test-runner.mjs` and `check-runner.mjs` (test the web runner, and read its count names against the rule files), and their README |
+| `scripts/` | `check-readme.mjs` (the README's mechanical counts), `capture.mjs` (every gallery image comes through it), `live-test.mjs` (copies a scaffold out to a workspace and reads the run back), `live-test/test-runner.mjs` and `check-runner.mjs` (test the web runner, and read its count names against the rule files), `build-inspections.mjs` (builds `inspections.md` from the rule files and checks it), and their README |
 | `live-test/` | The scaffolds live tests run on, the test plan with each round's pass conditions, and the results of the runs that compared two versions of the skill |
 | `gallery/` | The seven pages, their captures, and each run's `.design/record.md`, one name per page; the poster at the top of the README, `how-it-works.html` and its capture; and `README.md`, the source of truth for the prompt each page was built from |
 
@@ -28,7 +29,7 @@ decides what the skill says.
 
 A change to anything under `skills/` keeps the laws under How the rules are written in
 `CLAUDE.md`, and every file is read back with the questions under Words there before it is
-handed over. In the same commit, change the line in `DESIGN.md` that names what the change
+handed over. In the same commit, change the line under `docs/design/` that names what the change
 moved, added, or opened, and give the reason in `DECISIONS.md` under a dated heading.
 
 ## Sync
@@ -60,8 +61,10 @@ to list before applying, and when an agent pass is used. The README's mechanical
 from `node scripts/check-readme.mjs --pages`; every line it prints is 0 before a README change
 is done. A change under `skills/design-discipline/runner/web/` is done when
 `node scripts/live-test/test-runner.mjs` prints no MISSED line, and a change to a count line when
-`node scripts/check-runner.mjs` prints 0 runner lines missing from their rule file.
-`DESIGN.md`, `DECISIONS.md`, and this file have no lens file; read them with the four
+`node scripts/check-runner.mjs` prints 0 runner lines missing from their rule file. A change to any
+rule file's Inspection or Platform notes is followed by `node scripts/build-inspections.mjs`, which
+rebuilds `skills/design-discipline/inspections.md`; `--check` prints 0 lines that differ.
+`docs/design/`, `DECISIONS.md`, and this file have no lens file; read them with the four
 questions under Words in `CLAUDE.md`.
 
 ## Live test
@@ -70,7 +73,7 @@ Document review caps out. What settles a rule change is a run: a bare page with 
 a re-inspection of an existing build, or a fresh build from a minimal brief that should trip
 the counts the change added without the brief asking for it. The runs below use the skill's
 own terms — the declaration and its scope of change, the repair list, the marks structural and
-surface, the accessibility floor, not taken; `DESIGN.md` under Vocabulary gives each with the
+surface, the accessibility floor, not taken; `docs/design/vocabulary.md` gives each with the
 file that defines it.
 
 A scaffold is a starter project built to carry the defects a run should find. The ones kept are

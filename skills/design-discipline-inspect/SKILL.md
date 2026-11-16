@@ -5,6 +5,8 @@ disable-model-invocation: true
 ---
 
 Read `${CLAUDE_SKILL_DIR}/../design-discipline/SKILL.md` and follow its `inspect` entry in Ways in.
+Read `${CLAUDE_SKILL_DIR}/../design-discipline/inspections.md` for the counts and checks: every rule
+file's Inspection is in that one file. Open a rule file only for a section a line there points at.
 Write the repair list to `.design/repairs.md`, in place of any list there, and write no record of
 the run to any file: what you counted and found, you say in your last message.
 Every line of text you write is read by the person — a progress line or a note to yourself

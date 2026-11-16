@@ -234,8 +234,8 @@ the counts were not taken; an untaken count is not a pass.
 
 - Frame rate. Sixty frames per second held through every transition, on the slowest hardware the
   product supports. Read off a measurement, not judged by eye. In `fix`'s closing run it is measured
-  again only where a pass changed something that moves; otherwise the reading this run or the
-  `inspect` before it took on the same code stands, and the run says which.
+  again only where a pass changed something that moves; otherwise the reading this run
+  took stands.
 - Glitches still in the recording after the fixes. Name each one the two passes turned up and say
   what became of it. A single wrong frame left in there means the work continues.
 

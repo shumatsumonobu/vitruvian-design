@@ -36,6 +36,9 @@ Each returns a number. The target is 0.
   idea, pronouns reaching back past their sentence, judgments of the person's product, words
   about procedure, a thing called by a name the person has not met yet, and discourtesy — slang,
   a joke, an order barked: 0.
+- Lines of `inspections.md` that differ from the rule files, after the batch
+  (`node scripts/build-inspections.mjs --check`; build it again where a rule file's Inspection
+  changed): 0.
 - Lines printed by the sync diff after the batch (the command under Sync in CONTRIBUTING.md): 0.
 
 ## The checks

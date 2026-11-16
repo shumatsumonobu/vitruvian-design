@@ -203,7 +203,7 @@ this Inspection gets misused. A line comparing against a declaration entry marke
 Each line is answered in words, and the answer is written down beside the count.
 
 - The closest match among the looks frontend-design lists. Name it, then name what settled that
-  axis: a line in the brief, a studied reference, or a recorded judgment. If none of the three
+  axis: a line in the brief, a studied reference, or a reason written in the declaration. If none of the three
   exists, that axis goes on the repair list.
 - Each decorative element — an eyebrow, a divider, a border, a colored band down a card's edge, a
   dot, a line, a shape, a badge, an icon tile above a heading, a card around a card, a dot that

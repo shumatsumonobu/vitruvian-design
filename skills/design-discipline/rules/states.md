@@ -117,8 +117,8 @@ confirmation, and the confirmation names what will be gone.
 
 The five states are what the data puts a screen in. The reader's operation puts it in more:
 partway through what the screen is for, at its end, after it was undone or abandoned, paused where
-something plays. Which of these a screen has is the screen's own. They are listed beside the
-capture set, one line each, reached by operating the screen — a state that arrives only after a
+something plays. Which of these a screen has is the screen's own. They are listed in the
+screen's structure entry (rules/layout.md), one line each, reached by operating the screen — a state that arrives only after a
 wait may be reached sooner through the product's own controls, a seek or a skip, never by editing
 the code — and captured on the same terms as the five.
 
@@ -151,8 +151,8 @@ capture.
 ## Forcing each state
 
 Decide from the running screen, not from the code. Capture one screenshot per applicable state and
-keep the set together — `.design/captures/` is this skill's default home for the set — with the
-exemptions written beside it.
+keep the set together — `.design/captures/` is this skill's default home for the set. The
+exemptions are in the screen's structure entry, as this file's opening says.
 
 Capture the set at the widest and the narrowest checked size (rules/layout.md), in the primary
 theme. Where the declaration names a second theme, repeat in it only the states putting text over
@@ -238,7 +238,7 @@ shown a state of it.
 
 - Applicable states, the five and those the reader's operation reaches, with no capture at the
   widest or the narrowest checked size: 0. A state recorded as not applicable needs no capture.
-- Screens with no list of the states the reader's operation reaches beside the capture set: 0. A
+- Screens with no list of the states the reader's operation reaches in their structure entry: 0. A
   screen whose operation reaches none beyond the five says so in one line.
 - States with neither a capture nor a written exemption: 0.
 - Where the declaration names two themes, states putting text over a colored or an elevated
